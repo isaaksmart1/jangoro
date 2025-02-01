@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta
       http-equiv="Content-Security-Policy"
-      content="script-src 'self' https://js.stripe.com; object-src 'none'; base-uri 'self';"
+      content="script-src 'self' 'unsafe-inline' https://js.stripe.com; object-src 'none'; base-uri 'self'; "
     />
     <meta
       name="viewport"
@@ -23,5 +23,44 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    <!-- <script>
+      function updateTitle() {
+          const routes = {
+              "/dashboard": "Dashboard",
+              "/login": "Login",
+              "/signup": "Sign Up",
+              "/jangoro": "Jangoro",
+              "/account": "Account",
+              "/billing": "Billing"
+          };
+  
+          const path = window.location.pathname.toLowerCase();
+          document.title = routes[path] || "Default Title"; // Fallback title
+      }
+  
+      // Update on initial load
+      updateTitle();
+  
+      // Listen for history changes (for single-page apps)
+      window.addEventListener("popstate", updateTitle);
+      window.addEventListener("pushstate", updateTitle);
+      window.addEventListener("replacestate", updateTitle);
+  
+      // Override pushState and replaceState to track manual navigation
+      (function(history) {
+          const pushState = history.pushState;
+          history.pushState = function(state) {
+              pushState.apply(history, arguments);
+              window.dispatchEvent(new Event("pushstate"));
+          };
+  
+          const replaceState = history.replaceState;
+          history.replaceState = function(state) {
+              replaceState.apply(history, arguments);
+              window.dispatchEvent(new Event("replacestate"));
+          };
+      })(window.history);
+  </script>
+   -->
   </body>
 </html>

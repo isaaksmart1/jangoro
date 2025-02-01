@@ -150,7 +150,7 @@ export type Company = {
   createdBy: User;
   deals: CompanyDealsConnection;
   dealsAggregate: Array<CompanyDealsAggregateResponse>;
-  id: Scalars["String"]["output"];
+  id: Scalars["ID"]["output"];
   industry?: Maybe<Industry>;
   name: Scalars["String"]["output"];
   notes: CompanyNotesConnection;
@@ -4661,7 +4661,7 @@ export type User = {
   fullName: Scalars["String"]["output"];
   email: Scalars["String"]["output"];
   events: UserEventsConnection;
-  id: Scalars["Int"]["output"];
+  id: Scalars["ID"]["output"];
   jobTitle?: Maybe<Scalars["String"]["output"]>;
   name: Scalars["String"]["output"];
   phone?: Maybe<Scalars["String"]["output"]>;

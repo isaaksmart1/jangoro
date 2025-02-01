@@ -12,6 +12,7 @@ export const REFINE_URL = "https://api.crm.refine.dev/graphql";
 export const BASE_URL = URL_ROUTES.base;
 export const API_URL = URL_ROUTES.api;
 export const AI_URL = URL_ROUTES.ai;
+export const GRAPH_QL_URL = `${URL_ROUTES.api}/graphql`;
 export const WS_URL = "wss://api.crm.refine.dev/graphql";
 
 class httpClient {
@@ -26,7 +27,7 @@ class httpClient {
   }
 }
 
-export const client = new GraphQLClient(REFINE_URL, {
+export const client = new GraphQLClient(GRAPH_QL_URL, {
   fetch: (url: string, options: RequestInit) => {
     try {
       return fetchWrapper(url, options);

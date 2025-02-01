@@ -25,7 +25,7 @@ type Company = GetFieldsFromList<CompaniesListQuery>;
 export const CompanyListPage = ({ children }: React.PropsWithChildren) => {
   const go = useGo();
 
-  const { tableProps, filters } = useTable<Company, HttpError, Company>({
+  const { tableProps, filters, ...rest } = useTable<Company, HttpError, Company>({
     resource: "companies",
     onSearch: (values) => {
       return [
@@ -60,6 +60,8 @@ export const CompanyListPage = ({ children }: React.PropsWithChildren) => {
       gqlQuery: COMPANIES_LIST_QUERY,
     },
   });
+
+  console.log(rest)
 
   return (
     <div className="page-container">

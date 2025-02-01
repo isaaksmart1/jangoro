@@ -1,7 +1,7 @@
 import { BrowserRouter, Outlet, Route, Routes } from "react-router";
 
 import { RefineThemes, useNotificationProvider } from "@refinedev/antd";
-import { Authenticated, ErrorComponent, Refine, useTitle } from "@refinedev/core";
+import { Authenticated, ErrorComponent, Refine } from "@refinedev/core";
 import { DevtoolsPanel, DevtoolsProvider } from "@refinedev/devtools";
 import routerProvider, {
   CatchAllNavigate,
@@ -12,7 +12,7 @@ import routerProvider, {
 
 import { App as AntdApp, ConfigProvider } from "antd";
 
-import { Layout } from "@/components";
+import { Layout, PageTitleUpdater } from "@/components";
 import { resources } from "@/config/resources";
 import { authProvider, dataProvider, liveProvider } from "@/providers";
 import {
@@ -28,85 +28,82 @@ import {
 } from "@/routes";
 
 import "@refinedev/antd/dist/reset.css";
+import { useEffect } from "react";
 
 const App = () => {
-  const setTitle = useTitle();
-  setTitle("Jangoro");
   return (
     <BrowserRouter>
-      <ConfigProvider theme={RefineThemes.Purple} >
+      <PageTitleUpdater />
+      <ConfigProvider theme={RefineThemes.Purple}>
         <AntdApp>
-          <DevtoolsProvider>
-            <Refine
-              routerProvider={routerProvider}
-              dataProvider={dataProvider}
-              liveProvider={liveProvider}
-              notificationProvider={useNotificationProvider}
-              authProvider={authProvider}
-              resources={resources}
-              options={{
-                syncWithLocation: true,
-                warnWhenUnsavedChanges: true,
-                liveMode: "auto",
-                useNewQueryKeys: true,
-              }}
-            >
-              <Routes>
-                <Route
-                  element={
-                    <Authenticated
-                      key="authenticated-layout"
-                      fallback={<CatchAllNavigate to="/login" />}
-                    >
-                      <Layout>
-                        <Outlet />
-                      </Layout>
-                    </Authenticated>
-                  }
-                >
-                  <Route index element={<DashboardPage />} />
-
-                  <Route
-                    path="/tasks"
-                    element={
-                      <TasksListPage>
-                        <Outlet />
-                      </TasksListPage>
-                    }
+          {/* <DevtoolsProvider> */}
+          <Refine
+            routerProvider={routerProvider}
+            dataProvider={dataProvider}
+            liveProvider={liveProvider}
+            notificationProvider={useNotificationProvider}
+            authProvider={authProvider}
+            resources={resources}
+            options={{
+              syncWithLocation: true,
+              warnWhenUnsavedChanges: true,
+              liveMode: "auto",
+              useNewQueryKeys: true,
+            }}
+          >
+            <Routes>
+              <Route
+                element={
+                  <Authenticated
+                    key="authenticated-layout"
+                    fallback={<CatchAllNavigate to="/login" />}
                   >
-                    <Route path="new" element={<TasksCreatePage />} />
-                    <Route path="edit/:id" element={<TasksEditPage />} />
-                  </Route>
-
-                  <Route path="/companies">
-                    <Route index element={<CompanyListPage />} />
-                    <Route path="new" element={<CompanyCreatePage />} />
-                    <Route path="edit/:id" element={<CompanyEditPage />} />
-                  </Route>
-
-                  <Route path="*" element={<ErrorComponent />} />
-                </Route>
+                    <Layout>
+                      <Outlet />
+                    </Layout>
+                  </Authenticated>
+                }
+              >
+                <Route index element={<DashboardPage />} />
 
                 <Route
+                  path="/tasks"
                   element={
-                    <Authenticated
-                      key="authenticated-auth"
-                      fallback={<Outlet />}
-                    >
-                      {/* <NavigateToResource resource="dashboard" /> */}
+                    <TasksListPage>
                       <Outlet />
-                    </Authenticated>
+                    </TasksListPage>
                   }
                 >
-                  <Route path="/login" element={<LoginPage />} />
-                  <Route path="/register" element={<RegisterPage />} />
+                  <Route path="new" element={<TasksCreatePage />} />
+                  <Route path="edit/:id" element={<TasksEditPage />} />
                 </Route>
-              </Routes>
-              <UnsavedChangesNotifier />
-              <DocumentTitleHandler />
-            </Refine>
-            <DevtoolsPanel />
-          </DevtoolsProvider>
+
+                <Route path="/companies">
+                  <Route index element={<CompanyListPage />} />
+                  <Route path="new" element={<CompanyCreatePage />} />
+                  <Route path="edit/:id" element={<CompanyEditPage />} />
+                </Route>
+
+                <Route path="*" element={<ErrorComponent />} />
+              </Route>
+
+              <Route
+                element={
+                  <Authenticated key="authenticated-auth" fallback={<Outlet />}>
+                    {/* <NavigateToResource resource="dashboard" /> */}
+                    <Outlet />
+                  </Authenticated>
+                }
+              >
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/register" element={<RegisterPage />} />
+              </Route>
+            </Routes>
+            <UnsavedChangesNotifier />
+            <DocumentTitleHandler />
+          </Refine>
+          <DevtoolsPanel />
+          {/* </DevtoolsProvider> */}
         </AntdApp>
       </ConfigProvider>
     </BrowserRouter>

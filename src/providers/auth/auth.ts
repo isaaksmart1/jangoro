@@ -2,7 +2,13 @@ import type { AuthProvider } from "@refinedev/core";
 
 import type { User } from "@/graphql/schema.types";
 
-import { API_URL, BASE_URL, dataProvider, httpProvider } from "../data";
+import {
+  API_URL,
+  BASE_URL,
+  dataProvider,
+  GRAPH_QL_URL,
+  httpProvider,
+} from "../data";
 
 /**
  * For demo purposes and to make it easier to test the app, you can use the following credentials:
@@ -15,6 +21,32 @@ export const authCredentials = {
 export const authProvider: AuthProvider = {
   login: async ({ email, password }) => {
     try {
+      const { result } = await dataProvider.custom({
+        url: GRAPH_QL_URL,
+        method: "post",
+        headers: {},
+        meta: {
+          variables: { email },
+          rawQuery: `
+            mutation Login($email: String!) {
+              login(loginInput: { email: $email }) {
+                accessToken
+                user {
+                  id
+                  email
+                  name
+                  avatarUrl
+                  phone
+                  jobTitle
+                }
+              }
+            }
+          `,
+        },
+      });
+
+      console.log(result);
+
       const response = await httpProvider.custom(`${API_URL}/login`, {
         method: "post",
         body: JSON.stringify({ email, password }),
