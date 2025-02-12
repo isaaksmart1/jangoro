@@ -1,7 +1,5 @@
 import type { AuthProvider } from "@refinedev/core";
 
-import type { User } from "@/graphql/schema.types";
-
 import {
   API_URL,
   BASE_URL,
@@ -19,25 +17,21 @@ export const authCredentials = {
 };
 
 export const authProvider: AuthProvider = {
-  login: async ({ email, password }) => {
+  register: async ({ email, password }) => {
     try {
-      const { result } = await dataProvider.custom({
+      const { data } = await dataProvider.custom({
         url: GRAPH_QL_URL,
         method: "post",
         headers: {},
         meta: {
-          variables: { email },
+          variables: { email, password },
           rawQuery: `
-            mutation Login($email: String!) {
-              login(loginInput: { email: $email }) {
+            mutation Register($email: String!, $password: String!) {
+              register(registerInput: { email: $email, password: $password }) {
                 accessToken
                 user {
                   id
                   email
-                  name
-                  avatarUrl
-                  phone
-                  jobTitle
                 }
               }
             }
@@ -45,35 +39,65 @@ export const authProvider: AuthProvider = {
         },
       });
 
-      console.log(result);
+      const account = data?.register;
+      if (!account) throw new Error("Registration failed");
 
-      const response = await httpProvider.custom(`${API_URL}/login`, {
-        method: "post",
-        body: JSON.stringify({ email, password }),
-      });
-
-      const data = await response.json();
-
-      const idStr = data.id;
-      const idNum = Math.floor(Math.random() * 10 ** 21);
-
-      const account = { ...data, id: idNum, idStr };
-
-      localStorage.setItem("access_token", account.jwtToken);
-      localStorage.setItem("user", JSON.stringify(account));
+      localStorage.setItem("access_token", account.accessToken);
+      localStorage.setItem("user", JSON.stringify(account.user));
 
       return {
         success: true,
         redirectTo: `/`,
       };
     } catch (e) {
-      const error = e as Error;
-
       return {
         success: false,
         error: {
-          message: "message" in error ? error.message : "Login failed",
-          name: "name" in error ? error.name : "Invalid email or password",
+          message: e?.message || "Registration failed",
+          name: "Invalid registration details",
+        },
+      };
+    }
+  },
+  login: async ({ email, password }) => {
+    try {
+      const { data } = await dataProvider.custom({
+        url: GRAPH_QL_URL,
+        method: "post",
+        headers: {},
+        meta: {
+          variables: { email, password }, // ✅ Include password
+          rawQuery: `
+            mutation Login($email: String!, $password: String!) {
+              login(loginInput: { email: $email, password: $password }) {
+                accessToken
+                user {
+                  id
+                  email
+                }
+              }
+            }
+          `,
+        },
+      });
+
+      const account = data?.login;
+
+      if (!account) throw new Error("Login failed");
+
+      localStorage.setItem("access_token", account.accessToken);
+      localStorage.setItem("user", JSON.stringify(account.user));
+
+      return {
+        success: true,
+        redirectTo: `/`,
+      };
+    } catch (e) {
+      return {
+        success: false,
+        error: {
+          message: e?.message || "Login failed",
+          name: "Invalid credentials",
         },
       };
     }

@@ -102,7 +102,7 @@ const App = () => {
             <UnsavedChangesNotifier />
             <DocumentTitleHandler />
           </Refine>
-          <DevtoolsPanel />
+          {/* <DevtoolsPanel /> */}
           {/* </DevtoolsProvider> */}
         </AntdApp>
       </ConfigProvider>
