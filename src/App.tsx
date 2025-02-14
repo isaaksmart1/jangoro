@@ -66,7 +66,7 @@ const App = () => {
               >
                 <Route index element={<DashboardPage />} />
 
-                <Route
+                {/* <Route
                   path="/tasks"
                   element={
                     <TasksListPage>
@@ -82,7 +82,7 @@ const App = () => {
                   <Route index element={<CompanyListPage />} />
                   <Route path="new" element={<CompanyCreatePage />} />
                   <Route path="edit/:id" element={<CompanyEditPage />} />
-                </Route>
+                </Route> */}
 
                 <Route path="*" element={<ErrorComponent />} />
               </Route>

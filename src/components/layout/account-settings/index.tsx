@@ -14,6 +14,7 @@ import { getNameInitials } from "@/utilities";
 import { CustomAvatar } from "../../custom-avatar";
 import { Text } from "../../text";
 import { UPDATE_USER_MUTATION } from "./queries";
+import { useEffect, useState } from "react";
 
 type Props = {
   opened: boolean;
@@ -39,11 +40,19 @@ export const AccountSettings = ({ opened, setOpened, userId }: Props) => {
       gqlMutation: UPDATE_USER_MUTATION,
     },
   });
-  const { avatarUrl, name } = queryResult?.data?.data || {};
+  const [user, setUser] = useState();
 
   const closeModal = () => {
     setOpened(false);
   };
+
+  useEffect(() => {
+    const getUser = async () => {
+      const user = localStorage.getItem("user");
+      setUser(JSON.parse(user));
+    };
+    getUser();
+  }, []);
 
   if (queryResult?.isLoading) {
     return (
@@ -99,34 +108,25 @@ export const AccountSettings = ({ opened, setOpened, userId }: Props) => {
           <Form {...formProps} layout="vertical">
             <CustomAvatar
               shape="square"
-              src={avatarUrl}
-              name={getNameInitials(name || "")}
+              src={user?.avatarUrl}
+              name={getNameInitials(user?.email || "")}
               style={{
                 width: 96,
                 height: 96,
                 marginBottom: "24px",
               }}
             />
-            <Form.Item label="Name" name="name">
-              <Input placeholder="Name" />
-            </Form.Item>
             <Form.Item label="Email" name="email">
-              <Input placeholder="email" />
-            </Form.Item>
-            <Form.Item label="Job title" name="jobTitle">
-              <Input placeholder="jobTitle" />
-            </Form.Item>
-            <Form.Item label="Phone" name="phone">
-              <Input placeholder="Timezone" />
+              <Text>{user?.email}</Text>
             </Form.Item>
           </Form>
-          <SaveButton
+          {/* <SaveButton
             {...saveButtonProps}
             style={{
               display: "block",
               marginLeft: "auto",
             }}
-          />
+          /> */}
         </Card>
       </div>
     </Drawer>

@@ -2,6 +2,7 @@ import type { IResourceItem } from "@refinedev/core";
 
 import {
   DashboardOutlined,
+  DollarOutlined,
   ProjectOutlined,
   ShopOutlined,
 } from "@ant-design/icons";
@@ -16,24 +17,32 @@ export const resources: IResourceItem[] = [
     },
   },
   {
-    name: "companies",
-    list: "/companies",
-    show: "/companies/:id",
-    create: "/companies/new",
-    edit: "/companies/edit/:id",
+    name: "billing",
+    list: "/billing",
     meta: {
-      label: "Companies",
-      icon: <ShopOutlined />,
+      label: "Billing",
+      icon: <DollarOutlined />,
     },
   },
-  {
-    name: "tasks",
-    list: "/tasks",
-    create: "/tasks/new",
-    edit: "/tasks/edit/:id",
-    meta: {
-      label: "Tasks",
-      icon: <ProjectOutlined />,
-    },
-  },
+  // {
+  //   name: "companies",
+  //   list: "/companies",
+  //   show: "/companies/:id",
+  //   create: "/companies/new",
+  //   edit: "/companies/edit/:id",
+  //   meta: {
+  //     label: "Companies",
+  //     icon: <ShopOutlined />,
+  //   },
+  // },
+  // {
+  //   name: "tasks",
+  //   list: "/tasks",
+  //   create: "/tasks/new",
+  //   edit: "/tasks/edit/:id",
+  //   meta: {
+  //     label: "Tasks",
+  //     icon: <ProjectOutlined />,
+  //   },
+  // },
 ];

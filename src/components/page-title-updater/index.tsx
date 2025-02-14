@@ -7,8 +7,8 @@ const routeTitles = {
     "/signup": "Sign Up",
     "/account": "Account",
     "/billing": "Billing",
-    "/companies": "Companies",
-    "/tasks": "Tasks",
+    // "/companies": "Companies",
+    // "/tasks": "Tasks",
 };
 
 export function PageTitleUpdater() {
