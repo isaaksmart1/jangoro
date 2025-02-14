@@ -1,23 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { Card, Table, Button, Spin, Select, Input, Form, message } from "antd";
-import {
-  Elements,
-  useStripe,
-  ElementsConsumer,
-  CardElement,
-} from "@stripe/react-stripe-js";
+import { Card, Table, Button, Spin, message } from "antd";
+import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import { API_URL } from "@/providers";
 
-const { Option } = Select;
 const stripePromise = loadStripe(
   "pk_test_51MPpHXARPqfde7N5ZVZicL8SRNwvzvoyFe7vCgCID73swbWAn0JtbjuscgsC0mQmbZrdW7w340LOLAVV0TadxV6e00LNsJGPyl",
 );
 
-const BillingPage = () => {
+const BillingForm = () => {
   const [billingData, setBillingData] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [subscriptionType, setSubscriptionType] = useState("monthly");
 
   useEffect(() => {
     fetchBillingHistory();
@@ -38,37 +31,29 @@ const BillingPage = () => {
     setLoading(false);
   };
 
-  const handleUpdatePayment = async (stripe) => {
-    if (!stripe) return;
+  const openStripeBillingPortal = async () => {
     try {
       const customerId = localStorage.getItem("stripe_customer_id");
-      const payload = {
-        customerId,
-      };
-      const response = await fetch(`${API_URL}/get-setup-intent`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-      const data = await response.json();
-      stripe.redirectToCheckout({ sessionId: data.sessionId });
-    } catch (error) {
-      console.error("Error updating payment method:", error);
-    }
-  };
+      if (!customerId) {
+        message.error("No Stripe customer ID found");
+        return;
+      }
 
-  const handleSubscriptionChange = async (value) => {
-    setSubscriptionType(value);
-    try {
-      await fetch(`${API_URL}/update-subscription`, {
+      const response = await fetch(`${API_URL}/create-billing-portal-session`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ subscriptionType: value }),
+        body: JSON.stringify({ customerId }),
       });
-      message.success("Subscription updated successfully");
+
+      if (!response.ok) {
+        throw new Error("Failed to create billing portal session");
+      }
+
+      const { url } = await response.json();
+      window.location.href = url; // Redirect to Stripe Billing Portal
     } catch (error) {
-      console.error("Error updating subscription:", error);
-      message.error("Failed to update subscription");
+      console.error("Error opening Stripe billing portal:", error);
+      message.error("Failed to open Stripe billing portal");
     }
   };
 
@@ -94,43 +79,27 @@ const BillingPage = () => {
   ];
 
   return (
-    <Elements stripe={stripePromise}>
-      <ElementsConsumer>
-        {({ stripe }) => (
-          <Card title="Billing Dashboard">
-            <Form layout="vertical">
-              <Form.Item label="Subscription Type">
-                <Select
-                  value={subscriptionType}
-                  onChange={handleSubscriptionChange}
-                >
-                  <Option value="monthly">$15 /mo</Option>
-                  <Option value="annually">$99 /yr</Option>
-                </Select>
-              </Form.Item>
-              <Form.Item label="Card Details">
-                <CardElement
-                  options={{ style: { base: { fontSize: "16px" } } }}
-                />
-              </Form.Item>
-              <Button
-                type="primary"
-                onClick={() => handleUpdatePayment(stripe)}
-                style={{ marginBottom: 24 }}
-              >
-                Update Details
-              </Button>
-            </Form>
-            {loading ? (
-              <Spin size="large" />
-            ) : (
-              <Table dataSource={billingData} columns={columns} rowKey="id" />
-            )}
-          </Card>
-        )}
-      </ElementsConsumer>
-    </Elements>
+    <Card title="Billing Dashboard">
+      <Button
+        type="primary"
+        onClick={openStripeBillingPortal}
+        style={{ marginBottom: 24 }}
+      >
+        Manage Subscription & Payment
+      </Button>
+      {loading ? (
+        <Spin size="large" />
+      ) : (
+        <Table dataSource={billingData} columns={columns} rowKey="id" />
+      )}
+    </Card>
   );
 };
+
+const BillingPage = () => (
+  <Elements stripe={stripePromise}>
+    <BillingForm />
+  </Elements>
+);
 
 export default BillingPage;

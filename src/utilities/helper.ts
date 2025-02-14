@@ -34,7 +34,7 @@ export function formatUnstructuredTextToHTML(text) {
   const styles = `
       <style>
           body { font-family: Arial, sans-serif; line-height: 1.6; padding: 20px; background: 'transparent'; color: #333333; }
-          .survey-container { max-width: 600px; margin: auto; background: 'transparent'; padding: 2px; }
+          .survey-container { max-width: 100%; margin: auto; background: 'transparent'; padding: 2px; }
           h2, h3 { color: #333333; }
           .question { font-weight: bold; margin-top: 15px; }
           .options { margin: 10px 0; }
@@ -101,7 +101,7 @@ export function formatUnstructuredTextToHTML(text) {
     }
   });
 
-  htmlContent += `<div class="thank-you">Thank you for your feedback!</div>`;
+  // htmlContent += `<div class="thank-you">Thank you for your feedback!</div>`;
   htmlContent += `</div>`;
 
   return styles + htmlContent;
