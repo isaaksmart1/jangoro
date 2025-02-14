@@ -12,8 +12,8 @@ import {
  * For demo purposes and to make it easier to test the app, you can use the following credentials:
  */
 export const authCredentials = {
-  email: "jane@mail.com",
-  password: "123",
+  email: "",
+  password: "",
 };
 
 export const authProvider: AuthProvider = {
