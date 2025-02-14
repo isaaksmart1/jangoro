@@ -1,19 +1,14 @@
 import { Image } from "antd";
-import { AuthPage, ThemedTitleV2 } from "@refinedev/antd";
+import { AuthPage } from "@refinedev/antd";
 
 import { authCredentials } from "@/providers";
+import { Text } from "@/components";
 
 export const RegisterPage = () => {
   return (
     <AuthPage
       type="register"
-      title={
-        <ThemedTitleV2
-          collapsed={false}
-          text="Jangoro"
-          wrapperStyles={{ fontSize: 24 }}
-        />
-      }
+      title={<Text style={{ fontSize: 32, fontWeight: "bold" }}>Jangoro</Text>}
       formProps={{
         initialValues: authCredentials,
       }}

@@ -3,14 +3,18 @@ import { AuthPage, ThemedTitleV2 } from "@refinedev/antd";
 
 import { API_URL, authCredentials } from "@/providers";
 import { useEffect } from "react";
+import { Text } from "@/components";
 
 export const LoginPage = () => {
   useEffect(() => {
     getStripeSession();
-  }, []);
+  }, [window.location]);
 
   const getStripeSession = async () => {
     const sessionId = localStorage.getItem("stripe_session_id");
+
+    if (!sessionId) return;
+
     const response = await fetch(`${API_URL}/retrieve-session`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -27,14 +31,7 @@ export const LoginPage = () => {
   return (
     <AuthPage
       type="login"
-      title={
-        <ThemedTitleV2
-          icon=""
-          collapsed={false}
-          text="Jangoro"
-          wrapperStyles={{ fontSize: 24 }}
-        />
-      }
+      title={<Text style={{ fontSize: 32, fontWeight: "bold" }}>Jangoro</Text>}
       formProps={{
         initialValues: authCredentials,
       }}
