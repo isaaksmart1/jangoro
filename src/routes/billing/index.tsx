@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Card, Table, Button, Spin, message } from "antd";
+import { Card, Table, Button, Spin, message, Col } from "antd";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import { API_URL } from "@/providers";
+import { DollarOutlined } from "@ant-design/icons";
 
 const stripePromise = loadStripe(
   "pk_test_51MPpHXARPqfde7N5ZVZicL8SRNwvzvoyFe7vCgCID73swbWAn0JtbjuscgsC0mQmbZrdW7w340LOLAVV0TadxV6e00LNsJGPyl",
@@ -79,7 +80,23 @@ const BillingForm = () => {
   ];
 
   return (
-    <Card title="Billing Dashboard">
+    <Card>
+      <Col
+        xs={24}
+        sm={24}
+        xl={4}
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+          margin: 24,
+        }}
+      >
+        <DollarOutlined
+          style={{ color: "#6f2ebe", fontSize: 32, marginRight: 12 }}
+        />
+        <h1 className="text-gray-700 text-3xl mb-0">Billing</h1>
+      </Col>
       <Button
         type="primary"
         onClick={openStripeBillingPortal}

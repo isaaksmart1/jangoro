@@ -6,7 +6,7 @@ import graphqlDataProvider, {
 import { createClient } from "graphql-ws";
 
 import { fetchWrapper } from "./fetch-wrapper";
-import { URL_ROUTES } from "@/utilities/config";
+import { URL_ROUTES } from "@/config/config";
 
 export const REFINE_URL = "https://api.crm.refine.dev/graphql";
 export const BASE_URL = URL_ROUTES.base;

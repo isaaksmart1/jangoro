@@ -1,0 +1,13 @@
+apps:
+  - name: "jangoro-app"
+    script: "npm"
+    args: "start"
+    instances: max
+    autorestart: true
+    watch: true
+    max_memory_restart: 1G
+    env:
+      PORT: 3000
+    env_production:
+      NODE_ENV: production
+      PORT: 3000
