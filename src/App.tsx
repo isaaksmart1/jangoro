@@ -28,7 +28,7 @@ import {
 } from "@/routes";
 
 import "@refinedev/antd/dist/reset.css";
-import { useEffect } from "react";
+import BillingPage from "./routes/billing";
 
 const App = () => {
   return (
@@ -65,6 +65,10 @@ const App = () => {
                 }
               >
                 <Route index element={<DashboardPage />} />
+
+                <Route path="/billing">
+                  <Route index element={<BillingPage />} />
+                </Route>
 
                 {/* <Route
                   path="/tasks"

@@ -42,12 +42,44 @@ export const authProvider: AuthProvider = {
       const account = data?.register;
       if (!account) throw new Error("Registration failed");
 
+      const registered = {
+        id: account.user.id,
+        email: account.user.email,
+        subscription: {
+          plan: "monthly",
+        },
+        amount: 1500,
+      };
+
       localStorage.setItem("access_token", account.accessToken);
       localStorage.setItem("user", JSON.stringify(account.user));
 
+      // Call backend to create Stripe Checkout session
+      const stripeResponse = await httpProvider.custom(
+        `${API_URL}/create-payment-intent`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(registered),
+        },
+      );
+
+      if (!stripeResponse.ok)
+        throw new Error("Failed to create Stripe checkout session");
+
+      const stripeData = await stripeResponse.json();
+
+      if (!stripeData?.url) throw new Error("Stripe checkout URL not received");
+
+      localStorage.setItem("stripe_session_id", stripeData.id);
+
+      // Redirect user to Stripe Checkout
+      window.location.href = stripeData.url;
+
       return {
         success: true,
-        redirectTo: `/`,
       };
     } catch (e) {
       return {

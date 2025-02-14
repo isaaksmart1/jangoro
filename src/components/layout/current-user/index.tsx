@@ -61,12 +61,22 @@ export const CurrentUser = () => {
         overlayInnerStyle={{ padding: 0 }}
         overlayStyle={{ zIndex: 999 }}
       >
-        <CustomAvatar
+        {/* <CustomAvatar
           name={user?.username}
           src={user?.avatarUrl}
           size="default"
           style={{ cursor: "pointer" }}
-        />
+        /> */}
+        <Button
+          style={{
+            fontWeight: "bold",
+            color: "blue",
+            textDecoration: "underline",
+            boxShadow: "none",
+          }}
+        >
+          {user?.email}
+        </Button>
       </Popover>
       {user && (
         <AccountSettings
