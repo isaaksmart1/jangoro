@@ -104,8 +104,8 @@ const BillingPage = () => {
                   value={subscriptionType}
                   onChange={handleSubscriptionChange}
                 >
-                  <Option value="monthly">Monthly</Option>
-                  <Option value="annually">Annually</Option>
+                  <Option value="monthly">$15 /mo</Option>
+                  <Option value="annually">$99 /yr</Option>
                 </Select>
               </Form.Item>
               <Form.Item label="Card Details">
