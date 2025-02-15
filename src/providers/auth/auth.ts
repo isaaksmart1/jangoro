@@ -114,8 +114,12 @@ export const authProvider: AuthProvider = {
       });
 
       const account = data?.login;
+      const stripeCustomerId = localStorage.getItem("stripe_customer_id");
 
       if (!account) throw new Error("Login failed");
+
+      if (stripeCustomerId === "null" || !stripeCustomerId)
+        throw new Error("Have not completed sign up");
 
       localStorage.setItem("access_token", account.accessToken);
       localStorage.setItem("user", JSON.stringify(account.user));

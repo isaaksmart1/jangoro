@@ -1,7 +1,7 @@
 import { Image } from "antd";
 import { AuthPage, ThemedTitleV2 } from "@refinedev/antd";
 
-import { API_URL, authCredentials } from "@/providers";
+import { API_URL, authCredentials, httpProvider } from "@/providers";
 import { useEffect } from "react";
 import { Text } from "@/components";
 
@@ -10,8 +10,28 @@ export const LoginPage = () => {
     getStripeSession();
   }, [window.location]);
 
+  const deleteUser = async () => {
+    const user = localStorage.getItem("user");
+    try {
+      const result = await fetch(`${API_URL}/user/deactivate`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: user,
+      });
+      return result;
+    } catch (error) {
+      return 500;
+    }
+  };
+
   const getStripeSession = async () => {
     const sessionId = localStorage.getItem("stripe_session_id");
+    const customerId = localStorage.getItem("stripe_customer_id");
+
+    if (!customerId || customerId === "null" || customerId === "undefined") {
+      const status = await deleteUser();
+      return status;
+    }
 
     if (!sessionId) return;
 
