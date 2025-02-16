@@ -1,8 +1,8 @@
+import { useEffect } from "react";
 import { Image } from "antd";
 import { AuthPage, ThemedTitleV2 } from "@refinedev/antd";
 
 import { API_URL, authCredentials, httpProvider } from "@/providers";
-import { useEffect } from "react";
 import { Text } from "@/components";
 
 export const LoginPage = () => {
@@ -26,12 +26,6 @@ export const LoginPage = () => {
 
   const getStripeSession = async () => {
     const sessionId = localStorage.getItem("stripe_session_id");
-    const customerId = localStorage.getItem("stripe_customer_id");
-
-    if (!customerId || customerId === "null" || customerId === "undefined") {
-      const status = await deleteUser();
-      return status;
-    }
 
     if (!sessionId) return;
 
@@ -46,6 +40,13 @@ export const LoginPage = () => {
     // Store Stripe session details for reference (optional)
     localStorage.setItem("stripe_customer_id", data.customerId);
     localStorage.setItem("stripe_subscription_id", data.subscriptionId);
+
+    const customerId = localStorage.getItem("stripe_customer_id");
+
+    if (!customerId || customerId === "null" || customerId === "undefined") {
+      const status = await deleteUser();
+      return status;
+    }
   };
 
   return (

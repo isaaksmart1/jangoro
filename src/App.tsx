@@ -12,7 +12,7 @@ import routerProvider, {
 
 import { App as AntdApp, ConfigProvider } from "antd";
 
-import { Layout, PageTitleUpdater } from "@/components";
+import { Layout, PageTitleUpdater, AuthWrapper } from "@/components";
 import { resources } from "@/config/resources";
 import { authProvider, dataProvider, liveProvider } from "@/providers";
 import {
@@ -26,7 +26,6 @@ import {
   TasksEditPage,
   TasksListPage,
 } from "@/routes";
-
 import "@refinedev/antd/dist/reset.css";
 import BillingPage from "./routes/billing";
 
@@ -59,7 +58,9 @@ const App = () => {
                     fallback={<CatchAllNavigate to="/login" />}
                   >
                     <Layout>
-                      <Outlet />
+                      <AuthWrapper>
+                        <Outlet />
+                      </AuthWrapper>
                     </Layout>
                   </Authenticated>
                 }
