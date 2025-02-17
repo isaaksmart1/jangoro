@@ -16,6 +16,7 @@ import { Text } from "../../text";
 import { UPDATE_USER_MUTATION } from "./queries";
 import { useEffect, useState } from "react";
 import { API_URL } from "@/providers";
+import { ErrorAlert } from "@/components/alert";
 
 type Props = {
   opened: boolean;
@@ -42,10 +43,13 @@ export const AccountSettings = ({ opened, setOpened, userId }: Props) => {
     },
   });
   const [user, setUser] = useState();
+  const [error, setError] = useState({ title: "", message: "" });
+  const [alert, setAlert] = useState(false);
   const { push } = useNavigation();
 
   const closeModal = () => {
     setOpened(false);
+    setAlert(false);
   };
 
   const handleDeactivate = async () => {
@@ -58,9 +62,18 @@ export const AccountSettings = ({ opened, setOpened, userId }: Props) => {
           body: user,
         });
         if (result.status === 200) {
+          setAlert(true);
           localStorage.removeItem("user");
           localStorage.removeItem("access_token");
           push("/login");
+        } else {
+          const error = await result.text();
+          const errors = {
+            title: "Delete Account Failed",
+            message: error,
+          };
+          setError(errors);
+          setAlert(true);
         }
       } else {
         return;
@@ -169,6 +182,9 @@ export const AccountSettings = ({ opened, setOpened, userId }: Props) => {
               marginLeft: "auto",
             }}
           /> */}
+          {alert && (
+            <ErrorAlert message={error.title} description={error.message} />
+          )}
         </Card>
       </div>
     </Drawer>

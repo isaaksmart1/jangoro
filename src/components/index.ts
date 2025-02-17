@@ -1,6 +1,7 @@
 export * from "./accordion";
 export * from "./custom-avatar";
 export * from "./icon";
+export * from "./alert";
 export * from "./layout";
 export * from "./auth";
 export * from "./pagination-total";
