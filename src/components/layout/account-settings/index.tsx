@@ -55,7 +55,7 @@ export const AccountSettings = ({ opened, setOpened, userId }: Props) => {
         const result = await fetch(`${API_URL}/user/deactivate`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(user),
+          body: user,
         });
         if (result.status === 200) {
           localStorage.removeItem("user");
