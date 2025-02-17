@@ -12,9 +12,15 @@ import routerProvider, {
 
 import { App as AntdApp, ConfigProvider } from "antd";
 
-import { Layout, PageTitleUpdater, AuthWrapper } from "@/components";
+import {
+  Layout,
+  PageTitleUpdater,
+  AuthWrapper,
+  ForgotPassword,
+  ResetPassword,
+} from "@/components";
 import { resources } from "@/config/resources";
-import { authProvider, dataProvider, liveProvider } from "@/providers";
+import { API_URL, authProvider, dataProvider, liveProvider } from "@/providers";
 import {
   CompanyCreatePage,
   CompanyEditPage,
@@ -30,6 +36,18 @@ import "@refinedev/antd/dist/reset.css";
 import BillingPage from "./routes/billing";
 
 const App = () => {
+  const resetPassword = async (email: string) => {
+    const response = await fetch(`${API_URL}/user/forgot-password`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email }),
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to send reset email.");
+    }
+  };
+
   return (
     <BrowserRouter>
       <PageTitleUpdater />
@@ -102,6 +120,11 @@ const App = () => {
               >
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/register" element={<RegisterPage />} />
+                <Route
+                  path="/forgot-password"
+                  element={<ForgotPassword onResetRequest={resetPassword} />}
+                />
+                <Route path="/reset-password/:token" element={<ResetPassword />} />
               </Route>
             </Routes>
             <UnsavedChangesNotifier />

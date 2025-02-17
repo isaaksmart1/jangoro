@@ -1,21 +1,32 @@
 import React from "react";
 import { Alert } from "antd";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
+import { CheckCircleOutline } from "@mui/icons-material";
 
-export const ErrorAlert: React.FC<{ message: string; description?: string }> = ({
-  message,
-  description,
-}) => {
+export const ErrorAlert: React.FC<{
+  type: string;
+  message: string;
+  description?: string;
+}> = ({ message, description, type = "error" }) => {
   return (
     <Alert
       message={message}
       description={description}
       type="error"
       showIcon
-      icon={<ExclamationCircleOutlined style={{ color: "red" }} />}
+      icon={
+        type === "error" ? (
+          <ExclamationCircleOutlined style={{ color: "red" }} />
+        ) : (
+          <CheckCircleOutline style={{ color: "green" }} />
+        )
+      }
       style={{
-        backgroundColor: "#fff2f0",
-        border: "1px solid #ffccc7",
+        backgroundColor: type === "error" ? "#fff2f0" : "rgb(199, 255, 209)",
+        border:
+          type === "error"
+            ? "1px solid #ffccc7"
+            : "1px solid rgb(199, 255, 209)",
         color: "#cf1322",
         borderRadius: "8px",
         padding: "12px",
@@ -23,4 +34,3 @@ export const ErrorAlert: React.FC<{ message: string; description?: string }> = (
     />
   );
 };
-

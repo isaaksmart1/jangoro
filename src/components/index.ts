@@ -4,6 +4,7 @@ export * from "./icon";
 export * from "./alert";
 export * from "./layout";
 export * from "./auth";
+export * from "./forgot-password";
 export * from "./pagination-total";
 export * from "./select-option-with-avatar";
 export * from "./tags";
