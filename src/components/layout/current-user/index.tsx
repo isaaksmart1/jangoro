@@ -10,6 +10,7 @@ import type { User } from "@/graphql/schema.types";
 import { CustomAvatar } from "../../custom-avatar";
 import { Text } from "../../text";
 import { AccountSettings } from "../account-settings";
+import { getNameInitials } from "@/utilities";
 
 export const CurrentUser = () => {
   const [opened, setOpened] = React.useState(false);
@@ -28,7 +29,7 @@ export const CurrentUser = () => {
           padding: "12px 20px",
         }}
       >
-        {user?.username}
+        {user?.email}
       </Text>
       <div
         style={{
@@ -61,13 +62,16 @@ export const CurrentUser = () => {
         overlayInnerStyle={{ padding: 0 }}
         overlayStyle={{ zIndex: 999 }}
       >
-        {/* <CustomAvatar
-          name={user?.username}
-          src={user?.avatarUrl}
-          size="default"
-          style={{ cursor: "pointer" }}
-        /> */}
-        <Button
+        <CustomAvatar
+          shape="square"
+          name={getNameInitials(user?.email || "")}
+          style={{
+            width: 32,
+            height: 32,
+            margin: 24,
+          }}
+        />
+        {/* <Button
           style={{
             fontWeight: "bold",
             color: "blue",
@@ -76,7 +80,7 @@ export const CurrentUser = () => {
           }}
         >
           {user?.email}
-        </Button>
+        </Button> */}
       </Popover>
       {user && (
         <AccountSettings

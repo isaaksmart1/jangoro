@@ -1,5 +1,5 @@
 import { SaveButton, useForm } from "@refinedev/antd";
-import type { HttpError } from "@refinedev/core";
+import { useNavigation, type HttpError } from "@refinedev/core";
 import type { GetFields, GetVariables } from "@refinedev/nestjs-query";
 
 import { CloseOutlined } from "@ant-design/icons";
@@ -15,6 +15,7 @@ import { CustomAvatar } from "../../custom-avatar";
 import { Text } from "../../text";
 import { UPDATE_USER_MUTATION } from "./queries";
 import { useEffect, useState } from "react";
+import { API_URL } from "@/providers";
 
 type Props = {
   opened: boolean;
@@ -41,9 +42,32 @@ export const AccountSettings = ({ opened, setOpened, userId }: Props) => {
     },
   });
   const [user, setUser] = useState();
+  const { push } = useNavigation();
 
   const closeModal = () => {
     setOpened(false);
+  };
+
+  const handleDeactivate = async () => {
+    const user = localStorage.getItem("user");
+    try {
+      if (user) {
+        const result = await fetch(`${API_URL}/user/deactivate`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(user),
+        });
+        if (result.status === 200) {
+          localStorage.removeItem("user");
+          localStorage.removeItem("access_token");
+          push("/login");
+        }
+      } else {
+        return;
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
@@ -118,6 +142,24 @@ export const AccountSettings = ({ opened, setOpened, userId }: Props) => {
             />
             <Form.Item label="Email" name="email">
               <Text>{user?.email}</Text>
+            </Form.Item>
+            <Button
+              style={{
+                borderRadius: 12,
+                color: "red",
+                borderColor: "red",
+                fontWeight: "bold",
+                boxShadow: "none",
+              }}
+              onClick={handleDeactivate}
+            >
+              Delete Account
+            </Button>
+            <Form.Item>
+              <Text style={{ color: "grey", fontSize: 16 }}>
+                This action will permanently delete your account and immediately
+                cancel your subscription.
+              </Text>
             </Form.Item>
           </Form>
           {/* <SaveButton
