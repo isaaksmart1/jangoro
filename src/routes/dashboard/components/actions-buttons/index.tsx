@@ -80,6 +80,7 @@ export const AnalyzerActionButtons = ({
   const [sentiment, setSentiment] = useState([]);
   const [summary, setSummary] = useState([]);
   const [refinement, setRefinement] = useState([]);
+  const [actionPlan, setActionPlan] = useState([]);
 
   useEffect(() => {
     const response = generateAIResponseText(
@@ -87,14 +88,16 @@ export const AnalyzerActionButtons = ({
         refine: "",
         summ: "",
         sentim: "",
+        action: "",
       },
       refinement,
       summary,
       sentiment,
+      actionPlan,
       selected,
     );
     setAIResponse(response);
-  }, [refinement, summary, sentiment]);
+  }, [refinement, summary, sentiment, actionPlan]);
 
   const createFormData = () => {
     if (selectedFiles.length === 0) return null;
@@ -188,6 +191,32 @@ export const AnalyzerActionButtons = ({
     }
   };
 
+  const handleActionPlan = async () => {
+    setIsLoading(true);
+    const data = await createFormData();
+
+    try {
+      // Send files to Flask server using fetch
+      const response = await httpProvider.custom(
+        `${AI_URL}/analyze-action-plan`,
+        {
+          method: "post",
+          headers: {},
+          body: data,
+        },
+      );
+      const result = await response.json();
+
+      const k = Object.keys(result.actionPlan[0])[0];
+      setSelected(k);
+      setActionPlan(result.actionPlan);
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
+      console.error("Error:", error);
+    }
+  };
+
   return (
     <Card
       style={{
@@ -231,6 +260,13 @@ export const AnalyzerActionButtons = ({
           onClick={handleRefinement}
         >
           Build Survey
+        </button>
+        <button
+          style={{ margin: 4 }}
+          className="px-4 py-2 bg-blue-500 text-white rounded-xl hover:bg-blue-600"
+          onClick={handleActionPlan}
+        >
+          Formulate Action Plan
         </button>
       </div>
     </Card>

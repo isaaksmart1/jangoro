@@ -95,6 +95,12 @@ export const AIAnalytics = ({
                 >
                   Survey Builder
                 </button>
+                <button
+                  className="tab px-4 py-2 text-gray-500 hover:text-gray-700 border-b-2 border-transparent"
+                  data-tab="tab3"
+                >
+                  Action Plan
+                </button>
               </div>
             </Col>
           </Row>

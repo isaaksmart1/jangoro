@@ -3,9 +3,10 @@ export const generateAIResponseText = (
   refinement: any,
   summary: any,
   sentiment: any,
+  actionPlan: any,
   selected: any,
 ) => {
-  let { refine, summ, sentim } = options;
+  let { refine, summ, sentim, action } = options;
   let r = "";
   if (refinement.length > 0) {
     r = filterObjectsWithFileName(refinement, selected);
@@ -21,7 +22,12 @@ export const generateAIResponseText = (
     const s = filterObjectsWithFileName(summary, selected);
     summ = formatUnstructuredTextToHTML(s[selected]);
   }
-  options = { refine, summ, sentim, rawRefinement: r[selected] };
+
+  if (actionPlan.length > 0) {
+    const a = filterObjectsWithFileName(actionPlan, selected);
+    action = formatUnstructuredTextToHTML(a[selected]);
+  }
+  options = { refine, summ, sentim, rawRefinement: r[selected], action };
   return options;
 };
 

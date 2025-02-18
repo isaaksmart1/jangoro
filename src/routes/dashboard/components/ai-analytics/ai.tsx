@@ -11,7 +11,7 @@ type Props = {
 };
 
 export const AI = ({ aiResponse, isLoading, activeTab, selected }: Props) => {
-  const { refine, summ, sentim, rawRefinement } = aiResponse;
+  const { refine, summ, sentim, rawRefinement, action } = aiResponse;
   const AIAnalyticsDashHeight = isMobile ? 296 : 312;
   return (
     <Col style={{ width: "100%" }}>
@@ -77,6 +77,21 @@ export const AI = ({ aiResponse, isLoading, activeTab, selected }: Props) => {
           </Col>
           {activeTab === "tab3" && refine && rawRefinement && (
             <CopyToClipboardButton text={rawRefinement[selected]} />
+          )}
+
+          <Col
+            id="tab4"
+            className="tab-content scrollable hidden"
+            style={{ height: AIAnalyticsDashHeight }}
+          >
+            <div
+              dangerouslySetInnerHTML={{
+                __html: action,
+              }}
+            ></div>
+          </Col>
+          {activeTab === "tab4" && action && (
+            <CopyToClipboardButton text={action} />
           )}
         </Row>
       )}
