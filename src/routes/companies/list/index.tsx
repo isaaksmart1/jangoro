@@ -61,8 +61,6 @@ export const CompanyListPage = ({ children }: React.PropsWithChildren) => {
     },
   });
 
-  console.log(rest)
-
   return (
     <div className="page-container">
       <List

@@ -95,7 +95,9 @@ const BillingForm = () => {
         <DollarOutlined
           style={{ color: "#6f2ebe", fontSize: 32, marginRight: 12 }}
         />
-        <h1 className="text-gray-700 text-3xl mb-0">Billing</h1>
+        <h1 className="text-gray-700 text-3xl" style={{ marginBottom: 0 }}>
+          Billing
+        </h1>
       </Col>
       <Button
         type="primary"

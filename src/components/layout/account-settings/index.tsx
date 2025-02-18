@@ -25,23 +25,6 @@ type Props = {
 };
 
 export const AccountSettings = ({ opened, setOpened, userId }: Props) => {
-  const {
-    saveButtonProps,
-    formProps,
-    query: queryResult,
-  } = useForm<
-    GetFields<UpdateUserMutation>,
-    HttpError,
-    GetVariables<UpdateUserMutationVariables>
-  >({
-    mutationMode: "optimistic",
-    resource: "users",
-    action: "edit",
-    id: userId,
-    meta: {
-      gqlMutation: UPDATE_USER_MUTATION,
-    },
-  });
   const [user, setUser] = useState();
   const [error, setError] = useState({ title: "", message: "" });
   const [alert, setAlert] = useState(false);
@@ -91,24 +74,24 @@ export const AccountSettings = ({ opened, setOpened, userId }: Props) => {
     getUser();
   }, []);
 
-  if (queryResult?.isLoading) {
-    return (
-      <Drawer
-        open={opened}
-        width={756}
-        styles={{
-          body: {
-            background: "#f5f5f5",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          },
-        }}
-      >
-        <Spin />
-      </Drawer>
-    );
-  }
+  // if (queryResult?.isLoading) {
+  //   return (
+  //     <Drawer
+  //       open={opened}
+  //       width={756}
+  //       styles={{
+  //         body: {
+  //           background: "#f5f5f5",
+  //           display: "flex",
+  //           alignItems: "center",
+  //           justifyContent: "center",
+  //         },
+  //       }}
+  //     >
+  //       <Spin />
+  //     </Drawer>
+  //   );
+  // }
 
   return (
     <Drawer
@@ -142,7 +125,7 @@ export const AccountSettings = ({ opened, setOpened, userId }: Props) => {
         }}
       >
         <Card>
-          <Form {...formProps} layout="vertical">
+          <Form layout="vertical">
             <CustomAvatar
               shape="square"
               src={user?.avatarUrl}

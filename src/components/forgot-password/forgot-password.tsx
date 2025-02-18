@@ -19,7 +19,8 @@ export const ForgotPassword = ({ onResetRequest }) => {
       setAlert(true);
       setMessage({
         message: "Reset Link Sent",
-        description: "Check your email for password reset instructions.",
+        description:
+          "Check your email for password reset instructions. Make sure to check your Spam.",
       });
     } catch (error: any) {
       setAlert(true);
