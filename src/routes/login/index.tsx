@@ -4,11 +4,17 @@ import { AuthPage, ThemedTitleV2 } from "@refinedev/antd";
 
 import { API_URL, authCredentials, httpProvider } from "@/providers";
 import { Text } from "@/components";
+import logo from "@/assets/img/logo.png";
+import { URL_ROUTES } from "@/config/config";
 
 export const LoginPage = () => {
   useEffect(() => {
     getStripeSession();
   }, [window.location]);
+
+  const www = () => {
+    window.location.href = URL_ROUTES.www;
+  };
 
   const deleteUser = async () => {
     const user = localStorage.getItem("user");
@@ -52,7 +58,19 @@ export const LoginPage = () => {
   return (
     <AuthPage
       type="login"
-      title={<Text style={{ fontSize: 32, fontWeight: "bold" }}>Jangoro</Text>}
+      title={
+        <Text style={{ fontSize: 32, fontWeight: "bold" }}>
+          Jangoro
+          <Image
+            onClick={www}
+            preview={false}
+            src={logo}
+            alt="Jangoro"
+            style={{ width: 64, height: 32, marginLeft: 16 }}
+          />
+          Jangoro
+        </Text>
+      }
       formProps={{
         initialValues: authCredentials,
       }}
