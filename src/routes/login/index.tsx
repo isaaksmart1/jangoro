@@ -60,13 +60,12 @@ export const LoginPage = () => {
       type="login"
       title={
         <Text style={{ fontSize: 32, fontWeight: "bold" }}>
-          Jangoro
           <Image
             onClick={www}
             preview={false}
             src={logo}
             alt="Jangoro"
-            style={{ width: 64, height: 32, marginLeft: 16 }}
+            style={{ width: 64, height: 32, marginRight: 16 }}
           />
           Jangoro
         </Text>
