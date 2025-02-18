@@ -49,10 +49,10 @@ export function formatUnstructuredTextToHTML(text) {
               max-width: 100%;
               margin: auto;
               padding: 2px;
+              font-size: 16px;
           }
           h2, h3 {
               color: #333;
-              font-weight: bold;
               margin-bottom: 10px;
           }
           .question {
@@ -94,7 +94,7 @@ export function formatUnstructuredTextToHTML(text) {
         trimmedPara,
       )
     ) {
-      htmlContent += `<h2>${trimmedPara}</h2>`;
+      htmlContent += `<p>${trimmedPara}</p>`;
     } else if (
       /\?$|how|what|why|do you|did you|rate|please respond/i.test(trimmedPara)
     ) {
