@@ -81,6 +81,15 @@ export const AnalyzerActionButtons = ({
   const [summary, setSummary] = useState([]);
   const [refinement, setRefinement] = useState([]);
   const [actionPlan, setActionPlan] = useState([]);
+  const [processingCount, setProcessingCount] = useState(0);
+  const [resetCount, setResetCount] = useState(0);
+
+  useEffect(() => {
+    if (processingCount === selectedFiles.length - 1) {
+      setResetCount(0);
+      setIsLoading(false);
+    }
+  }, [processingCount]);
 
   useEffect(() => {
     const response = generateAIResponseText(
@@ -97,125 +106,79 @@ export const AnalyzerActionButtons = ({
       selected,
     );
     setAIResponse(response);
-  }, [refinement, summary, sentiment, actionPlan]);
+  }, [refinement, summary, sentiment, actionPlan, selected]);
 
-  const createFormData = () => {
-    if (selectedFiles.length === 0) return null;
-
+  const createFormData = (file: any) => {
     const formData = new FormData();
+    formData.append(file.name, file.file);
+    return formData;
+  };
+
+  const handleRequest = async (url: any, setState: any) => {
+    setIsLoading(true);
     const formFiles = files.filter((file: any) =>
       selectedFiles.includes(file.name),
     );
 
-    formFiles.forEach(({ name, file }: any) => {
-      formData.append(name, file);
-    });
-
-    return formData;
-  };
-
-  const handleSentiment = async () => {
-    setIsLoading(true);
-    const data = await createFormData();
+    let count = resetCount;
 
     try {
-      // Send files to Flask server using fetch
-      const response = await httpProvider.custom(
-        `${AI_URL}/analyze-sentiment`,
-        {
-          method: "post",
-          headers: {},
-          body: data,
-        },
-      );
-      const result = await response.json();
+      formFiles.forEach(async (file: any, index: any) => {
+        try {
+          const data = createFormData(file);
+          const response = await httpProvider.custom(url, {
+            method: "post",
+            headers: {},
+            body: data,
+          });
+          const result = await response.json();
 
-      console.log(result);
+          if (result && Object.keys(result).length > 0) {
+            const key = Object.keys(result)[0]; // Ensure result has keys
+            if (
+              !key ||
+              !result[key] ||
+              !Array.isArray(result[key]) ||
+              result[key].length === 0
+            ) {
+              console.error("Unexpected data structure", result);
+              return;
+            }
 
-      const k = Object.keys(result.sentiments[0])[0];
-      setSelected(k);
-      setSentiment(result.sentiments);
-      setIsLoading(false);
-    } catch (error) {
-      setIsLoading(false);
-      console.error("Error:", error);
-    }
-  };
+            const selectedFile = Object.keys(result[key][0])[0]; // Ensure result[key][0] has keys
+            if (!selectedFile) {
+              console.error("Invalid file structure", result[key][0]);
+              return;
+            }
 
-  const handleSummary = async () => {
-    setIsLoading(true);
-    const data = await createFormData();
+            setSelected(selectedFile);
 
-    try {
-      // Send files to Flask server using fetch
-      const response = await httpProvider.custom(`${AI_URL}/analyze-summary`, {
-        method: "post",
-        headers: {},
-        body: data,
+            let text: any = {};
+            text[selectedFile] = result[key][0][selectedFile];
+
+            setState((prevState: any) =>
+              Array.isArray(prevState) ? [...prevState, text] : [text],
+            );
+            count = index;
+            setProcessingCount(count);
+          }
+        } catch (error) {
+          console.error("Error processing file:", file.name, error);
+        }
       });
-      const result = await response.json();
-
-      const k = Object.keys(result.summary[0])[0];
-      setSelected(k);
-      setSummary(result.summary);
-      setIsLoading(false);
     } catch (error) {
-      setIsLoading(false);
       console.error("Error:", error);
     }
   };
 
-  const handleRefinement = async () => {
-    setIsLoading(true);
-    const data = await createFormData();
-
-    try {
-      // Send files to Flask server using fetch
-      const response = await httpProvider.custom(
-        `${AI_URL}/analyze-refinement`,
-        {
-          method: "post",
-          headers: {},
-          body: data,
-        },
-      );
-      const result = await response.json();
-
-      const k = Object.keys(result.refinement[0])[0];
-      setSelected(k);
-      setRefinement(result.refinement);
-      setIsLoading(false);
-    } catch (error) {
-      setIsLoading(false);
-      console.error("Error:", error);
-    }
-  };
-
-  const handleActionPlan = async () => {
-    setIsLoading(true);
-    const data = await createFormData();
-
-    try {
-      // Send files to Flask server using fetch
-      const response = await httpProvider.custom(
-        `${AI_URL}/analyze-action-plan`,
-        {
-          method: "post",
-          headers: {},
-          body: data,
-        },
-      );
-      const result = await response.json();
-
-      const k = Object.keys(result.actionPlan[0])[0];
-      setSelected(k);
-      setActionPlan(result.actionPlan);
-      setIsLoading(false);
-    } catch (error) {
-      setIsLoading(false);
-      console.error("Error:", error);
-    }
-  };
+  const handleSentiment = () =>
+    handleRequest(`${AI_URL}/analyze-sentiment`, setSentiment);
+  const handleSummary = () =>
+    handleRequest(`${AI_URL}/analyze-summary`, setSummary);
+  const handleRefinement = () =>
+    handleRequest(`${AI_URL}/analyze-refinement`, setRefinement);
+  const handleActionPlan = () =>
+    handleRequest(`${AI_URL}/analyze-action-plan`, setActionPlan);
 
   return (
     <Card

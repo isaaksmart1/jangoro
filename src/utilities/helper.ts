@@ -9,23 +9,27 @@ export const generateAIResponseText = (
   let { refine, summ, sentim, action } = options;
   let r = "";
   if (refinement.length > 0) {
-    r = filterObjectsWithFileName(refinement, selected);
-    refine = formatUnstructuredTextToHTML(r[selected]);
+    const obj = filterObjectsWithFileName(refinement, selected);
+    const key = Object.keys(obj)[0];
+    refine = formatUnstructuredTextToHTML(obj[key]);
   }
 
   if (sentiment.length > 0) {
-    const st = filterObjectsWithFileName(sentiment, selected);
-    sentim = formatUnstructuredTextToHTML(st[selected]);
+    const obj = filterObjectsWithFileName(sentiment, selected);
+    const key = Object.keys(obj)[0];
+    sentim = formatUnstructuredTextToHTML(obj[key]);
   }
 
   if (summary.length > 0) {
-    const s = filterObjectsWithFileName(summary, selected);
-    summ = formatUnstructuredTextToHTML(s[selected]);
+    const obj = filterObjectsWithFileName(summary, selected);
+    const key = Object.keys(obj)[0];
+    summ = formatUnstructuredTextToHTML(obj[key]);
   }
 
   if (actionPlan.length > 0) {
-    const a = filterObjectsWithFileName(actionPlan, selected);
-    action = formatUnstructuredTextToHTML(a[selected]);
+    const obj = filterObjectsWithFileName(actionPlan, selected);
+    const key = Object.keys(obj)[0];
+    action = formatUnstructuredTextToHTML(obj[key]);
   }
   options = { refine, summ, sentim, rawRefinement: r[selected], action };
   return options;

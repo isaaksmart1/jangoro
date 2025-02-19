@@ -31,7 +31,7 @@ export const AIAnalytics = ({
       tab.addEventListener("click", () => {
         const contents = document.querySelectorAll(".tab-content");
         const content = document.getElementById(contents[index].id);
-        
+
         // Remove active classes from all tabs and contents
         tabs.forEach((t) => t.classList.remove("tab-active"));
         contents.forEach((c) => c.classList.add("hidden"));
