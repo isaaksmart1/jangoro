@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Card, Table, Button, Spin, message, Col } from "antd";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
-import { API_URL } from "@/providers";
+import { API_URL, authProvider } from "@/providers";
 import { DollarOutlined } from "@ant-design/icons";
 import { Text } from "@/components";
 
@@ -16,8 +16,26 @@ const BillingForm = () => {
   const [subscriptionPlan, setSubscriptionPlan] = useState(null);
 
   useEffect(() => {
-    const plan = localStorage.getItem("plan");
-    setSubscriptionPlan(plan);
+    const loadCustomer = async () => {
+      let plan;
+      const user = await authProvider.getIdentity();
+      if (user) {
+        switch (user.subscription) {
+          case "month":
+            plan = "Monthly Access";
+            break;
+          case "year":
+            plan = "Yearly Access";
+            break;
+          default:
+            plan = "Monthly Access";
+            break;
+        }
+        const sub = localStorage.getItem("plan") || plan;
+        setSubscriptionPlan(sub);
+      }
+    };
+    loadCustomer();
     fetchBillingHistory();
   }, []);
 
@@ -109,11 +127,15 @@ const BillingForm = () => {
             backgroundColor: "lightgreen",
             border: "1px solid green",
             fontSize: 16,
+            padding: 6,
+            borderRadius: 8,
           }}
         >
           {subscriptionPlan}
         </Text>
       )}
+      <br />
+      <br />
       {subscriptionPlan !== "Lifetime Access" && (
         <Button
           type="primary"
