@@ -110,7 +110,7 @@ export const RedeemCode = () => {
           rules={[{ required: true, message: "Please enter redeem code" }]}
         >
           <Input
-            placeholder="REDEEM"
+            placeholder="JANGO-XYZ-123-XXX"
             value={redeemCode}
             onChange={(e) => setRedeemCode(e.target.value)}
           />
