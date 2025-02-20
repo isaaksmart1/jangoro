@@ -3,6 +3,7 @@ import { CopyToClipboardButton } from "@/components/icon/Copy";
 import { CircularProgress } from "@mui/material";
 import { Col, Row } from "antd";
 import { isMobile } from "react-device-detect";
+import { AIProgress } from "@/components/icon/AIIcon";
 
 type Props = {
   aiResponse: any;
@@ -17,12 +18,9 @@ export const AI = ({ aiResponse, isLoading, activeTab, selected }: Props) => {
   return (
     <Col style={{ width: "100%" }}>
       {isLoading && (
-        <span
-          className="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary RaLoading-icon css-12ek9y1-MuiCircularProgress-root"
-          style={{ width: 40, height: 40 }}
-          role="progressbar"
-        >
-          <CircularProgress />
+        <span>
+          {/* <CircularProgress /> */}
+          <AIProgress />
         </span>
       )}
       <Row style={{ width: "100%" }}>
