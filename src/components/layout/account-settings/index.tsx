@@ -28,6 +28,7 @@ export const AccountSettings = ({ opened, setOpened, userId }: Props) => {
   const [user, setUser] = useState();
   const [error, setError] = useState({ title: "", message: "" });
   const [alert, setAlert] = useState(false);
+  const [alertType, setAlertType] = useState("error");
   const { push } = useNavigation();
 
   const closeModal = () => {
@@ -46,6 +47,7 @@ export const AccountSettings = ({ opened, setOpened, userId }: Props) => {
         });
         if (result.status === 200) {
           setAlert(true);
+          setAlertType("success");
           localStorage.removeItem("user");
           localStorage.removeItem("access_token");
           push("/login");
@@ -57,6 +59,7 @@ export const AccountSettings = ({ opened, setOpened, userId }: Props) => {
           };
           setError(errors);
           setAlert(true);
+          setAlertType("error");
         }
       } else {
         return;
@@ -166,7 +169,11 @@ export const AccountSettings = ({ opened, setOpened, userId }: Props) => {
             }}
           /> */}
           {alert && (
-            <ErrorAlert message={error.title} description={error.message} />
+            <ErrorAlert
+              type={alertType}
+              message={error.title}
+              description={error.message}
+            />
           )}
         </Card>
       </div>

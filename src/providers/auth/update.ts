@@ -1,6 +1,53 @@
-import { API_URL, httpProvider } from "../data";
+import { generateStripeCustomerId } from "@/utilities/helper";
+import { API_URL, dataProvider, GRAPH_QL_URL, httpProvider } from "../data";
 
 export const updateProvider: any = {
+  redeemRegistration: async ({ email, password }) => {
+    try {
+      const { data } = await dataProvider.custom({
+        url: GRAPH_QL_URL,
+        method: "post",
+        headers: {},
+        meta: {
+          variables: { email, password },
+          rawQuery: `
+          mutation Register($email: String!, $password: String!) {
+            register(registerInput: { email: $email, password: $password }) {
+              accessToken
+              user {
+                id
+                email
+              }
+            }
+          }
+        `,
+        },
+      });
+
+      const account = data?.register;
+      if (!account) throw new Error("Registration failed");
+
+      localStorage.setItem("access_token", account.accessToken);
+      localStorage.setItem("user", JSON.stringify(account.user));
+
+      const stripeCustomerId = generateStripeCustomerId();
+
+      return {
+        user: account,
+        stripeCustomerId,
+      };
+    } catch (e) {
+      const error = e as Error;
+
+      return {
+        success: false,
+        error: {
+          message: "message" in error ? error.message : "Redemption failed",
+          name: "name" in error ? error.name : "Unknown error",
+        },
+      };
+    }
+  },
   updateIdentity: async (user: any) => {
     try {
       if (user) {

@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 
-import { DollarOutlined } from "@ant-design/icons";
 import { Card, Col, Row } from "antd";
 
 import { Text } from "@/components";
 import { AutoAwesome } from "@mui/icons-material";
 import { AI } from "./ai";
+import { AIProgress } from "@/components/icon/AIIcon";
 
 type Props = {
   aiResponse: any;
@@ -56,7 +56,14 @@ export const AIAnalytics = ({
             gap: "8px",
           }}
         >
-          <AutoAwesome />
+          {isLoading ? (
+            <span>
+              {/* <CircularProgress /> */}
+              <AIProgress />
+            </span>
+          ) : (
+            <AutoAwesome />
+          )}
           <Text size="lg" style={{ marginLeft: ".5rem" }}>
             Ask AI
           </Text>

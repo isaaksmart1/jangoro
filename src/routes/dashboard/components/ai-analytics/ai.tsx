@@ -1,9 +1,7 @@
 import React from "react";
 import { CopyToClipboardButton } from "@/components/icon/Copy";
-import { CircularProgress } from "@mui/material";
 import { Col, Row } from "antd";
 import { isMobile } from "react-device-detect";
-import { AIProgress } from "@/components/icon/AIIcon";
 
 type Props = {
   aiResponse: any;
@@ -17,12 +15,6 @@ export const AI = ({ aiResponse, isLoading, activeTab, selected }: Props) => {
   const AIAnalyticsDashHeight = isMobile ? 296 : 312;
   return (
     <Col style={{ width: "100%" }}>
-      {isLoading && (
-        <span>
-          {/* <CircularProgress /> */}
-          <AIProgress />
-        </span>
-      )}
       <Row style={{ width: "100%" }}>
         <Col
           id="tab1"

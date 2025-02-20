@@ -18,6 +18,7 @@ import {
   AuthWrapper,
   ForgotPassword,
   ResetPassword,
+  RedeemCode,
 } from "@/components";
 import { resources } from "@/config/resources";
 import { API_URL, authProvider, dataProvider, liveProvider } from "@/providers";
@@ -124,7 +125,11 @@ const App = () => {
                   path="/forgot-password"
                   element={<ForgotPassword onResetRequest={resetPassword} />}
                 />
-                <Route path="/reset-password/:token" element={<ResetPassword />} />
+                <Route
+                  path="/reset-password/:token"
+                  element={<ResetPassword />}
+                />
+                <Route path="/redeem" element={<RedeemCode />} />
               </Route>
             </Routes>
             <UnsavedChangesNotifier />

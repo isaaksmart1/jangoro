@@ -158,4 +158,19 @@ export function buildSurvey(text) {
   }
 }
 
+export const generateStripeCustomerId = () => {
+  const characters =
+    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  let randomPart = "";
+
+  for (let i = 0; i < 14; i++) {
+    // Stripe customer IDs typically have 14 random characters
+    randomPart += characters.charAt(
+      Math.floor(Math.random() * characters.length),
+    );
+  }
+
+  return `cus_${randomPart}`;
+};
+
 export const log = (type) => console.log.bind(console, type);
