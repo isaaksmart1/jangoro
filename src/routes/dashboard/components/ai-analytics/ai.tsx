@@ -1,3 +1,4 @@
+import React from "react";
 import { CopyToClipboardButton } from "@/components/icon/Copy";
 import { CircularProgress } from "@mui/material";
 import { Col, Row } from "antd";
@@ -36,10 +37,6 @@ export const AI = ({ aiResponse, isLoading, activeTab, selected }: Props) => {
             }}
           ></div>
         </Col>
-        {activeTab === "tab1" && sentim && (
-          <CopyToClipboardButton text={sentim} />
-        )}
-
         <Col
           id="tab2"
           className="tab-content scrollable hidden"
@@ -51,8 +48,6 @@ export const AI = ({ aiResponse, isLoading, activeTab, selected }: Props) => {
             }}
           ></div>
         </Col>
-        {activeTab === "tab2" && summ && <CopyToClipboardButton text={summ} />}
-
         <Col
           id="tab3"
           className="tab-content scrollable hidden"
@@ -73,10 +68,6 @@ export const AI = ({ aiResponse, isLoading, activeTab, selected }: Props) => {
             )}
           </div>
         </Col>
-        {activeTab === "tab3" && refine && rawRefinement && (
-          <CopyToClipboardButton text={rawRefinement[selected]} />
-        )}
-
         <Col
           id="tab4"
           className="tab-content scrollable hidden"
@@ -88,8 +79,21 @@ export const AI = ({ aiResponse, isLoading, activeTab, selected }: Props) => {
             }}
           ></div>
         </Col>
-        {activeTab === "tab4" && action && (
-          <CopyToClipboardButton text={action} />
+        {!isLoading && (
+          <React.Fragment>
+            {activeTab === "tab1" && sentim && (
+              <CopyToClipboardButton text={sentim} />
+            )}
+            {activeTab === "tab2" && summ && (
+              <CopyToClipboardButton text={summ} />
+            )}
+            {activeTab === "tab3" && refine && rawRefinement && (
+              <CopyToClipboardButton text={rawRefinement[selected]} />
+            )}
+            {activeTab === "tab4" && action && (
+              <CopyToClipboardButton text={action} />
+            )}
+          </React.Fragment>
         )}
       </Row>
     </Col>
