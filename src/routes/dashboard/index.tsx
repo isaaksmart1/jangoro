@@ -86,7 +86,7 @@ export const DashboardPage = () => {
           marginTop: "32px",
         }}
       >
-        <Col xs={24} lg={12}>
+        <Col xs={24} lg={18}>
           <ResponsesChart files={files} />
         </Col>
       </Row>

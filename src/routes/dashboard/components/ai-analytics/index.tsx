@@ -60,7 +60,7 @@ export const AIAnalytics = ({
           <Text size="lg" style={{ marginLeft: ".5rem" }}>
             Ask AI
           </Text>
-          <Row style={{ flex: 1, flexDirection: "row" }}>
+          <Row style={{ flex: 1, flexDirection: "row", flexWrap: "wrap" }}>
             <Col style={{ marginLeft: "1rem", marginRight: "1rem" }}>
               {selectedFiles.length > 0 && (
                 <select

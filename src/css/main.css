@@ -25,6 +25,10 @@ body {
 }
 
 /* Tab Headers */
+.tabs {
+  max-width: 100%;
+}
+
 .tab-headers {
   display: flex;
   border-bottom: 1px solid #e5e7eb; /* Tailwind's border-gray-200 */
