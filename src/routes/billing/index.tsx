@@ -4,6 +4,7 @@ import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import { API_URL } from "@/providers";
 import { DollarOutlined } from "@ant-design/icons";
+import { Text } from "@/components";
 
 const stripePromise = loadStripe(
   "pk_test_51MPpHXARPqfde7N5ZVZicL8SRNwvzvoyFe7vCgCID73swbWAn0JtbjuscgsC0mQmbZrdW7w340LOLAVV0TadxV6e00LNsJGPyl",
@@ -12,8 +13,11 @@ const stripePromise = loadStripe(
 const BillingForm = () => {
   const [billingData, setBillingData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [subscriptionPlan, setSubscriptionPlan] = useState(null);
 
   useEffect(() => {
+    const plan = localStorage.getItem("plan");
+    setSubscriptionPlan(plan);
     fetchBillingHistory();
   }, []);
 
@@ -99,13 +103,26 @@ const BillingForm = () => {
           Billing
         </h1>
       </Col>
-      <Button
-        type="primary"
-        onClick={openStripeBillingPortal}
-        style={{ marginBottom: 24 }}
-      >
-        Manage Subscription & Payment
-      </Button>
+      {subscriptionPlan && (
+        <Text
+          style={{
+            backgroundColor: "lightgreen",
+            border: "1px solid green",
+            fontSize: 16,
+          }}
+        >
+          {subscriptionPlan}
+        </Text>
+      )}
+      {subscriptionPlan !== "Lifetime Access" && (
+        <Button
+          type="primary"
+          onClick={openStripeBillingPortal}
+          style={{ marginBottom: 24 }}
+        >
+          Manage Subscription & Payment
+        </Button>
+      )}
       {loading ? (
         <Spin size="large" />
       ) : (

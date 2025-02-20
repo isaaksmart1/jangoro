@@ -56,9 +56,11 @@ export const RedeemCode = () => {
 
       if (!response.ok) throw new Error(result.message);
 
+      localStorage.setItem("plan", result.plan);
+
       const success = {
         title: "Registration successful",
-        message: "Your code has been redeemed",
+        message: result.message,
       };
       setError(success);
       setAlert(true);
