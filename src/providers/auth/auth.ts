@@ -19,6 +19,7 @@ export const authCredentials = {
 export const authProvider: AuthProvider = {
   register: async ({ email, password }) => {
     try {
+      const plan = localStorage.getItem("plan");
       const { data } = await dataProvider.custom({
         url: GRAPH_QL_URL,
         method: "post",
@@ -46,9 +47,9 @@ export const authProvider: AuthProvider = {
         id: account.user.id,
         email: account.user.email,
         subscription: {
-          plan: "monthly",
+          plan: plan || "monthly",
         },
-        amount: 1500,
+        amount: plan ? 9900 : 1500,
       };
 
       localStorage.setItem("access_token", account.accessToken);

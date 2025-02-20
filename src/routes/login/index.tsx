@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { Image } from "antd";
-import { AuthPage, ThemedTitleV2 } from "@refinedev/antd";
+import { AuthPage } from "@refinedev/antd";
 
-import { API_URL, authCredentials, httpProvider } from "@/providers";
+import { API_URL, authCredentials } from "@/providers";
 import { Text } from "@/components";
 import logo from "@/assets/img/logo.png";
 import { URL_ROUTES } from "@/config/config";
@@ -10,7 +10,7 @@ import { URL_ROUTES } from "@/config/config";
 export const LoginPage = () => {
   useEffect(() => {
     getStripeSession();
-  }, [window.location]);
+  }, []);
 
   const www = () => {
     window.location.href = URL_ROUTES.www;
