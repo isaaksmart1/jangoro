@@ -226,7 +226,7 @@ export const AnalyzerActionButtons = ({
           className="px-4 py-2 bg-blue-500 text-white rounded-xl hover:bg-blue-600"
           onClick={handleActionPlan}
         >
-          Formulate Action Plan
+          Build Action Plan
         </button>
       </div>
     </Card>
