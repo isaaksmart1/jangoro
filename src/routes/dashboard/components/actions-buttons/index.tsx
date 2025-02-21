@@ -81,12 +81,10 @@ export const AnalyzerActionButtons = ({
   const [summary, setSummary] = useState([]);
   const [refinement, setRefinement] = useState([]);
   const [actionPlan, setActionPlan] = useState([]);
-  const [processingCount, setProcessingCount] = useState(0);
-  const [resetCount, setResetCount] = useState(0);
+  const [processingCount, setProcessingCount] = useState(-1);
 
   useEffect(() => {
     if (processingCount === selectedFiles.length - 1) {
-      setResetCount(0);
       setIsLoading(false);
     }
   }, [processingCount]);
@@ -116,11 +114,11 @@ export const AnalyzerActionButtons = ({
 
   const handleRequest = async (url: any, setState: any) => {
     setIsLoading(true);
+    setProcessingCount(-1);
+
     const formFiles = files.filter((file: any) =>
       selectedFiles.includes(file.name),
     );
-
-    let count = resetCount;
 
     try {
       formFiles.forEach(async (file: any, index: any) => {
@@ -159,8 +157,7 @@ export const AnalyzerActionButtons = ({
             setState((prevState: any) =>
               Array.isArray(prevState) ? [...prevState, text] : [text],
             );
-            count = index;
-            setProcessingCount(count);
+            setProcessingCount(index);
           }
         } catch (error) {
           console.error("Error processing file:", file.name, error);

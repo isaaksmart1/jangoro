@@ -122,17 +122,18 @@ const BillingForm = () => {
         </h1>
       </Col>
       {subscriptionPlan && (
-        <Text
+        <Button
           style={{
             backgroundColor: "lightgreen",
             border: "1px solid green",
-            fontSize: 16,
+            fontSize: 14,
             padding: 6,
             borderRadius: 8,
+            marginBottom: 6,
           }}
         >
           {subscriptionPlan}
-        </Text>
+        </Button>
       )}
       <br />
       <br />
