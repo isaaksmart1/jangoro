@@ -78,7 +78,7 @@ export const AI = ({ aiResponse, isLoading, activeTab, selected }: Props) => {
               <CopyToClipboardButton text={summ} />
             )}
             {activeTab === "tab3" && refine && rawRefinement && (
-              <CopyToClipboardButton text={rawRefinement[selected]} />
+              <CopyToClipboardButton text={rawRefinement} />
             )}
             {activeTab === "tab4" && action && (
               <CopyToClipboardButton text={action} />

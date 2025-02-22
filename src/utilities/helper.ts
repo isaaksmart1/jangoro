@@ -12,6 +12,7 @@ export const generateAIResponseText = (
     const obj = filterObjectsWithFileName(refinement, selected);
     const key = Object.keys(obj)[0];
     refine = formatUnstructuredTextToHTML(obj[key]);
+    r = obj;
   }
 
   if (sentiment.length > 0) {
