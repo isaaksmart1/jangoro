@@ -155,7 +155,7 @@ export const AccountSettings = ({ opened, setOpened, userId }: Props) => {
               Delete Account
             </Button>
             <Form.Item>
-              <Text style={{ color: "grey", fontSize: 16 }}>
+              <Text style={{ color: "gray", fontSize: 16 }}>
                 This action will permanently delete your account and immediately
                 cancel your subscription.
               </Text>
