@@ -42,13 +42,6 @@ export function filterObjectsWithFileName(arr, fileName) {
 export function formatUnstructuredTextToHTML(text) {
   const styles = `
       <style>
-          body {
-              font-family: Arial, sans-serif;
-              line-height: 1.6;
-              padding: 20px;
-              background: transparent;
-              color: #333;
-          }
           .container {
               max-width: 100%;
               margin: auto;
