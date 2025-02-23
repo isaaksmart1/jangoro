@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { Image } from "antd";
 import { AuthPage } from "@refinedev/antd";
 
@@ -59,16 +59,18 @@ export const LoginPage = () => {
     <AuthPage
       type="login"
       title={
-        <Text style={{ fontSize: 32, fontWeight: "bold" }}>
+        <React.Fragment>
           <Image
             onClick={www}
             preview={false}
             src={logo}
             alt="Jangoro"
-            style={{ width: 64, height: 32, marginRight: 16 }}
+            style={{ width: 32, height: 56, marginRight: 6 }}
           />
-          Jangoro
-        </Text>
+          <Text style={{ fontSize: 32, fontWeight: "bold", color: "indigo" }}>
+            angoro
+          </Text>
+        </React.Fragment>
       }
       formProps={{
         initialValues: authCredentials,

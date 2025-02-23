@@ -1,3 +1,4 @@
+import React from "react";
 import { useSearchParams } from "react-router";
 import { Image } from "antd";
 import { AuthPage } from "@refinedev/antd";
@@ -25,16 +26,18 @@ export const RegisterPage = () => {
     <AuthPage
       type="register"
       title={
-        <Text style={{ fontSize: 32, fontWeight: "bold" }}>
+        <React.Fragment>
           <Image
             onClick={www}
             preview={false}
             src={logo}
             alt="Jangoro"
-            style={{ width: 64, height: 32, marginRight: 16 }}
+            style={{ width: 32, height: 56, marginRight: 6 }}
           />
-          Jangoro
-        </Text>
+          <Text style={{ fontSize: 32, fontWeight: "bold", color: "indigo" }}>
+            angoro
+          </Text>
+        </React.Fragment>
       }
       formProps={{
         initialValues: authCredentials,
