@@ -16,8 +16,9 @@ export default defineConfig({
   },
   server: {
     host: true, // Allows external access
-    port: 3000, // Change if needed
+    port: 4173, // Change if needed
     strictPort: true,
+    allowedHosts: ["app.jangoro.com"],
   },
   preview: {
     allowedHosts: ["app.jangoro.com"],

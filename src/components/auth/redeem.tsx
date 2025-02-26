@@ -4,17 +4,24 @@ import { useNavigation } from "@refinedev/core";
 import { API_URL } from "@/providers";
 import { updateProvider } from "@/providers/auth";
 import { ErrorAlert } from "../alert";
+import { useSearchParams } from "react-router";
 const { Title, Text } = Typography;
 
 export const RedeemCode = () => {
   const { push } = useNavigation();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [redeemCode, setRedeemCode] = useState("");
+  const [code, setCode] = useState(null);
   const [error, setError] = useState({ title: "", message: "" });
   const [alert, setAlert] = useState(false);
   const [alertType, setAlertType] = useState("error");
+
+  useEffect(() => {
+    setCode(searchParams.get("code"));
+  }, []);
 
   useEffect(() => {
     if (alert) {
@@ -57,6 +64,8 @@ export const RedeemCode = () => {
       if (!response.ok) throw new Error(result.message);
 
       localStorage.setItem("plan", result.plan);
+      localStorage.setItem("stripe_subscription_interval", "paid");
+      localStorage.setItem("stripe_customer_id", result.customerId);
 
       const success = {
         title: "Registration successful",
@@ -80,6 +89,13 @@ export const RedeemCode = () => {
 
   return (
     <Card style={{ maxWidth: 400, margin: "auto", textAlign: "center" }}>
+      {code && (
+        <ErrorAlert
+          type="success"
+          message="Your lifetime subscription is ready! Enter the redeem code below."
+          description={code}
+        />
+      )}
       <Title level={3} style={{ color: "#722ed1" }}>
         Sign Up with your Redeem Code
       </Title>
@@ -120,7 +136,7 @@ export const RedeemCode = () => {
 
         <Form.Item>
           <Button type="primary" htmlType="submit" block loading={loading}>
-            Sign Up
+            Redeem
           </Button>
         </Form.Item>
       </Form>

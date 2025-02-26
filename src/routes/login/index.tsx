@@ -6,6 +6,7 @@ import { API_URL, authCredentials } from "@/providers";
 import { Text } from "@/components";
 import logo from "@/assets/img/logo.png";
 import { URL_ROUTES } from "@/config/config";
+import { updateProvider } from "@/providers/auth";
 
 export const LoginPage = () => {
   useEffect(() => {
@@ -30,11 +31,47 @@ export const LoginPage = () => {
     }
   };
 
+  const doesCustomerExists = async (id: string) => {
+    const customerId = id;
+    let status = undefined;
+    if (!customerId || customerId === "null" || customerId === "undefined") {
+      status = await deleteUser();
+    }
+    return status;
+  };
+
+  const completeCheckout = async () => {
+    const email = localStorage.getItem("email");
+    const password = localStorage.getItem("password");
+
+    if (email && password) {
+      try {
+        await updateProvider.onCheckoutSuccess({ email, password });
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  };
+
   const getStripeSession = async () => {
     const sessionId = localStorage.getItem("stripe_session_id");
 
     if (!sessionId) return;
 
+    const subscriptionInterval = localStorage.getItem(
+      "stripe_subscription_interval",
+    );
+    const customerId = localStorage.getItem("stripe_customer_id") || "";
+
+    // Lifetime access
+    if (subscriptionInterval === "life") {
+      const status = doesCustomerExists(customerId);
+      if (status === undefined) return;
+      completeCheckout();
+      return;
+    } else if (subscriptionInterval === "paid") return;
+
+    // Subscriptions
     const response = await fetch(`${API_URL}/retrieve-session`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -44,15 +81,12 @@ export const LoginPage = () => {
     console.log("Stripe session details:", data);
 
     // Store Stripe session details for reference (optional)
-    localStorage.setItem("stripe_customer_id", data.customerId);
     localStorage.setItem("stripe_subscription_id", data.subscriptionId);
+    localStorage.setItem("stripe_customer_id", data.customerId);
 
-    const customerId = localStorage.getItem("stripe_customer_id");
-
-    if (!customerId || customerId === "null" || customerId === "undefined") {
-      const status = await deleteUser();
-      return status;
-    }
+    const status = await doesCustomerExists(data.customerId);
+    if (status === undefined) return;
+    completeCheckout();
   };
 
   return (

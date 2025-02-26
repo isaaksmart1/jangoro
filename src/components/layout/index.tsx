@@ -12,9 +12,16 @@ export const Layout = ({ children }: React.PropsWithChildren) => {
           return (
             <ThemedTitleV2
               {...titleProps}
-              text="Jangoro"
+              text={
+                <p
+                  className="text-md"
+                  style={{ color: "#aaaaaa", fontWeight: 400 }}
+                >
+                  Optimized for Desktop
+                </p>
+              }
               icon=""
-              wrapperStyles={{ fontSize: 24 }}
+              wrapperStyles={{ fontSize: 12 }}
             />
           );
         }}

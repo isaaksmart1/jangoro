@@ -3,6 +3,7 @@ import React from "react";
 import { Layout, Space, theme } from "antd";
 
 import { CurrentUser } from "../current-user";
+import logo from "../../../assets/img/logo.png";
 
 const { useToken } = theme;
 
@@ -25,6 +26,7 @@ export const Header = () => {
     <Layout.Header style={headerStyles}>
       <Space align="center" size="middle">
         <CurrentUser />
+        <img src={logo} width={24} height={40} />
       </Space>
     </Layout.Header>
   );

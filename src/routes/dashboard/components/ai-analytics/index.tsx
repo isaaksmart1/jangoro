@@ -10,19 +10,23 @@ import { AIProgress } from "@/components/icon/AIIcon";
 type Props = {
   aiResponse: any;
   isLoading: any;
+  setIsLoading: any;
   selected: any;
   setSelected: any;
   selectedFiles: any;
+  files: any;
 };
 
 export const AIAnalytics = ({
   aiResponse,
   isLoading,
-  selected,
+  setIsLoading,
   setSelected,
   selectedFiles,
+  selected,
+  files,
 }: Props) => {
-  const [activeTab, setActiveTab] = useState("tab1");
+  const [activeTab, setActiveTab] = useState("tab4");
 
   useEffect(() => {
     const tabs = document.querySelectorAll(".tab");
@@ -46,7 +50,8 @@ export const AIAnalytics = ({
 
   return (
     <Card
-      style={{ height: "100%", padding: "24px 24px 0px 24px" }}
+      className="ai-analytics"
+      style={{ height: "100%", padding: "24px 24px 0px 24px"}}
       headStyle={{ padding: "8px 16px" }}
       title={
         <div
@@ -62,11 +67,8 @@ export const AIAnalytics = ({
               <AIProgress />
             </span>
           ) : (
-            <AutoAwesome />
+            <AutoAwesome htmlColor="#6f2ebe" />
           )}
-          <Text size="lg" style={{ marginLeft: ".5rem" }}>
-            Ask AI
-          </Text>
           <Row style={{ flex: 1, flexDirection: "row", flexWrap: "wrap" }}>
             <Col style={{ marginLeft: "1rem", marginRight: "1rem" }}>
               {selectedFiles.length > 0 && (
@@ -85,10 +87,16 @@ export const AIAnalytics = ({
             <Col className="tabs" xs={24} sm={24} xl={4}>
               <div className="tab-headers flex border-b border-gray-200 mb-4">
                 <button
-                  className="tab tab-active px-4 py-2 text-gray-700 border-b-2 border-blue-500 font-medium"
-                  data-tab="tab1"
+                  className="tab tab-active px-4 py-2 text-gray-500 hover:text-gray-700 border-b-2 border-transparent"
+                  data-tab="tab4"
                 >
-                  Sentiment Score
+                  Action Plan
+                </button>
+                <button
+                  className="tab px-4 py-2 text-gray-500 hover:text-gray-700 border-b-2 border-transparent"
+                  data-tab="tab5"
+                >
+                  Ask AI
                 </button>
                 <button
                   className="tab px-4 py-2 text-gray-500 hover:text-gray-700 border-b-2 border-transparent"
@@ -104,9 +112,9 @@ export const AIAnalytics = ({
                 </button>
                 <button
                   className="tab px-4 py-2 text-gray-500 hover:text-gray-700 border-b-2 border-transparent"
-                  data-tab="tab3"
+                  data-tab="tab1"
                 >
-                  Action Plan
+                  Sentiment Score
                 </button>
               </div>
             </Col>
@@ -117,9 +125,13 @@ export const AIAnalytics = ({
       <Row style={{ height: "100%" }}>
         <AI
           aiResponse={aiResponse}
+          setIsLoading={setIsLoading}
           isLoading={isLoading}
           activeTab={activeTab}
           selected={selected}
+          setSelected={setSelected}
+          selectedFiles={selectedFiles}
+          files={files}
         />
       </Row>
     </Card>

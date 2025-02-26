@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Card, Table, Button, Spin, message, Col } from "antd";
+import { motion } from "framer-motion";
+import { Card, Table, Button, Spin, message, Col, Row } from "antd";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import { API_URL, authProvider } from "@/providers";
@@ -26,6 +27,9 @@ const BillingForm = () => {
             break;
           case "year":
             plan = "Yearly Access";
+            break;
+          case "life":
+            plan = "Lifetime Access";
             break;
           default:
             plan = "Monthly Access";
@@ -102,56 +106,62 @@ const BillingForm = () => {
   ];
 
   return (
-    <Card>
-      <Col
-        xs={24}
-        sm={24}
-        xl={4}
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          alignItems: "center",
-          margin: 24,
-        }}
-      >
-        <DollarOutlined
-          style={{ color: "#6f2ebe", fontSize: 32, marginRight: 12 }}
-        />
-        <h1 className="text-gray-700 text-3xl" style={{ marginBottom: 0 }}>
-          Billing
-        </h1>
+    <Row gutter={[32, 32]}>
+      <Col xs={24} sm={24} xl={2}>
+        <motion.div
+          initial={{ x: -50, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{ duration: 0.5 }}
+        >
+          <DollarOutlined
+            style={{ color: "#6f2ebe", fontSize: 32, marginRight: 12 }}
+          />
+          <h1 className="text-gray-700 text-3xl" style={{ marginBottom: 0 }}>
+            Billing
+          </h1>
+        </motion.div>
       </Col>
-      {subscriptionPlan && (
-        <Button
-          style={{
-            backgroundColor: "lightgreen",
-            border: "1px solid green",
-            fontSize: 14,
-            padding: 6,
-            borderRadius: 8,
-            marginBottom: 6,
-          }}
+      <Col xs={24} sm={24} xl={21} className="dashboard-panel">
+        <motion.div
+          initial={{ x: 50, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
         >
-          {subscriptionPlan}
-        </Button>
-      )}
-      <br />
-      <br />
-      {subscriptionPlan !== "Lifetime Access" && (
-        <Button
-          type="primary"
-          onClick={openStripeBillingPortal}
-          style={{ marginBottom: 24 }}
-        >
-          Manage Subscription & Payment
-        </Button>
-      )}
-      {loading ? (
-        <Spin size="large" />
-      ) : (
-        <Table dataSource={billingData} columns={columns} rowKey="id" />
-      )}
-    </Card>
+          <Card>
+            {subscriptionPlan && (
+              <Button
+                style={{
+                  backgroundColor: "lightgreen",
+                  border: "1px solid green",
+                  fontSize: 14,
+                  padding: 6,
+                  borderRadius: 8,
+                  marginBottom: 6,
+                }}
+              >
+                {subscriptionPlan}
+              </Button>
+            )}
+            <br />
+            <br />
+            {subscriptionPlan !== "Lifetime Access" && (
+              <Button
+                type="primary"
+                onClick={openStripeBillingPortal}
+                style={{ marginBottom: 24 }}
+              >
+                Manage Subscription & Payment
+              </Button>
+            )}
+            {loading ? (
+              <Spin size="large" />
+            ) : (
+              <Table dataSource={billingData} columns={columns} rowKey="id" />
+            )}
+          </Card>
+        </motion.div>
+      </Col>
+    </Row>
   );
 };
 

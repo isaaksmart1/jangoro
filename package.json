@@ -38,6 +38,7 @@
     "classnames": "^2.5.1",
     "cross-env": "^7.0.3",
     "dayjs": "^1.11.13",
+    "framer-motion": "^12.4.7",
     "graphql": "^16.10.0",
     "graphql-tag": "^2.12.6",
     "graphql-ws": "^6.0.3",

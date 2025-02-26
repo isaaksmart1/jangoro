@@ -43,7 +43,7 @@ export const UploadFilesButton = ({ setFiles }: FileInputProps) => {
       <button
         style={{ margin: 4, backgroundColor: "#6f2ebe" }}
         className="px-4 py-4 text-white rounded-xl hover:bg-blue-600"
-        onClick={onFileInputChange} // Optional: trigger file input programmatically
+        onClick={onFileInputChange}
       >
         Upload
       </button>
@@ -52,16 +52,7 @@ export const UploadFilesButton = ({ setFiles }: FileInputProps) => {
         type="file"
         multiple
         accept=".csv"
-        style={{
-          display: "none",
-          position: "absolute",
-          left: 0,
-          top: 0,
-          width: "100%",
-          height: "100%",
-          opacity: 0,
-          cursor: "pointer",
-        }}
+        style={{ display: "none" }}
         onChange={handleFileUpload}
       />
     </div>
@@ -77,11 +68,14 @@ export const AnalyzerActionButtons = ({
   setSelected,
   setAIResponse,
 }: Props) => {
+  const [hoveredButton, setHoveredButton] = useState<string | null>(null);
   const [sentiment, setSentiment] = useState([]);
   const [summary, setSummary] = useState([]);
   const [refinement, setRefinement] = useState([]);
   const [actionPlan, setActionPlan] = useState([]);
   const [processingCount, setProcessingCount] = useState(-1);
+
+  const hasFiles = selectedFiles.length > 0;
 
   useEffect(() => {
     if (processingCount === selectedFiles.length - 1) {
@@ -96,11 +90,13 @@ export const AnalyzerActionButtons = ({
         summ: "",
         sentim: "",
         action: "",
+        general: "",
       },
       refinement,
       summary,
       sentiment,
       actionPlan,
+      [],
       selected,
     );
     setAIResponse(response);
@@ -177,57 +173,74 @@ export const AnalyzerActionButtons = ({
   const handleActionPlan = () =>
     handleRequest(`${AI_URL}/analyze-action-plan`, setActionPlan);
 
+  const buttonActions = [
+    {
+      label: "Build Action Plan",
+      action: handleActionPlan,
+      caption: "Develop an actionable plan from your analysis.",
+    },
+    {
+      label: "Summarize",
+      action: handleSummary,
+      caption: "Generate a short summary of your uploaded files.",
+    },
+    {
+      label: "Build Survey",
+      action: handleRefinement,
+      caption: "Create a refined survey based on data insights.",
+    },
+    {
+      label: "Sentiment Score",
+      action: handleSentiment,
+      caption: "Analyze the sentiment and produce ratings of your data.",
+    },
+  ];
+
   return (
     <Card
-      style={{
-        height: "100%",
-        padding: "0 1rem",
-      }}
+      style={{ height: "100%", padding: "0 1rem", position: "relative" }}
       title={
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "8px",
-          }}
-        >
-          <SmartButtonOutlined />
+        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+          <SmartButtonOutlined htmlColor="#6f2ebe" />
           <Text size="lg" style={{ marginLeft: ".7rem" }}>
             AI Actions
           </Text>
         </div>
       }
     >
-      <div className="flex flex-row">
+      <div className="flex flex-row items-center">
         <UploadFilesButton setFiles={setFiles} />
-        <button
-          style={{ margin: 4 }}
-          className="px-4 py-2 bg-blue-500 text-white rounded-xl hover:bg-blue-600"
-          onClick={handleSentiment}
-        >
-          Sentiment Score
-        </button>
-        <button
-          style={{ margin: 4 }}
-          className="px-4 py-2 bg-blue-500 text-white rounded-xl hover:bg-blue-600"
-          onClick={handleSummary}
-        >
-          Summarize
-        </button>
-        <button
-          style={{ margin: 4 }}
-          className="px-4 py-2 bg-blue-500 text-white rounded-xl hover:bg-blue-600"
-          onClick={handleRefinement}
-        >
-          Build Survey
-        </button>
-        <button
-          style={{ margin: 4 }}
-          className="px-4 py-2 bg-blue-500 text-white rounded-xl hover:bg-blue-600"
-          onClick={handleActionPlan}
-        >
-          Build Action Plan
-        </button>
+        {buttonActions.map((btn, index) => (
+          <button
+            disabled={!hasFiles}
+            key={index}
+            style={{
+              margin: 4,
+              backgroundColor: hasFiles ? "#3b82f6" : "#e5e5e5",
+            }}
+            className="p-4 text-white rounded-xl hover:bg-blue-600 relative"
+            onClick={btn.action}
+            onMouseEnter={() => setHoveredButton(btn.caption)}
+            onMouseLeave={() => setHoveredButton(null)}
+          >
+            {btn.label}
+          </button>
+        ))}
+        {/* Tooltip for hovered button */}
+        {hoveredButton && (
+          <div
+            className="absolute text-sm text-black font-semibold p-1 rounded shadow-md"
+            style={{
+              bottom: 0,
+              right: "-5rem",
+              whiteSpace: "nowrap",
+              transform: "translateX(-50%)",
+              backgroundColor: "beige",
+            }}
+          >
+            {hoveredButton}
+          </div>
+        )}
       </div>
     </Card>
   );

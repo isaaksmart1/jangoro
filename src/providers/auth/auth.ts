@@ -20,40 +20,32 @@ export const authProvider: AuthProvider = {
   register: async ({ email, password }) => {
     try {
       const plan = localStorage.getItem("plan");
-      const { data } = await dataProvider.custom({
-        url: GRAPH_QL_URL,
-        method: "post",
-        headers: {},
-        meta: {
-          variables: { email, password },
-          rawQuery: `
-            mutation Register($email: String!, $password: String!) {
-              register(registerInput: { email: $email, password: $password }) {
-                accessToken
-                user {
-                  id
-                  email
-                }
-              }
-            }
-          `,
-        },
-      });
 
-      const account = data?.register;
-      if (!account) throw new Error("Registration failed");
+      localStorage.setItem("email", email);
+      localStorage.setItem("password", password);
 
-      const registered = {
-        id: account.user.id,
-        email: account.user.email,
+      let amount;
+      switch (plan) {
+        case "month":
+          amount = 1500;
+          break;
+        case "year":
+          amount = 9900;
+          break;
+        case "life":
+          amount = 4900;
+          break;
+        default:
+          break;
+      }
+
+      const customer = {
+        email: email,
         subscription: {
-          plan: plan || "monthly",
+          plan: plan || "month",
         },
-        amount: plan ? 9900 : 1500,
+        amount,
       };
-
-      localStorage.setItem("access_token", account.accessToken);
-      localStorage.setItem("user", JSON.stringify(account.user));
 
       // Call backend to create Stripe Checkout session
       const stripeResponse = await httpProvider.custom(
@@ -63,7 +55,7 @@ export const authProvider: AuthProvider = {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(registered),
+          body: JSON.stringify(customer),
         },
       );
 
@@ -75,6 +67,7 @@ export const authProvider: AuthProvider = {
       if (!stripeData?.url) throw new Error("Stripe checkout URL not received");
 
       localStorage.setItem("stripe_session_id", stripeData.id);
+      localStorage.setItem("stripe_subscription_interval", stripeData.interval);
 
       // Redirect user to Stripe Checkout
       window.location.href = stripeData.url;
@@ -94,6 +87,9 @@ export const authProvider: AuthProvider = {
   },
   login: async ({ email, password }) => {
     try {
+      localStorage.setItem("email", email);
+      localStorage.setItem("password", password);
+
       const { data } = await dataProvider.custom({
         url: GRAPH_QL_URL,
         method: "post",

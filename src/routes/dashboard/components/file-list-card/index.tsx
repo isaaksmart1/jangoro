@@ -3,7 +3,7 @@ import { Badge, Card, List, Skeleton as AntdSkeleton } from "antd";
 import { Text } from "@/components";
 
 import { useState } from "react";
-import { DocumentScannerRounded, PollOutlined } from "@mui/icons-material";
+import { PollOutlined } from "@mui/icons-material";
 
 type Props = {
   files: any;
@@ -38,6 +38,7 @@ export const FileList = ({
         height: "100%",
         overflow: "scroll",
         padding: "0 1rem",
+        overflowX: "hidden",
       }}
       headStyle={{ padding: "8px 16px" }}
       title={
@@ -48,9 +49,15 @@ export const FileList = ({
             gap: "8px",
           }}
         >
-          <PollOutlined />
+          <PollOutlined htmlColor="#6f2ebe" />
           <Text size="lg" style={{ marginLeft: ".7rem" }}>
-            Surveys and Reviews
+            Surveys and Reviews{" "}
+            <span
+              className="text-sm"
+              style={{ fontWeight: 400, color: "#aaaaaa" }}
+            >
+              .csv {"(Comma-Separated Values)"} format
+            </span>
           </Text>
         </div>
       }

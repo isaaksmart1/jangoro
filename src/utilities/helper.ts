@@ -4,10 +4,22 @@ export const generateAIResponseText = (
   summary: any,
   sentiment: any,
   actionPlan: any,
+  generalAIResponse: any,
   selected: any,
 ) => {
-  let { refine, summ, sentim, action } = options;
-  let r = "";
+  let { refine, summ, sentim, action, general } = options;
+  let s = "",
+    st = "",
+    a = "",
+    r = "",
+    g = "";
+  if (generalAIResponse.length > 0) {
+    const obj = filterObjectsWithFileName(generalAIResponse, selected);
+    const key = Object.keys(obj)[0];
+    general = formatUnstructuredTextToHTML(obj[key]);
+    g = obj;
+  }
+
   if (refinement.length > 0) {
     const obj = filterObjectsWithFileName(refinement, selected);
     const key = Object.keys(obj)[0];
@@ -19,20 +31,34 @@ export const generateAIResponseText = (
     const obj = filterObjectsWithFileName(sentiment, selected);
     const key = Object.keys(obj)[0];
     sentim = formatUnstructuredTextToHTML(obj[key]);
+    st = obj;
   }
 
   if (summary.length > 0) {
     const obj = filterObjectsWithFileName(summary, selected);
     const key = Object.keys(obj)[0];
     summ = formatUnstructuredTextToHTML(obj[key]);
+    s = obj;
   }
 
   if (actionPlan.length > 0) {
     const obj = filterObjectsWithFileName(actionPlan, selected);
     const key = Object.keys(obj)[0];
     action = formatUnstructuredTextToHTML(obj[key]);
+    a = obj;
   }
-  options = { refine, summ, sentim, rawRefinement: r[selected], action };
+  options = {
+    refine,
+    summ,
+    sentim,
+    action,
+    general,
+    rawRefinement: r[selected],
+    rawSummary: s[selected],
+    rawSentiment: st[selected],
+    rawActionPlan: a[selected],
+    rawAIQuery: g[selected],
+  };
   return options;
 };
 

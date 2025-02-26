@@ -1,10 +1,10 @@
 import React from "react";
 
-import { DollarOutlined, RiseOutlined } from "@ant-design/icons";
 import { Card } from "antd";
 
 import { Text } from "@/components";
 import { NumberOfResponses } from "./responses";
+import { TrendingUpOutlined } from "@mui/icons-material";
 
 export const ResponsesChart = ({ files }: any) => {
   return (
@@ -19,7 +19,7 @@ export const ResponsesChart = ({ files }: any) => {
             gap: "8px",
           }}
         >
-          <RiseOutlined />
+          <TrendingUpOutlined htmlColor="#6f2ebe" />
           <Text size="lg" style={{ marginLeft: ".5rem" }}>
             Number of Responses
           </Text>
