@@ -7,10 +7,14 @@ import { Text } from "@/components";
 import logo from "@/assets/img/logo.png";
 import { URL_ROUTES } from "@/config/config";
 import { updateProvider } from "@/providers/auth";
+import { useSearchParams } from "react-router";
 
 export const LoginPage = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+
   useEffect(() => {
-    getStripeSession();
+    const urlPath = searchParams.get("session_id");
+    getStripeSession(urlPath);
   }, []);
 
   const www = () => {
@@ -53,10 +57,14 @@ export const LoginPage = () => {
     }
   };
 
-  const getStripeSession = async () => {
+  const getStripeSession = async (urlPath: string | null) => {
     const sessionId = localStorage.getItem("stripe_session_id");
 
     if (!sessionId) return;
+
+    if (urlPath?.includes("cancelled")) {
+      localStorage.setItem("stripe_subscription_interval", "");
+    }
 
     const subscriptionInterval = localStorage.getItem(
       "stripe_subscription_interval",
