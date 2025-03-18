@@ -171,6 +171,9 @@ export const authProvider: AuthProvider = {
       if (response.status === 200) {
         localStorage.removeItem("user");
         localStorage.removeItem("access_token");
+        localStorage.removeItem("email");
+        localStorage.removeItem("password");
+        localStorage.removeItem("plan");
         result = {
           success: true,
           redirectTo: `/login`,
