@@ -35,7 +35,7 @@ const BillingForm = () => {
             plan = "Monthly Access";
             break;
         }
-        const sub = localStorage.getItem("plan") || plan;
+        const sub = plan || localStorage.getItem("plan");
         setSubscriptionPlan(sub);
       }
     };

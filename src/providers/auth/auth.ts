@@ -243,6 +243,7 @@ export const authProvider: AuthProvider = {
       );
 
       const data = await response.json();
+      localStorage.setItem("plan", data.subscription);
 
       const idStr = data.id;
       const idNum = Math.floor(Math.random() * 10 ** 21);
