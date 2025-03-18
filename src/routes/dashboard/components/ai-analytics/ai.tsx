@@ -35,7 +35,7 @@ export const AI = ({
     rawSentiment,
     rawActionPlan,
   } = aiResponse;
-  const AIAnalyticsDashHeight = isMobile ? 296 : 312;
+  const AIAnalyticsDashHeight = 296;
   return (
     <Col style={{ width: "100%" }}>
       <Row style={{ width: "100%" }}>
