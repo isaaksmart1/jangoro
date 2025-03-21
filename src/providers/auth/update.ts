@@ -28,10 +28,10 @@ export const updateProvider: any = {
       method: "post",
       headers: {},
       meta: {
-        variables: { email, password },
+        variables: { email, password, subscription: subscriptionInterval },
         rawQuery: `
-                mutation Register($email: String!, $password: String!) {
-                  register(registerInput: { email: $email, password: $password }) {
+                mutation Register($email: String!, $password: String!, $subscription: String!) {
+                  register(registerInput: { email: $email, password: $password, subscription: $subscription }) {
                     accessToken
                     user {
                       id

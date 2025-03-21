@@ -68,11 +68,13 @@ export const authProvider: AuthProvider = {
 
       localStorage.setItem("stripe_session_id", stripeData.id);
       localStorage.setItem("stripe_subscription_interval", stripeData.interval);
+      // localStorage.setItem("stripe_subscription_interval", "month");
 
       // Redirect user to Stripe Checkout
       window.location.href = stripeData.url;
 
       return {
+        // redirectTo: '/login',
         success: true,
       };
     } catch (e) {
