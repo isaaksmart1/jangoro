@@ -198,6 +198,7 @@ export const AnalyzerActionButtons = ({
 
   return (
     <Card
+      id="ai-actions"
       style={{ height: "100%", padding: "0 1rem", position: "relative" }}
       title={
         <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>

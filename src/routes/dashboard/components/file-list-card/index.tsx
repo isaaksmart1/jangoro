@@ -34,6 +34,7 @@ export const FileList = ({
 
   return (
     <Card
+      id="file-explorer"
       style={{
         height: "100%",
         overflow: "scroll",

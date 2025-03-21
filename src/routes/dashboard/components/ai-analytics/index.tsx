@@ -50,8 +50,9 @@ export const AIAnalytics = ({
 
   return (
     <Card
+      id="ai-analytics"
       className="ai-analytics"
-      style={{ height: "100%", padding: "24px 24px 0px 24px"}}
+      style={{ height: "100%", padding: "24px 24px 0px 24px" }}
       headStyle={{ padding: "8px 16px" }}
       title={
         <div
