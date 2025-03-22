@@ -50,7 +50,7 @@ export const AccountSettings = ({ opened, setOpened, userId }: Props) => {
           setAlertType("success");
           localStorage.removeItem("user");
           localStorage.removeItem("access_token");
-          push("/login");
+          push("/register");
         } else {
           const error = await result.text();
           const errors = {

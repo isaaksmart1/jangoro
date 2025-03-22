@@ -35,12 +35,12 @@ export const LoginPage = () => {
     }
   };
 
-  const doesCustomerExists = async (id: string) => {
+  const doesStripeCustomerExists = async (id: string) => {
     const customerId = id;
-    let status = undefined;
+    let status: any = undefined;
     if (!customerId || customerId === "null" || customerId === "undefined") {
       status = await deleteUser();
-    }
+    } else status = 'Customer exists';
     return status;
   };
 
@@ -73,7 +73,7 @@ export const LoginPage = () => {
 
     // Lifetime access
     if (subscriptionInterval === "life") {
-      const status = doesCustomerExists(customerId);
+      const status = doesStripeCustomerExists(customerId);
       if (status === undefined) return;
       completeCheckout();
       return;
@@ -92,9 +92,9 @@ export const LoginPage = () => {
     localStorage.setItem("stripe_subscription_id", data.subscriptionId);
     localStorage.setItem("stripe_customer_id", data.customerId);
 
-    const status = await doesCustomerExists(data.customerId);
-    if (status === undefined) return;
-    completeCheckout();
+    const status = await doesStripeCustomerExists(data.customerId);
+    if (status.includes('exists')) completeCheckout();
+    return;
   };
 
   return (
