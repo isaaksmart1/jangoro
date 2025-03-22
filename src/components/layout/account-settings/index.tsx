@@ -52,7 +52,10 @@ export const AccountSettings = ({ opened, setOpened, userId }: Props) => {
           localStorage.removeItem("access_token");
           localStorage.removeItem("email");
           localStorage.removeItem("password");
-          push("/register");
+          localStorage.removeItem("plan");
+          setTimeout(() => {
+            push("/register");
+          }, 2000);
         } else {
           const error = await result.text();
           const errors = {
