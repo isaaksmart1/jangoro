@@ -1,9 +1,9 @@
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Text } from "@/components";
-import { AI_URL, dataProvider, httpProvider } from "@/providers";
+import { AI_URL, authProvider, httpProvider } from "@/providers";
 import { generateAIResponseText } from "@/utilities/helper";
 import { SmartButtonOutlined } from "@mui/icons-material";
 import { Card } from "antd";
-import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 type FileInputProps = {
   setFiles: Dispatch<SetStateAction<any>>;
@@ -25,7 +25,7 @@ export const UploadFilesButton = ({ setFiles }: FileInputProps) => {
     fileInput?.click();
   };
 
-  const handleFileUpload = async (event) => {
+  const handleFileUpload = async (event: any) => {
     const selectedFiles = Array.from(event.target.files);
     const csvFiles = selectedFiles.map((file: any) => {
       return {
@@ -69,6 +69,7 @@ export const AnalyzerActionButtons = ({
   setAIResponse,
 }: Props) => {
   const [hoveredButton, setHoveredButton] = useState<string | null>(null);
+  const [user, setUser] = useState<any>(undefined);
   const [sentiment, setSentiment] = useState([]);
   const [summary, setSummary] = useState([]);
   const [refinement, setRefinement] = useState([]);
@@ -76,6 +77,14 @@ export const AnalyzerActionButtons = ({
   const [processingCount, setProcessingCount] = useState(-1);
 
   const hasFiles = selectedFiles.length > 0;
+
+  useEffect(() => {
+    const getUser = async () => {
+      const user = (await authProvider.getIdentity()) as any;
+      if (user.hasOwnProperty("id")) setUser(user);
+    };
+    getUser();
+  }, []);
 
   useEffect(() => {
     if (processingCount === selectedFiles.length - 1) {
@@ -128,7 +137,7 @@ export const AnalyzerActionButtons = ({
           const result = await response.json();
 
           if (result && Object.keys(result).length > 0) {
-            const key = Object.keys(result)[0]; // Ensure result has keys
+            const key = Object.keys(result)[0];
             if (
               !key ||
               !result[key] ||
@@ -139,7 +148,7 @@ export const AnalyzerActionButtons = ({
               return;
             }
 
-            const selectedFile = Object.keys(result[key][0])[0]; // Ensure result[key][0] has keys
+            const selectedFile = Object.keys(result[key][0])[0];
             if (!selectedFile) {
               console.error("Invalid file structure", result[key][0]);
               return;
@@ -175,21 +184,25 @@ export const AnalyzerActionButtons = ({
 
   const buttonActions = [
     {
+      version: "paid",
       label: "Build Action Plan",
       action: handleActionPlan,
       caption: "Develop an actionable plan from your analysis.",
     },
     {
+      version: "free",
       label: "Summarize",
       action: handleSummary,
       caption: "Generate a short summary of your uploaded files.",
     },
     {
+      version: "paid",
       label: "Build Survey",
       action: handleRefinement,
       caption: "Create a refined survey based on data insights.",
     },
     {
+      version: "paid",
       label: "Sentiment Score",
       action: handleSentiment,
       caption: "Analyze the sentiment and produce ratings of your data.",
@@ -211,23 +224,24 @@ export const AnalyzerActionButtons = ({
     >
       <div className="flex flex-row items-center">
         <UploadFilesButton setFiles={setFiles} />
-        {buttonActions.map((btn, index) => (
-          <button
-            disabled={!hasFiles}
-            key={index}
-            style={{
-              margin: 4,
-              backgroundColor: hasFiles ? "#3b82f6" : "#e5e5e5",
-            }}
-            className="p-4 text-white rounded-xl hover:bg-blue-600 relative"
-            onClick={btn.action}
-            onMouseEnter={() => setHoveredButton(btn.caption)}
-            onMouseLeave={() => setHoveredButton(null)}
-          >
-            {btn.label}
-          </button>
-        ))}
-        {/* Tooltip for hovered button */}
+        {buttonActions
+          .filter((btn) => user || btn.version === "free")
+          .map((btn, index) => (
+            <button
+              disabled={!hasFiles}
+              key={index}
+              style={{
+                margin: 4,
+                backgroundColor: hasFiles ? "#3b82f6" : "#e5e5e5",
+              }}
+              className="p-4 text-white rounded-xl hover:bg-blue-600 relative"
+              onClick={btn.action}
+              onMouseEnter={() => setHoveredButton(btn.caption)}
+              onMouseLeave={() => setHoveredButton(null)}
+            >
+              {btn.label}
+            </button>
+          ))}
         {hoveredButton && (
           <div
             className="absolute text-sm text-black font-semibold p-1 rounded shadow-md"

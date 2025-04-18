@@ -70,6 +70,21 @@ const App = () => {
             }}
           >
             <Routes>
+              {/* Public/free routes - no authentication */}
+              <Route
+                path="/free"
+                element={
+                  <Layout>
+                    <Outlet />
+                  </Layout>
+                }
+              >
+                <Route index element={<DashboardPage />} />
+                <Route path="billing" element={<BillingPage />} />
+                <Route path="*" element={<ErrorComponent />} />
+              </Route>
+
+              {/* Authenticated routes */}
               <Route
                 element={
                   <Authenticated
@@ -85,36 +100,14 @@ const App = () => {
                 }
               >
                 <Route index element={<DashboardPage />} />
-
-                <Route path="/billing">
-                  <Route index element={<BillingPage />} />
-                </Route>
-
-                {/* <Route
-                  path="/tasks"
-                  element={
-                    <TasksListPage>
-                      <Outlet />
-                    </TasksListPage>
-                  }
-                >
-                  <Route path="new" element={<TasksCreatePage />} />
-                  <Route path="edit/:id" element={<TasksEditPage />} />
-                </Route>
-
-                <Route path="/companies">
-                  <Route index element={<CompanyListPage />} />
-                  <Route path="new" element={<CompanyCreatePage />} />
-                  <Route path="edit/:id" element={<CompanyEditPage />} />
-                </Route> */}
-
+                <Route path="billing" element={<BillingPage />} />
                 <Route path="*" element={<ErrorComponent />} />
               </Route>
 
+              {/* Auth pages (login/register/forgot/reset) */}
               <Route
                 element={
                   <Authenticated key="authenticated-auth" fallback={<Outlet />}>
-                    {/* <NavigateToResource resource="dashboard" /> */}
                     <Outlet />
                   </Authenticated>
                 }
@@ -132,6 +125,7 @@ const App = () => {
                 <Route path="/redeem" element={<RedeemCode />} />
               </Route>
             </Routes>
+
             <UnsavedChangesNotifier />
             <DocumentTitleHandler />
           </Refine>

@@ -40,7 +40,7 @@ export const LoginPage = () => {
     let status: any = undefined;
     if (!customerId || customerId === "null" || customerId === "undefined") {
       status = await deleteUser();
-    } else status = 'Customer exists';
+    } else status = "Customer exists";
     return status;
   };
 
@@ -93,7 +93,7 @@ export const LoginPage = () => {
     localStorage.setItem("stripe_customer_id", data.customerId);
 
     const status = await doesStripeCustomerExists(data.customerId);
-    if (status.includes('exists')) completeCheckout();
+    if (status.includes("exists")) completeCheckout();
     return;
   };
 
@@ -117,6 +117,28 @@ export const LoginPage = () => {
       formProps={{
         initialValues: authCredentials,
       }}
+      renderContent={(content) => (
+        <>
+          {content}
+          <div style={{ marginTop: 24, textAlign: "center" }}>
+            <button
+              onClick={() => {
+                window.location.href = "/free";
+              }}
+              style={{
+                backgroundColor: "#722ed1",
+                color: "white",
+                border: "none",
+                padding: "10px 16px",
+                borderRadius: 4,
+                cursor: "pointer",
+              }}
+            >
+              Free Version
+            </button>
+          </div>
+        </>
+      )}
     />
   );
 };

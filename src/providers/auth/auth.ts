@@ -246,6 +246,8 @@ export const authProvider: AuthProvider = {
         {},
       );
 
+      if (response.status !== 200) return "User not found";
+
       const data = await response.json();
       localStorage.setItem("plan", data.subscription);
 
