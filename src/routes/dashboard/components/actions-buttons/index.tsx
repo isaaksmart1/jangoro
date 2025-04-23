@@ -1,6 +1,7 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useLocation } from "react-router";
 import { Text } from "@/components";
-import { AI_URL, authProvider, httpProvider } from "@/providers";
+import { AI_URL, API_URL, authProvider, httpProvider } from "@/providers";
 import { generateAIResponseText } from "@/utilities/helper";
 import { SmartButtonOutlined } from "@mui/icons-material";
 import { Card } from "antd";
@@ -75,13 +76,30 @@ export const AnalyzerActionButtons = ({
   const [refinement, setRefinement] = useState([]);
   const [actionPlan, setActionPlan] = useState([]);
   const [processingCount, setProcessingCount] = useState(-1);
+  const location = useLocation();
 
   const hasFiles = selectedFiles.length > 0;
 
   useEffect(() => {
     const getUser = async () => {
-      const user = (await authProvider.getIdentity()) as any;
-      if (user.hasOwnProperty("id")) setUser(user);
+      try {
+        if (location.pathname.includes("free")) {
+          localStorage.removeItem("user");
+        } else {
+          const user = (await authProvider.getIdentity()) as any;
+          if (user.hasOwnProperty("id")) {
+            const response = await httpProvider.custom(
+              `${API_URL}/user/id/${user.id}`,
+              {},
+            );
+            const dbUser = await response.json();
+            if (dbUser.hasOwnProperty("id")) setUser(dbUser);
+            else setUser(undefined);
+          }
+        }
+      } catch {
+        console.log("Unable to fetch user");
+      }
     };
     getUser();
   }, []);
