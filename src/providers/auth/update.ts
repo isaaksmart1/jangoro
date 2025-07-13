@@ -22,7 +22,7 @@ export const updateProvider: any = {
       }
       return;
     } else if (subscriptionInterval === "paid") return;
-    
+
     const { data } = await dataProvider.custom({
       url: GRAPH_QL_URL,
       method: "post",
@@ -58,10 +58,10 @@ export const updateProvider: any = {
         method: "post",
         headers: {},
         meta: {
-          variables: { email, password },
+          variables: { email, password, subscription: "life" },
           rawQuery: `
-          mutation Register($email: String!, $password: String!) {
-            register(registerInput: { email: $email, password: $password }) {
+          mutation Register($email: String!, $password: String!, $subscription: String!) {
+            register(registerInput: { email: $email, password: $password, subscription: $subscription }) {
               accessToken
               user {
                 id
