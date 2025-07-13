@@ -33,7 +33,7 @@ export const authProvider: AuthProvider = {
           amount = 9900;
           break;
         case "life":
-          amount = 4900;
+          amount = 29900;
           break;
         default:
           break;
