@@ -20,6 +20,8 @@ export const Header = () => {
     position: "sticky",
     top: 0,
     zIndex: 999,
+    borderBottomWidth: 1,
+    borderBottomColor: "#DDDDDD",
   };
 
   return (

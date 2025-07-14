@@ -98,6 +98,10 @@ body {
   border: none;
 }
 
+.ant-layout-sider {
+  border-right: 1px solid #DDDDDD !important;
+}
+
 .dashboard-panel {
   margin: 12px;
   background-color: transparent;
