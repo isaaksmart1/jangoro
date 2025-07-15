@@ -119,7 +119,7 @@ const BillingForm = () => {
           </p>
         </motion.div>
       </Col>
-      <Col xs={24} sm={24} xl={24} className="dashboard-panel">
+      <Col xs={20} sm={20} xl={24} className="dashboard-panel">
         <motion.div
           initial={{ x: 50, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
