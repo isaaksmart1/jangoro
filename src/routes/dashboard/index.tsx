@@ -12,6 +12,7 @@ import {
   ResponsesChart,
 } from "./components";
 import TakeTourOverlay from "@/components/layout/tour";
+import MetricPanel from "./components/metric-panel";
 
 export const DashboardPage = () => {
   const [files, setFiles] = useState([]);
@@ -25,7 +26,7 @@ export const DashboardPage = () => {
       <div className="page-container" id="dashboard-summary">
         <Row gutter={[32, 32]}>
           {/* Title & Icon - Slide in from Left */}
-          <Col xs={24} sm={24} xl={3}>
+          <Col xs={24} sm={24} xl={2}>
             <motion.div
               initial={{ x: -50, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
@@ -40,7 +41,7 @@ export const DashboardPage = () => {
           </Col>
 
           {/* Analyzer Action Buttons - Slide in from Right */}
-          <Col xs={24} sm={24} xl={12} className="dashboard-panel">
+          <Col xs={16} sm={16} xl={9} className="dashboard-panel">
             <motion.div
               initial={{ x: 50, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
@@ -57,6 +58,23 @@ export const DashboardPage = () => {
                 setAIResponse={setAIResponse}
               />
             </motion.div>
+          </Col>
+
+          {/* Other Metrics */}
+          <Col xs={6} sm={6} xl={6}>
+            <MetricPanel
+              type="list"
+              files={files}
+              selected={selected}
+            />
+          </Col>
+
+          <Col xs={6} sm={6} xl={6}>
+            <MetricPanel
+              type="score"
+              files={files}
+              selected={selected}
+            />
           </Col>
         </Row>
 
