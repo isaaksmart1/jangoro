@@ -40,7 +40,7 @@ export const DashboardPage = () => {
           </Col>
 
           {/* Analyzer Action Buttons - Slide in from Right */}
-          <Col xs={24} sm={24} xl={20} className="dashboard-panel">
+          <Col xs={20} sm={20} xl={20} className="dashboard-panel">
             <motion.div
               initial={{ x: 50, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
@@ -62,11 +62,11 @@ export const DashboardPage = () => {
 
         <Row gutter={[32, 32]} style={{ marginTop: "16px" }}>
           {/* Other Metrics */}
-          <Col xs={6} sm={6} xl={6}>
+          <Col xs={20} sm={20} xl={6}>
             <MetricPanel type="list" files={files} selected={selected} />
           </Col>
 
-          <Col xs={6} sm={6} xl={6}>
+          <Col xs={20} sm={20} xl={6}>
             <MetricPanel type="score" files={files} selected={selected} />
           </Col>
         </Row>
@@ -74,8 +74,8 @@ export const DashboardPage = () => {
         <Row gutter={[32, 32]} style={{ marginTop: "32px" }}>
           {/* File List - Slide in from Left */}
           <Col
-            xs={24}
-            sm={24}
+            xs={20}
+            sm={20}
             xl={8}
             style={{ height: "480px" }}
             className="dashboard-panel"
@@ -97,9 +97,9 @@ export const DashboardPage = () => {
 
           {/* AI Analytics - Slide in from Right */}
           <Col
-            xs={24}
-            sm={24}
-            xl={15}
+            xs={20}
+            sm={20}
+            xl={14}
             style={{ height: 480 }}
             className="dashboard-panel"
           >
@@ -124,7 +124,7 @@ export const DashboardPage = () => {
 
         <Row gutter={[32, 32]} style={{ marginTop: "16px" }}>
           {/* Responses Chart - Slide in from Bottom */}
-          <Col xs={16} lg={16} xl={12} className="dashboard-panel">
+          <Col xs={20} lg={16} xl={12} className="dashboard-panel">
             <motion.div
               initial={{ y: 50, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}

@@ -25,11 +25,13 @@ const Sidebar = () => {
     if (result.success) window.location.href = "/login";
   };
 
+  const windowWidth = window.innerWidth;
+
   return (
     <Sider
       width={200}
       collapsible
-      collapsed={collapsed}
+      collapsed={windowWidth < 720 || collapsed}
       trigger={null}
       style={{
         backgroundColor: "#111827",
@@ -46,17 +48,18 @@ const Sidebar = () => {
           fontSize: 14,
         }}
       >
-        {!collapsed && (
-          <Link to="/" style={{ textDecoration: "none" }}>
-            <Space size="small" align="center" style={{ fontSize: 12 }}>
-              <Title level={5} style={{ margin: 0, fontWeight: 700 }}>
-                <Text style={{ color: "#CCCCCC", fontWeight: 400 }}>
-                  Optimized for Desktop
-                </Text>
-              </Title>
-            </Space>
-          </Link>
-        )}
+        {windowWidth < 720 ||
+          (!collapsed && (
+            <Link to="/" style={{ textDecoration: "none" }}>
+              <Space size="small" align="center" style={{ fontSize: 12 }}>
+                <Title level={5} style={{ margin: 0, fontWeight: 700 }}>
+                  <Text style={{ color: "#CCCCCC", fontWeight: 400 }}>
+                    Optimized for Desktop
+                  </Text>
+                </Title>
+              </Space>
+            </Link>
+          ))}
       </div>
 
       <Menu
