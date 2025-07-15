@@ -52,7 +52,12 @@ export const AIAnalytics = ({
     <Card
       id="ai-analytics"
       className="ai-analytics"
-      style={{ height: "100%", padding: "24px 24px 0px 24px" }}
+      style={{
+        height: "100%",
+        padding: "24px 24px 0px 24px",
+        backgroundColor: "#111827",
+        border: "1px solid #374151",
+      }}
       headStyle={{ padding: "8px 16px" }}
       title={
         <div
@@ -68,7 +73,12 @@ export const AIAnalytics = ({
               <AIProgress />
             </span>
           ) : (
-            <AutoAwesome htmlColor="#6f2ebe" />
+            <div
+              style={{ width: 40, height: 40, backgroundColor: "#be6c2e" }}
+              className="rounded-xl flex items-center justify-center"
+            >
+              <AutoAwesome className="w-6 h-6 text-white" htmlColor="#FFFFFF" />
+            </div>
           )}
           <Row style={{ flex: 1, flexDirection: "row", flexWrap: "wrap" }}>
             <Col style={{ marginLeft: "1rem", marginRight: "1rem" }}>

@@ -884,6 +884,12 @@ video {
   background-image: linear-gradient(to right, var(--tw-gradient-stops));
 }
 
+.from-cyan-500 {
+  --tw-gradient-from: cyan var(--tw-gradient-from-position);
+  --tw-gradient-to: rgb(59 130 246 / 0) var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
+
 .from-blue-500 {
   --tw-gradient-from: #3b82f6 var(--tw-gradient-from-position);
   --tw-gradient-to: rgb(59 130 246 / 0) var(--tw-gradient-to-position);
@@ -893,7 +899,15 @@ video {
 .via-purple-500 {
   --tw-gradient-to: rgb(168 85 247 / 0) var(--tw-gradient-to-position);
   --tw-gradient-stops: var(--tw-gradient-from),
-    #a855f7 var(--tw-gradient-via-position), var(--tw-gradient-to);
+    #6f2ebe var(--tw-gradient-via-position), var(--tw-gradient-to);
+}
+
+.to-blue-500 {
+  --tw-gradient-to: #3b82f6 var(--tw-gradient-to-position);
+}
+
+.to-purple-500 {
+  --tw-gradient-to: #6f2ebe var(--tw-gradient-to-position);
 }
 
 .to-pink-500 {
@@ -1117,4 +1131,38 @@ code {
 .focus\:ring-blue-500:focus {
   --tw-ring-opacity: 1;
   --tw-ring-color: rgb(59 130 246 / var(--tw-ring-opacity, 1));
+}
+
+/* Tailwind Custom Variables Patch */
+:root {
+  --tw-color-primary: #3b82f6;
+  --tw-color-secondary: #64748b;
+  --tw-color-accent: #ec4899;
+  --tw-color-success: #10b981;
+  --tw-color-warning: #f59e0b;
+  --tw-color-error: #ef4444;
+  --tw-color-info: #0ea5e9;
+
+  --tw-gradient-from: var(--tw-color-primary);
+  --tw-gradient-to: var(--tw-color-accent);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+
+  --tw-blur: blur(8px);
+  --tw-brightness: brightness(1.25);
+  --tw-contrast: contrast(1.25);
+  --tw-grayscale: grayscale(100%);
+  --tw-hue-rotate: hue-rotate(90deg);
+  --tw-invert: invert(1);
+  --tw-saturate: saturate(2);
+  --tw-sepia: sepia(1);
+  --tw-drop-shadow: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+  --tw-backdrop-blur: blur(4px);
+  --tw-backdrop-brightness: brightness(0.9);
+  --tw-backdrop-contrast: contrast(0.8);
+  --tw-backdrop-grayscale: grayscale(50%);
+  --tw-backdrop-hue-rotate: hue-rotate(45deg);
+  --tw-backdrop-invert: invert(0.5);
+  --tw-backdrop-opacity: 0.5;
+  --tw-backdrop-saturate: saturate(1.5);
+  --tw-backdrop-sepia: sepia(0.3);
 }

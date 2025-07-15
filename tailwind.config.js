@@ -4,7 +4,7 @@ module.exports = {
     extend: {
       indigo: "#6f2ebe",
       white: "#ffffff",
-      black: '#000000',
+      black: "#000000",
     },
   },
   plugins: [],

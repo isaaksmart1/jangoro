@@ -2,6 +2,7 @@ import { useState } from "react";
 
 import clipboard from "../../assets/img/copy.png";
 import tick from "../../assets/img/tick.png";
+import { Copy } from "lucide-react";
 
 type Props = {
   text: string;
@@ -26,14 +27,22 @@ export const CopyToClipboardButton = ({ text }: Props) => {
   };
 
   return (
-    <button onClick={copyToClipboard} style={{ marginLeft: 10, padding: 12 }}>
+    <button
+      onClick={copyToClipboard}
+      style={{ marginLeft: 10, padding: 12, color: "#CCCCCC" }}
+    >
       {copy ? (
         <span className="flex flex-row">
           <img src={tick} style={{ width: 24, height: 24 }} />
           <p>copied!</p>
         </span>
       ) : (
-        <img src={clipboard} style={{ width: 24, height: 24 }} />
+        <span className="flex flex-row text-gray-500">
+          <Copy
+            style={{ width: 24, height: 24, color: "gray", marginRight: 6 }}
+          />
+          Copy Results
+        </span>
       )}
     </button>
   );

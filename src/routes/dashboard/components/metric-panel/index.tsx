@@ -66,12 +66,18 @@ function MetricPanel({ files, selected, type }) {
         position: "relative",
         borderRadius: "12px",
         boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-        backgroundColor: "#fff",
+        backgroundColor: "#111827",
+        border: "1px solid #374151",
       }}
       title={
         <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-          <LineAxisSharp htmlColor="#6f2ebe" />
-          <Text size="lg" style={{ marginLeft: ".7rem", color: "#6f2ebe" }}>
+          <div
+            style={{ width: 40, height: 40, backgroundColor: "#2ebe48" }}
+            className="rounded-xl flex items-center justify-center"
+          >
+            <LineAxisSharp className="w-6 h-6 text-white" />
+          </div>
+          <Text size="lg" style={{ marginLeft: ".7rem", color: "#FFFFFF" }}>
             {metricTitle} Metric
           </Text>
         </div>
@@ -81,7 +87,7 @@ function MetricPanel({ files, selected, type }) {
         {/* Score Column Selection */}
         {type === "score" && (
           <div>
-            <label className="text-lg font-semibold">
+            <label className="text-lg font-semibold text-white">
               Select Score Column:{" "}
             </label>
             <select
@@ -104,14 +110,16 @@ function MetricPanel({ files, selected, type }) {
             <div
               style={{
                 marginTop: "1rem",
-                fontSize: 18,
-                color: "#3b82f6",
+                fontSize: 16,
+                color: "#CCCCCC",
                 fontWeight: 600,
-                marginLeft: 12,
               }}
             >
-              Average Score:{" "}
-              {averageScore !== null ? averageScore.toFixed(2) : "N/A"}
+              Avg. Score:
+              <br />
+              <span style={{ color: "#FFFFFF" }}>
+                {averageScore !== null ? averageScore.toFixed(2) : "N/A"}
+              </span>
             </div>
           </div>
         )}
@@ -119,7 +127,7 @@ function MetricPanel({ files, selected, type }) {
         {/* Entity Column Selection */}
         {type === "list" && (
           <div>
-            <label className="text-lg font-semibold">
+            <label className="text-lg font-semibold text-white">
               Select Entity Column:{" "}
             </label>
             <select

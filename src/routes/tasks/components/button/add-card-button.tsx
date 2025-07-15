@@ -19,7 +19,7 @@ export const KanbanAddCardButton = ({
       icon={<PlusSquareOutlined className="md" />}
       style={{
         margin: "16px",
-        backgroundColor: "white",
+        backgroundColor: "#FFFFFF",
       }}
       onClick={onClick}
     >

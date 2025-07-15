@@ -113,12 +113,10 @@ const BillingForm = () => {
           animate={{ x: 0, opacity: 1 }}
           transition={{ duration: 0.5 }}
         >
-          <DollarOutlined
-            style={{ color: "#6f2ebe", fontSize: 32, marginRight: 12 }}
-          />
-          <h1 className="text-gray-700 text-3xl" style={{ marginBottom: 0 }}>
-            Billing
-          </h1>
+          <h1 className="text-white text-3xl m-6">Billing</h1>
+          <p style={{ fontSize: 16, color: "#CCCCCC" }}>
+            Manage subscriptions and view transaction history
+          </p>
         </motion.div>
       </Col>
       <Col xs={24} sm={24} xl={21} className="dashboard-panel">

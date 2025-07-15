@@ -26,22 +26,21 @@ export const DashboardPage = () => {
       <div className="page-container" id="dashboard-summary">
         <Row gutter={[32, 32]}>
           {/* Title & Icon - Slide in from Left */}
-          <Col xs={24} sm={24} xl={2}>
+          <Col xs={24} sm={24} xl={24}>
             <motion.div
               initial={{ x: -50, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               transition={{ duration: 0.5 }}
             >
-              <QueryStatsRounded
-                sx={{ fontSize: 32, marginRight: 1 }}
-                htmlColor="#6f2ebe"
-              />
-              <h1 className="text-gray-700 text-3xl mb-6">Analyzer</h1>
+              <h1 className="text-white text-3xl m-6">Survey Analyser</h1>
+              <p style={{ fontSize: 16, color: "#CCCCCC" }}>
+                Upload and analyse CSV files with AI powered insights
+              </p>
             </motion.div>
           </Col>
 
           {/* Analyzer Action Buttons - Slide in from Right */}
-          <Col xs={16} sm={16} xl={9} className="dashboard-panel">
+          <Col xs={24} sm={24} xl={20} className="dashboard-panel">
             <motion.div
               initial={{ x: 50, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
@@ -59,22 +58,16 @@ export const DashboardPage = () => {
               />
             </motion.div>
           </Col>
+        </Row>
 
+        <Row gutter={[32, 32]} style={{ marginTop: "16px" }}>
           {/* Other Metrics */}
           <Col xs={6} sm={6} xl={6}>
-            <MetricPanel
-              type="list"
-              files={files}
-              selected={selected}
-            />
+            <MetricPanel type="list" files={files} selected={selected} />
           </Col>
 
           <Col xs={6} sm={6} xl={6}>
-            <MetricPanel
-              type="score"
-              files={files}
-              selected={selected}
-            />
+            <MetricPanel type="score" files={files} selected={selected} />
           </Col>
         </Row>
 
@@ -129,9 +122,9 @@ export const DashboardPage = () => {
           </Col>
         </Row>
 
-        <Row gutter={[32, 32]} style={{ marginTop: "32px" }}>
+        <Row gutter={[32, 32]} style={{ marginTop: "16px" }}>
           {/* Responses Chart - Slide in from Bottom */}
-          <Col xs={24} lg={18} className="dashboard-panel">
+          <Col xs={16} lg={16} xl={12} className="dashboard-panel">
             <motion.div
               initial={{ y: 50, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}

@@ -107,7 +107,7 @@ export const AccountSettings = ({ opened, setOpened, userId }: Props) => {
       open={opened}
       width={756}
       styles={{
-        body: { background: "#f5f5f5", padding: 0 },
+        body: { background: "#111827", padding: 0 },
         header: { display: "none" },
       }}
     >
@@ -117,13 +117,18 @@ export const AccountSettings = ({ opened, setOpened, userId }: Props) => {
           alignItems: "center",
           justifyContent: "space-between",
           padding: "16px",
-          backgroundColor: "#fff",
+          backgroundColor: "#111827",
+          borderBottom: "1px solid #374151",
         }}
       >
-        <Text strong>Account Settings</Text>
+        <Text style={{ fontWeight: "bold", color: "#FFFFFF" }}>
+          Account Settings
+        </Text>
         <Button
           type="text"
-          icon={<CloseOutlined />}
+          icon={
+            <CloseOutlined style={{ fontWeight: "bold", color: "#FFFFFF" }} />
+          }
           onClick={() => closeModal()}
         />
       </div>
@@ -132,7 +137,12 @@ export const AccountSettings = ({ opened, setOpened, userId }: Props) => {
           padding: "16px",
         }}
       >
-        <Card>
+        <Card
+          style={{
+            backgroundColor: "#111827",
+            border: "none",
+          }}
+        >
           <Form layout="vertical">
             <CustomAvatar
               shape="square"
@@ -144,9 +154,7 @@ export const AccountSettings = ({ opened, setOpened, userId }: Props) => {
                 marginBottom: "24px",
               }}
             />
-            <Form.Item label="Email" name="email">
-              <Text>{user?.email}</Text>
-            </Form.Item>
+            <Text style={{ color: "#FFFFFF" }}>{user?.email}</Text>
             <Button
               style={{
                 borderRadius: 12,
@@ -160,7 +168,7 @@ export const AccountSettings = ({ opened, setOpened, userId }: Props) => {
               Delete Account
             </Button>
             <Form.Item>
-              <Text style={{ color: "gray", fontSize: 16 }}>
+              <Text style={{ color: "#FFFFFF", fontSize: 16 }}>
                 This action will permanently delete your account and immediately
                 cancel your subscription.
               </Text>

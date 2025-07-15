@@ -3,7 +3,7 @@ import React from "react";
 import { Layout, Space, theme } from "antd";
 
 import { CurrentUser } from "../current-user";
-import logo from "../../../assets/img/logo.png";
+import logo from "../../../assets/img/logo-2.png";
 
 const { useToken } = theme;
 
@@ -11,7 +11,7 @@ export const Header = () => {
   const { token } = useToken();
 
   const headerStyles: React.CSSProperties = {
-    backgroundColor: token.colorBgElevated,
+    backgroundColor: "#111827",
     display: "flex",
     justifyContent: "flex-end",
     alignItems: "center",
@@ -20,8 +20,7 @@ export const Header = () => {
     position: "sticky",
     top: 0,
     zIndex: 999,
-    borderBottomWidth: 1,
-    borderBottomColor: "#DDDDDD",
+    borderBottom: "1px solid #374151",
   };
 
   return (

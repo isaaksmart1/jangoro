@@ -3,7 +3,7 @@ import { useLocation } from "react-router";
 import { Text } from "@/components";
 import { AI_URL, API_URL, authProvider, httpProvider } from "@/providers";
 import { generateAIResponseText } from "@/utilities/helper";
-import { SmartButtonOutlined } from "@mui/icons-material";
+import { BarChart3 } from "lucide-react";
 import { Card } from "antd";
 
 type FileInputProps = {
@@ -42,8 +42,8 @@ export const UploadFilesButton = ({ setFiles }: FileInputProps) => {
   return (
     <div>
       <button
-        style={{ margin: 4, backgroundColor: "#6f2ebe" }}
-        className="px-4 py-4 text-white rounded-xl hover:bg-blue-600"
+        style={{ margin: 4 }}
+        className="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-500 text-white p-4 rounded-lg"
         onClick={onFileInputChange}
       >
         Upload
@@ -230,11 +230,22 @@ export const AnalyzerActionButtons = ({
   return (
     <Card
       id="ai-actions"
-      style={{ height: "100%", padding: "0 1rem", position: "relative" }}
+      style={{
+        height: "100%",
+        padding: "0 1rem",
+        position: "relative",
+        backgroundColor: "#111827",
+        border: "1px solid #374151",
+      }}
       title={
         <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-          <SmartButtonOutlined htmlColor="#6f2ebe" />
-          <Text size="lg" style={{ marginLeft: ".7rem" }}>
+          <div
+            style={{ width: 40, height: 40, backgroundColor: "#6f2ebe" }}
+            className="rounded-xl flex items-center justify-center"
+          >
+            <BarChart3 className="w-6 h-6 text-white" />
+          </div>
+          <Text size="lg" style={{ marginLeft: ".7rem", color: "#FFFFFF" }}>
             AI Actions
           </Text>
         </div>
@@ -252,7 +263,7 @@ export const AnalyzerActionButtons = ({
                 margin: 4,
                 backgroundColor: hasFiles ? "#3b82f6" : "#e5e5e5",
               }}
-              className="p-4 text-white rounded-xl hover:bg-blue-600 relative"
+              className="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-500 hover:to-blue-500 text-white p-4 rounded-lg"
               onClick={btn.action}
               onMouseEnter={() => setHoveredButton(btn.caption)}
               onMouseLeave={() => setHoveredButton(null)}

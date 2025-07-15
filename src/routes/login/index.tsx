@@ -126,7 +126,7 @@ export const LoginPage = () => {
                 window.location.href = "/free";
               }}
               style={{
-                backgroundColor: "#722ed1",
+                backgroundColor: "#6f2ebe",
                 color: "white",
                 border: "none",
                 padding: "10px 16px",

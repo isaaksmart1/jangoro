@@ -2,11 +2,15 @@ import React from "react";
 import { ThemedLayoutV2, ThemedTitleV2 } from "@refinedev/antd";
 
 import { Header } from "./header";
+import Sidebar from "./sidebar";
 
 export const Layout = ({ children }: React.PropsWithChildren) => {
   return (
     <>
       <ThemedLayoutV2
+        Sider={() => {
+          return <Sidebar />;
+        }}
         Header={Header}
         Title={(titleProps) => {
           return (

@@ -4,6 +4,7 @@ import { Text } from "@/components";
 
 import { useState } from "react";
 import { PollOutlined } from "@mui/icons-material";
+import { File } from "lucide-react";
 
 type Props = {
   files: any;
@@ -40,6 +41,8 @@ export const FileList = ({
         overflow: "scroll",
         padding: "0 1rem",
         overflowX: "hidden",
+        backgroundColor: "#111827",
+        border: "1px solid #374151",
       }}
       headStyle={{ padding: "8px 16px" }}
       title={
@@ -50,8 +53,13 @@ export const FileList = ({
             gap: "8px",
           }}
         >
-          <PollOutlined htmlColor="#6f2ebe" />
-          <Text size="lg" style={{ marginLeft: ".7rem" }}>
+          <div
+            style={{ width: 64, height: 40, backgroundColor: "#be2e2e" }}
+            className="rounded-xl flex items-center justify-center p-2"
+          >
+            <File className="w-6 h-6 text-white" />
+          </div>
+          <Text size="lg" style={{ marginLeft: ".7rem", color: "#FFFFFF" }}>
             Surveys and Reviews{" "}
             <span
               className="text-sm"
@@ -120,7 +128,9 @@ export const FileList = ({
                           onFileSelectChange(event.target.value)
                         }
                       />
-                      <Text size="sm">{item.name}</Text>
+                      <Text size="md" style={{ color: "#FFFFFF" }}>
+                        {item.name}
+                      </Text>
                     </div>
                   }
                 />
@@ -142,8 +152,9 @@ const NoFiles = () => (
       justifyContent: "center",
       alignItems: "center",
       height: "220px",
+      color: "#CCCCCC",
     }}
   >
-    File list empty.
+    No files uploaded yet.
   </span>
 );
