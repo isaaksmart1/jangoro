@@ -209,7 +209,7 @@ export const AnalyzerActionButtons = ({
     },
     {
       version: "free",
-      label: "Summarize",
+      label: "Summarise",
       action: handleSummary,
       caption: "Generate a short summary of your uploaded files.",
     },
