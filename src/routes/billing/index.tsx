@@ -107,7 +107,7 @@ const BillingForm = () => {
 
   return (
     <Row gutter={[32, 32]}>
-      <Col xs={24} sm={24} xl={2}>
+      <Col xs={24} sm={24} xl={24}>
         <motion.div
           initial={{ x: -50, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
@@ -119,13 +119,18 @@ const BillingForm = () => {
           </p>
         </motion.div>
       </Col>
-      <Col xs={24} sm={24} xl={21} className="dashboard-panel">
+      <Col xs={24} sm={24} xl={24} className="dashboard-panel">
         <motion.div
           initial={{ x: 50, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.2 }}
         >
-          <Card>
+          <Card
+            style={{
+              backgroundColor: "#111827",
+              border: "1px solid #374151",
+            }}
+          >
             {subscriptionPlan && (
               <Button
                 style={{

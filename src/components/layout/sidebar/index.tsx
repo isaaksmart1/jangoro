@@ -8,6 +8,7 @@ import {
   RightOutlined,
 } from "@ant-design/icons";
 import { Link } from "react-router-dom";
+import { authProvider } from "@/providers";
 
 const { Sider } = Layout;
 const { Title, Text } = Typography;
@@ -17,6 +18,11 @@ const Sidebar = () => {
 
   const toggleCollapsed = () => {
     setCollapsed(!collapsed);
+  };
+
+  const logout = async () => {
+    const result = await authProvider.logout();
+    if (result.success) window.location.href = "/login";
   };
 
   return (
@@ -70,7 +76,7 @@ const Sidebar = () => {
         <Menu.Item key="/billing" icon={<DollarOutlined />}>
           <Link to="/billing">Billing</Link>
         </Menu.Item>
-        <Menu.Item key="/logout" icon={<LogoutOutlined />}>
+        <Menu.Item key="/logout" onClick={logout} icon={<LogoutOutlined />}>
           Logout
         </Menu.Item>
 
