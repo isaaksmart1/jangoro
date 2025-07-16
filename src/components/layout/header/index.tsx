@@ -13,6 +13,7 @@ export const Header = () => {
 
   const headerStyles: React.CSSProperties = {
     backgroundColor: "#FFFFFF",
+    boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
     display: "flex",
     justifyContent: "flex-end",
     alignItems: "center",
