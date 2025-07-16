@@ -12,6 +12,7 @@ import { authProvider } from "@/providers";
 
 import logo from "../../../assets/img/logo.png";
 import { ArrowLeft, ArrowRight } from "lucide-react";
+import { UpgradeBanner } from "../upgrade-banner";
 
 const { Sider } = Layout;
 
@@ -31,7 +32,7 @@ const Sidebar = () => {
 
   return (
     <Sider
-      width={200}
+      width={300}
       collapsible
       collapsed={windowWidth < 720 || collapsed}
       trigger={null}
@@ -58,23 +59,37 @@ const Sidebar = () => {
         theme="light"
         mode="inline"
         style={{
-          paddingTop: 8,
+          padding: 12,
           border: "none",
           overflow: "auto",
           height: "calc(100% - 72px)",
         }}
         defaultSelectedKeys={["/dashboard"]}
       >
-        <Menu.Item key="/dashboard" icon={<DashboardOutlined />}>
+        <Menu.Item
+          key="/dashboard"
+          style={{ fontSize: 16 }}
+          icon={<DashboardOutlined />}
+        >
           <Link to="/">Dashboard</Link>
         </Menu.Item>
-        <Menu.Item key="/billing" icon={<DollarOutlined />}>
+        <Menu.Item
+          key="/billing"
+          style={{ fontSize: 16 }}
+          icon={<DollarOutlined />}
+        >
           <Link to="/billing">Billing</Link>
         </Menu.Item>
-        <Menu.Item key="/logout" onClick={logout} icon={<LogoutOutlined />}>
+
+        <hr />
+        <Menu.Item
+          key="/logout"
+          style={{ fontSize: 16 }}
+          onClick={logout}
+          icon={<LogoutOutlined />}
+        >
           Logout
         </Menu.Item>
-
         <div style={{ width: "100%" }}>
           <Button
             type="text"
@@ -98,6 +113,7 @@ const Sidebar = () => {
             }
           />
         </div>
+        {!collapsed && <UpgradeBanner />}
       </Menu>
     </Sider>
   );
