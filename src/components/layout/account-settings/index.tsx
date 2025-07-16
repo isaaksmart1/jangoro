@@ -121,13 +121,13 @@ export const AccountSettings = ({ opened, setOpened, userId }: Props) => {
           boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
         }}
       >
-        <Text style={{ fontWeight: "bold", color: "#FFFFFF" }}>
+        <Text style={{ fontWeight: "bold", color: "#000000" }}>
           Account Settings
         </Text>
         <Button
           type="text"
           icon={
-            <CloseOutlined style={{ fontWeight: "bold", color: "#FFFFFF" }} />
+            <CloseOutlined style={{ fontWeight: "bold", color: "#000000" }} />
           }
           onClick={() => closeModal()}
         />
@@ -154,7 +154,9 @@ export const AccountSettings = ({ opened, setOpened, userId }: Props) => {
                 marginBottom: "24px",
               }}
             />
-            <Text style={{ color: "#FFFFFF" }}>{user?.email}</Text>
+            <Form.Item label="Email" name="Email">
+              <Text style={{ color: "#000000" }}>{user?.email}</Text>
+            </Form.Item>
             <Button
               style={{
                 borderRadius: 12,
@@ -168,7 +170,7 @@ export const AccountSettings = ({ opened, setOpened, userId }: Props) => {
               Delete Account
             </Button>
             <Form.Item>
-              <Text style={{ color: "#FFFFFF", fontSize: 16 }}>
+              <Text style={{ color: "#000000", fontSize: 16 }}>
                 This action will permanently delete your account and immediately
                 cancel your subscription.
               </Text>
