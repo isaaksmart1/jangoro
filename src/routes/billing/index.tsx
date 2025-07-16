@@ -113,8 +113,8 @@ const BillingForm = () => {
           animate={{ x: 0, opacity: 1 }}
           transition={{ duration: 0.5 }}
         >
-          <h1 className="text-white text-3xl m-6">Billing</h1>
-          <p style={{ fontSize: 16, color: "#CCCCCC" }}>
+          <h1 className="text-black text-3xl m-6">Billing</h1>
+          <p style={{ fontSize: 16, color: "#444444" }}>
             Manage subscriptions and view transaction history
           </p>
         </motion.div>
@@ -127,8 +127,8 @@ const BillingForm = () => {
         >
           <Card
             style={{
-              backgroundColor: "#111827",
-              border: "1px solid #374151",
+              backgroundColor: "#FFFFFF",
+              boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
             }}
           >
             {subscriptionPlan && (

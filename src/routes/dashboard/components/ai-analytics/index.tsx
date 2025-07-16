@@ -54,9 +54,9 @@ export const AIAnalytics = ({
       className="ai-analytics"
       style={{
         height: "100%",
-        padding: "24px 24px 0px 24px",
-        backgroundColor: "#111827",
-        border: "1px solid #374151",
+        padding: "1rem",
+        backgroundColor: "#FFFFFF",
+        boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
       }}
       headStyle={{ padding: "8px 16px" }}
       title={
@@ -74,7 +74,7 @@ export const AIAnalytics = ({
             </span>
           ) : (
             <div
-              style={{ width: 40, height: 40, backgroundColor: "#be6c2e" }}
+              style={{ width: 40, height: 40, backgroundColor: "#BC6C2E" }}
               className="rounded-xl flex items-center justify-center"
             >
               <AutoAwesome className="w-6 h-6 text-white" htmlColor="#FFFFFF" />

@@ -107,7 +107,7 @@ export const AccountSettings = ({ opened, setOpened, userId }: Props) => {
       open={opened}
       width={756}
       styles={{
-        body: { background: "#111827", padding: 0 },
+        body: { background: "#FFFFFF", padding: 0 },
         header: { display: "none" },
       }}
     >
@@ -117,8 +117,8 @@ export const AccountSettings = ({ opened, setOpened, userId }: Props) => {
           alignItems: "center",
           justifyContent: "space-between",
           padding: "16px",
-          backgroundColor: "#111827",
-          borderBottom: "1px solid #374151",
+          backgroundColor: "#FFFFFF",
+          boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
         }}
       >
         <Text style={{ fontWeight: "bold", color: "#FFFFFF" }}>
@@ -139,7 +139,7 @@ export const AccountSettings = ({ opened, setOpened, userId }: Props) => {
       >
         <Card
           style={{
-            backgroundColor: "#111827",
+            backgroundColor: "#FFFFFF",
             border: "none",
           }}
         >

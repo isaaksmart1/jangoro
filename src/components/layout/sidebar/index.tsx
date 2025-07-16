@@ -10,8 +10,10 @@ import {
 import { Link } from "react-router-dom";
 import { authProvider } from "@/providers";
 
+import logo from "../../../assets/img/logo.png";
+import { ArrowLeft, ArrowRight } from "lucide-react";
+
 const { Sider } = Layout;
-const { Title, Text } = Typography;
 
 const Sidebar = () => {
   const [collapsed, setCollapsed] = useState(false);
@@ -34,7 +36,7 @@ const Sidebar = () => {
       collapsed={windowWidth < 720 || collapsed}
       trigger={null}
       style={{
-        backgroundColor: "#111827",
+        backgroundColor: "#FFFFFF",
       }}
     >
       <div
@@ -48,22 +50,11 @@ const Sidebar = () => {
           fontSize: 14,
         }}
       >
-        {windowWidth < 720 ||
-          (!collapsed && (
-            <Link to="/" style={{ textDecoration: "none" }}>
-              <Space size="small" align="center" style={{ fontSize: 12 }}>
-                <Title level={5} style={{ margin: 0, fontWeight: 700 }}>
-                  <Text style={{ color: "#CCCCCC", fontWeight: 400 }}>
-                    Optimized for Desktop
-                  </Text>
-                </Title>
-              </Space>
-            </Link>
-          ))}
+        <img src={logo} width={24} height={40} />
       </div>
 
       <Menu
-        theme="dark"
+        theme="light"
         mode="inline"
         style={{
           paddingTop: 8,
@@ -95,12 +86,12 @@ const Sidebar = () => {
             }}
             icon={
               collapsed ? (
-                <RightOutlined
-                  style={{ fontSize: 20, color: "#FFFFFF", fontWeight: "bold" }}
+                <ArrowRight
+                  style={{ fontSize: 20, color: "#6F2EBE", fontWeight: "bold" }}
                 />
               ) : (
-                <LeftOutlined
-                  style={{ fontSize: 20, color: "#FFFFFF", fontWeight: "bold" }}
+                <ArrowLeft
+                  style={{ fontSize: 20, color: "#6F2EBE", fontWeight: "bold" }}
                 />
               )
             }

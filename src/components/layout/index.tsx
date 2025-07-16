@@ -19,7 +19,7 @@ export const Layout = ({ children }: React.PropsWithChildren) => {
               text={
                 <p
                   className="text-md"
-                  style={{ color: "#aaaaaa", fontWeight: 400 }}
+                  style={{ color: "#AAAAAA", fontWeight: 400 }}
                 >
                   Optimized for Desktop
                 </p>

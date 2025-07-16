@@ -12,7 +12,7 @@ export const AuthWrapper = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
-
+    // Comment out below to see billing in free version
     if (!identity && !storedUser) {
       push("/login"); // Redirect to login page
     }

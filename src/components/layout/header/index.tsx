@@ -1,33 +1,41 @@
 import React from "react";
-
-import { Layout, Space, theme } from "antd";
+import { Layout, Space, Typography, theme } from "antd";
+import { Link } from "react-router-dom";
+import { authProvider } from "@/providers";
 
 import { CurrentUser } from "../current-user";
-import logo from "../../../assets/img/logo-2.png";
 
 const { useToken } = theme;
+const { Title, Text } = Typography;
 
 export const Header = () => {
   const { token } = useToken();
 
   const headerStyles: React.CSSProperties = {
-    backgroundColor: "#111827",
+    backgroundColor: "#FFFFFF",
     display: "flex",
     justifyContent: "flex-end",
     alignItems: "center",
     padding: "0px 24px",
     height: "64px",
     position: "sticky",
-    top: 0,
     zIndex: 999,
-    borderBottom: "1px solid #374151",
+    top: 0,
   };
 
   return (
     <Layout.Header style={headerStyles}>
       <Space align="center" size="middle">
         <CurrentUser />
-        <img src={logo} width={24} height={40} />
+        <Link to="/" style={{ textDecoration: "none" }}>
+          <Space size="small" align="center" style={{ fontSize: 12 }}>
+            <Title level={5} style={{ margin: 0, fontWeight: 700 }}>
+              <Text style={{ color: "#CCCCCC", fontWeight: 400 }}>
+                Optimized for Desktop
+              </Text>
+            </Title>
+          </Space>
+        </Link>
       </Space>
     </Layout.Header>
   );

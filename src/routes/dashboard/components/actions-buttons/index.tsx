@@ -232,20 +232,20 @@ export const AnalyzerActionButtons = ({
       id="ai-actions"
       style={{
         height: "100%",
-        padding: "0 1rem",
+        padding: "1rem",
         position: "relative",
-        backgroundColor: "#111827",
-        border: "1px solid #374151",
+        backgroundColor: "#FFFFFF",
+        boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
       }}
       title={
         <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
           <div
-            style={{ width: 40, height: 40, backgroundColor: "#6f2ebe" }}
+            style={{ width: 40, height: 40, backgroundColor: "#6F2EBE" }}
             className="rounded-xl flex items-center justify-center"
           >
             <BarChart3 className="w-6 h-6 text-white" />
           </div>
-          <Text size="lg" style={{ marginLeft: ".7rem", color: "#FFFFFF" }}>
+          <Text size="lg" style={{ marginLeft: ".7rem", color: "#000000" }}>
             AI Actions
           </Text>
         </div>

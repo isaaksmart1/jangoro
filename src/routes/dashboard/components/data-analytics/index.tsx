@@ -11,9 +11,9 @@ export const ResponsesChart = ({ files }: any) => {
     <Card
       style={{
         height: "100%",
-        padding: "24px 24px 0px 24px",
-        backgroundColor: "#111827",
-        border: "1px solid #374151",
+        padding: "1rem",
+        backgroundColor: "#FFFFFF",
+        boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
       }}
       headStyle={{ padding: "8px 16px" }}
       title={
@@ -25,7 +25,7 @@ export const ResponsesChart = ({ files }: any) => {
           }}
         >
           <div
-            style={{ width: 40, height: 40, backgroundColor: "#2e82be" }}
+            style={{ width: 40, height: 40, backgroundColor: "#2E82BE" }}
             className="rounded-xl flex items-center justify-center"
           >
             <TrendingUpOutlined
@@ -33,7 +33,7 @@ export const ResponsesChart = ({ files }: any) => {
               htmlColor="#FFFFFF"
             />
           </div>
-          <Text size="lg" style={{ color: "#FFFFFF", marginLeft: ".5rem" }}>
+          <Text size="lg" style={{ color: "#000000", marginLeft: ".5rem" }}>
             Number of Responses
           </Text>
         </div>

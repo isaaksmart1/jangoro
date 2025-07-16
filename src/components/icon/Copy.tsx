@@ -29,19 +29,19 @@ export const CopyToClipboardButton = ({ text }: Props) => {
   return (
     <button
       onClick={copyToClipboard}
-      style={{ marginLeft: 10, padding: 12, color: "#CCCCCC" }}
+      style={{ marginLeft: 10, padding: 12 }}
     >
       {copy ? (
         <span className="flex flex-row">
           <img src={tick} style={{ width: 24, height: 24 }} />
-          <p>copied!</p>
+          <p>Copied!</p>
         </span>
       ) : (
-        <span className="flex flex-row text-gray-500">
+        <span className="flex flex-row">
           <Copy
-            style={{ width: 24, height: 24, color: "gray", marginRight: 6 }}
+            style={{ width: 24, height: 24, color: "#6F2EBE", marginRight: 6 }}
           />
-          Copy Results
+          <span className="text-black">Copy Results</span>
         </span>
       )}
     </button>

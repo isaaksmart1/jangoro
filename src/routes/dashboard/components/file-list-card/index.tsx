@@ -39,10 +39,10 @@ export const FileList = ({
       style={{
         height: "100%",
         overflow: "scroll",
-        padding: "0 1rem",
+        padding: "1rem",
         overflowX: "hidden",
-        backgroundColor: "#111827",
-        border: "1px solid #374151",
+        backgroundColor: "#FFFFFF",
+        boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
       }}
       headStyle={{ padding: "8px 16px" }}
       title={
@@ -54,12 +54,12 @@ export const FileList = ({
           }}
         >
           <div
-            style={{ width: 64, height: 40, backgroundColor: "#be2e2e" }}
+            style={{ width: 64, height: 40, backgroundColor: "#BE2E2E" }}
             className="rounded-xl flex items-center justify-center p-2"
           >
             <File className="w-6 h-6 text-white" />
           </div>
-          <Text size="lg" style={{ marginLeft: ".7rem", color: "#FFFFFF" }}>
+          <Text size="lg" style={{ marginLeft: ".7rem", color: "#000000" }}>
             Surveys and Reviews{" "}
             <span
               className="text-sm"
@@ -128,7 +128,7 @@ export const FileList = ({
                           onFileSelectChange(event.target.value)
                         }
                       />
-                      <Text size="md" style={{ color: "#FFFFFF" }}>
+                      <Text size="md" style={{ color: "#000000" }}>
                         {item.name}
                       </Text>
                     </div>

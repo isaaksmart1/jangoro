@@ -32,8 +32,8 @@ export const DashboardPage = () => {
               animate={{ x: 0, opacity: 1 }}
               transition={{ duration: 0.5 }}
             >
-              <h1 className="text-white text-3xl m-6">Survey Analyser</h1>
-              <p style={{ fontSize: 16, color: "#CCCCCC" }}>
+              <h1 className="text-black text-3xl m-6">Survey Analyser</h1>
+              <p style={{ fontSize: 16, color: "#444444" }}>
                 Upload and analyse CSV files with AI powered insights
               </p>
             </motion.div>
