@@ -1,10 +1,7 @@
-import { Badge, Card, List, Skeleton as AntdSkeleton } from "antd";
-
-import { Text } from "@/components";
-
 import { useState } from "react";
+import { Badge, Card, List, Skeleton as AntdSkeleton } from "antd";
+import { Text } from "@/components";
 import { PollOutlined } from "@mui/icons-material";
-import { File } from "lucide-react";
 import { UploadFilesButton } from "../actions-buttons";
 
 type Props = {

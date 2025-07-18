@@ -2,8 +2,7 @@ import React from "react";
 import { Card, Typography, Space } from "antd";
 import { ArrowUpOutlined } from "@ant-design/icons";
 import { NumberOfResponses } from "./responses";
-
-const { Text } = Typography;
+import { Text } from "@/components";
 
 export const ResponsesChart = ({ files, fileCounts, setFileCounts }: any) => {
   return (
@@ -30,14 +29,7 @@ export const ResponsesChart = ({ files, fileCounts, setFileCounts }: any) => {
           >
             <ArrowUpOutlined style={{ color: "#FFFFFF", fontSize: 20 }} />
           </div>
-          <Text
-            style={{
-              fontSize: 16,
-              fontWeight: 500,
-              color: "#000000",
-              marginLeft: 8,
-            }}
-          >
+          <Text size="lg" style={{ marginLeft: ".7rem", color: "#000000" }}>
             Number of Responses
           </Text>
         </Space>

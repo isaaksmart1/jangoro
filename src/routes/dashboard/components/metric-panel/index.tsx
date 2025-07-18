@@ -71,7 +71,7 @@ function MetricPanel({ files, selected, type, setAverageScore }: any) {
       id="metrics-panel"
       style={{ borderRadius: 12, padding: 16 }}
       title={
-        <Title level={5} style={{ marginBottom: 0, color: "#374151" }}>
+        <Title style={{ fontSize: 20, marginLeft: ".7rem", color: "#000000" }}>
           {metricTitle} Metric
         </Title>
       }
