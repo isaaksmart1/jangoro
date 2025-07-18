@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import Papa from "papaparse";
 import { LineAxisSharp, SmartButtonOutlined } from "@mui/icons-material";
-import { Text } from "@/components";
-import { Card } from "antd";
+import { Button, Card, List, Select, Space, Typography } from "antd";
 
-function MetricPanel({ files, selected, type }) {
+const { Title, Text } = Typography;
+const { Option } = Select;
+
+function MetricPanel({ files, selected, type, setAverageScore }: any) {
   const [data, setData] = useState([]);
-  const [averageScore, setAverageScore] = useState(null);
   const [entities, setEntities] = useState([]);
   const [scoreColumn, setScoreColumn] = useState("");
   const [entityColumn, setEntityColumn] = useState("");
@@ -38,131 +39,112 @@ function MetricPanel({ files, selected, type }) {
     return 0;
   };
 
-  const handleScoreColumnChange = (e: { target: { value: any } }) => {
-    const column = e.target.value;
-    setScoreColumn(column);
-    const avgScore = calculateAverageScore(column);
-    setAverageScore(avgScore as any);
+  const handleScoreColumnChange = (value) => {
+    setScoreColumn(value);
   };
 
-  const handleEntityColumnChange = (e: { target: { value: any } }) => {
-    const column = e.target.value;
-    setEntityColumn(column);
-    const entitiesList = [...new Set(data.map((row) => row[column]))].filter(
-      (e) => e !== undefined,
-    );
-    setEntities(entitiesList);
+  const handleEntityColumnChange = (value) => {
+    setEntityColumn(value);
+  };
+
+  const onGenerate = (type: string) => {
+    if (type === "score") {
+      const avgScore = calculateAverageScore(scoreColumn);
+      setAverageScore(avgScore as any);
+    } else if (type === "list") {
+      const entitiesList = [
+        ...new Set(data.map((row) => row[entityColumn])),
+      ].filter((e) => e !== undefined);
+      setEntities(entitiesList);
+    }
   };
 
   let metricTitle = "List";
-  if (type === "score") metricTitle = "Score";
+  let columnTitle = "Entity";
+  if (type === "score") {
+    metricTitle = "Score";
+    columnTitle = "Score";
+  }
 
   return (
     <Card
       id="metrics-panel"
-      style={{
-        height: "100%",
-        padding: "1rem",
-        position: "relative",
-        borderRadius: "12px",
-        backgroundColor: "#FFFFFF",
-        boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
-      }}
+      style={{ borderRadius: 12, padding: 16 }}
       title={
-        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-          <div
-            style={{ width: 40, height: 40, backgroundColor: "#2EBE48" }}
-            className="rounded-xl flex items-center justify-center"
-          >
-            <LineAxisSharp className="w-6 h-6 text-white" />
-          </div>
-          <Text size="lg" style={{ marginLeft: ".7rem", color: "#000000" }}>
-            {metricTitle} Metric
-          </Text>
-        </div>
+        <Title level={5} style={{ marginBottom: 0, color: "#374151" }}>
+          {metricTitle} Metric
+        </Title>
       }
     >
-      <div className="flex flex-col gap-4">
-        {/* Score Column Selection */}
-        {type === "score" && (
-          <div>
-            <label className="text-lg font-semibold text-black">
-              Select Score Column:{" "}
-            </label>
-            <select
-              onChange={handleScoreColumnChange}
-              value={scoreColumn}
-              style={{
-                padding: "8px 16px",
-                borderRadius: "8px",
-                border: "1px solid #ccc",
-                fontSize: "16px",
-                width: "100%",
-              }}
-            >
-              {columnNames.map((col, idx) => (
-                <option key={idx} value={col}>
-                  {col}
-                </option>
-              ))}
-            </select>
-            <div
-              style={{
-                marginTop: "1rem",
-                fontSize: 16,
-                color: "#000000",
-                fontWeight: 600,
-              }}
-            >
-              Avg. Score:
-              <br />
-              <span style={{ color: "#6F2EBE" }}>
-                {averageScore !== null ? averageScore.toFixed(2) : "N/A"}
-              </span>
+      <Space direction="vertical" size="middle" style={{ width: "100%" }}>
+        <div className="flex flex-col gap-4">
+          <Text style={{ fontSize: 14, color: "#4B5563" }}>
+            Select {columnTitle} Column:
+          </Text>
+          {/* Score Column Selection */}
+          {type === "score" && (
+            <div>
+              <Select
+                value={scoreColumn}
+                onChange={handleScoreColumnChange}
+                style={{ width: "100%", marginTop: 4 }}
+                placeholder="No columns available"
+              >
+                {columnNames.map((col, idx) => (
+                  <Option key={idx} value={col}>
+                    {col}
+                  </Option>
+                ))}
+              </Select>
             </div>
-          </div>
-        )}
+          )}
 
-        {/* Entity Column Selection */}
-        {type === "list" && (
-          <div>
-            <label className="text-lg font-semibold text-black">
-              Select Entity Column:{" "}
-            </label>
-            <select
-              onChange={handleEntityColumnChange}
-              value={entityColumn}
-              style={{
-                padding: "8px 16px",
-                borderRadius: "8px",
-                border: "1px solid #ccc",
-                fontSize: "16px",
-                width: "100%",
-              }}
-            >
-              {columnNames.map((col, idx) => (
-                <option key={idx} value={col}>
-                  {col}
-                </option>
-              ))}
-            </select>
-            <ul
-              style={{
-                marginTop: "1rem",
-                paddingLeft: "20px",
-                listStyleType: "disc",
-                color: "#333",
-              }}
-            >
-              {entities.map((entity, idx) => (
-                <li key={idx} style={{ fontSize: "16px" }}>
-                  {entity}
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-      </div>
+          {/* Entity Column Selection */}
+          {type === "list" && (
+            <div>
+              <Select
+                onChange={handleEntityColumnChange}
+                value={entityColumn}
+                style={{ width: "100%", marginTop: 4 }}
+                placeholder="No columns available"
+              >
+                {columnNames.map((col, idx) => (
+                  <Option key={idx} value={col}>
+                    {col}
+                  </Option>
+                ))}
+              </Select>
+              <List
+                size="small"
+                header={
+                  <Text strong style={{ fontSize: 14 }}>
+                    Entities
+                  </Text>
+                }
+                bordered={false}
+                dataSource={entities}
+                renderItem={(item) => (
+                  <List.Item style={{ paddingLeft: 0 }}>
+                    <Text style={{ fontSize: 16, color: "#333" }}>
+                      • {item}
+                    </Text>
+                  </List.Item>
+                )}
+                style={{ marginTop: "1rem" }}
+              />
+            </div>
+          )}
+        </div>
+
+        <Button
+          type="primary"
+          block
+          style={{ backgroundColor: "#4f46e5" }}
+          onClick={() => onGenerate(type)}
+        >
+          Generate Metrics
+        </Button>
+      </Space>
     </Card>
   );
 }

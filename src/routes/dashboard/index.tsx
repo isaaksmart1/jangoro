@@ -13,65 +13,20 @@ import {
 } from "./components";
 import TakeTourOverlay from "@/components/layout/tour";
 import MetricPanel from "./components/metric-panel";
+import { SurveyOverview } from "@/components/metrics/survey-metrics";
 
-export const DashboardPage = () => {
+export const DashboardPage = ({ isTourOpen, setIsTourOpen }: any) => {
   const [files, setFiles] = useState([]);
   const [selected, setSelected] = useState("");
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [aiResponse, setAIResponse] = useState({});
   const [isAILoading, setIsAILoading] = useState(false);
+  const [averageScore, setAverageScore] = useState(null);
 
   return (
     <React.Fragment>
       <div className="page-container" id="dashboard-summary">
         <Row gutter={[32, 32]}>
-          {/* Title & Icon - Slide in from Left */}
-          <Col xs={24} sm={24} xl={24}>
-            <motion.div
-              initial={{ x: -50, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              transition={{ duration: 0.5 }}
-            >
-              <h1 className="text-black text-3xl m-6">Survey Analyser</h1>
-              <p style={{ fontSize: 16, color: "#444444" }}>
-                Upload and analyse CSV files with AI powered insights
-              </p>
-            </motion.div>
-          </Col>
-
-          {/* Analyzer Action Buttons - Slide in from Right */}
-          <Col xs={20} sm={20} xl={20} className="dashboard-panel">
-            <motion.div
-              initial={{ x: 50, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              style={{ height: "inherit" }}
-            >
-              <AnalyzerActionButtons
-                setIsLoading={setIsAILoading}
-                setFiles={setFiles}
-                files={files}
-                selected={selected}
-                selectedFiles={selectedFiles}
-                setSelected={setSelected}
-                setAIResponse={setAIResponse}
-              />
-            </motion.div>
-          </Col>
-        </Row>
-
-        <Row gutter={[32, 32]} style={{ marginTop: "16px" }}>
-          {/* Other Metrics */}
-          <Col xs={20} sm={20} xl={6}>
-            <MetricPanel type="list" files={files} selected={selected} />
-          </Col>
-
-          <Col xs={20} sm={20} xl={6}>
-            <MetricPanel type="score" files={files} selected={selected} />
-          </Col>
-        </Row>
-
-        <Row gutter={[32, 32]} style={{ marginTop: "32px" }}>
           {/* File List - Slide in from Left */}
           <Col
             xs={20}
@@ -95,11 +50,57 @@ export const DashboardPage = () => {
             </motion.div>
           </Col>
 
+          <Col xs={20} sm={20} xl={5}>
+            <motion.div
+              initial={{ x: 50, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              style={{ height: "inherit" }}
+            >
+              <SurveyOverview averageScore={averageScore} />
+            </motion.div>
+          </Col>
+
+          {/* Generate Metrics */}
+          <Col xs={20} sm={20} xl={5}>
+            <MetricPanel type="list" files={files} selected={selected} />
+          </Col>
+
+          <Col xs={20} sm={20} xl={5}>
+            <MetricPanel
+              type="score"
+              files={files}
+              selected={selected}
+              setAverageScore={setAverageScore}
+            />
+          </Col>
+        </Row>
+
+        <Row gutter={[32, 32]}>
+          {/* Analyzer Action Buttons - Slide in from Right */}
+          <Col xs={20} sm={20} xl={8} className="dashboard-panel">
+            <motion.div
+              initial={{ x: 50, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              style={{ height: "inherit" }}
+            >
+              <AnalyzerActionButtons
+                setIsLoading={setIsAILoading}
+                setFiles={setFiles}
+                files={files}
+                selected={selected}
+                selectedFiles={selectedFiles}
+                setSelected={setSelected}
+                setAIResponse={setAIResponse}
+              />
+            </motion.div>
+          </Col>
           {/* AI Analytics - Slide in from Right */}
           <Col
             xs={20}
             sm={20}
-            xl={14}
+            xl={15}
             style={{ height: 480 }}
             className="dashboard-panel"
           >
@@ -124,7 +125,7 @@ export const DashboardPage = () => {
 
         <Row gutter={[32, 32]} style={{ marginTop: "16px" }}>
           {/* Responses Chart - Slide in from Bottom */}
-          <Col xs={20} lg={16} xl={12} className="dashboard-panel">
+          <Col xs={20} lg={20} xl={20} className="dashboard-panel">
             <motion.div
               initial={{ y: 50, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
@@ -136,7 +137,7 @@ export const DashboardPage = () => {
           </Col>
         </Row>
       </div>
-      <TakeTourOverlay />
+      <TakeTourOverlay isTourOpen={isTourOpen} setIsTourOpen={setIsTourOpen} />
     </React.Fragment>
   );
 };

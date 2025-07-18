@@ -1,21 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import { Layout, Space, Typography, theme } from "antd";
 import { Link } from "react-router-dom";
 import { authProvider } from "@/providers";
 
 import { CurrentUser } from "../current-user";
+import { QuestionCircleFilled } from "@ant-design/icons";
 
 const { useToken } = theme;
-const { Title, Text } = Typography;
+const { Title } = Typography;
 
-export const Header = () => {
+export const Header = ({ title, isTourOpen, setIsTourOpen }) => {
   const { token } = useToken();
 
   const headerStyles: React.CSSProperties = {
     backgroundColor: "#FFFFFF",
     boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
     display: "flex",
-    justifyContent: "flex-end",
+    justifyContent: "space-between",
     alignItems: "center",
     padding: "0px 24px",
     height: "64px",
@@ -26,17 +27,22 @@ export const Header = () => {
 
   return (
     <Layout.Header style={headerStyles}>
+      {/* Title on the left */}
+      <Title level={3} style={{ margin: 0, color: "#000000" }}>
+        {title}
+      </Title>
+
+      {/* Right-side content */}
       <Space align="center" size="middle">
         <CurrentUser />
-        <Link to="/" style={{ textDecoration: "none" }}>
-          <Space size="small" align="center" style={{ fontSize: 12 }}>
-            <Title level={5} style={{ margin: 0, fontWeight: 700 }}>
-              <Text style={{ color: "#CCCCCC", fontWeight: 400 }}>
-                Optimized for Desktop
-              </Text>
-            </Title>
-          </Space>
-        </Link>
+        <button
+          onClick={() => setIsTourOpen(!isTourOpen)}
+          style={{ height: 48 }}
+          className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 rounded-lg flex items-center"
+        >
+          <QuestionCircleFilled style={{ color: "#FFFFFF" }} className="mr-2" />
+          <span className="text-white">Take a Tour</span>
+        </button>
       </Space>
     </Layout.Header>
   );

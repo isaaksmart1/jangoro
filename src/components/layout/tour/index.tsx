@@ -34,9 +34,9 @@ const tourSteps = [
   },
 ];
 
-export default function TakeTourOverlay() {
+export default function TakeTourOverlay({ isTourOpen, setIsTourOpen }: any) {
   const [stepIndex, setStepIndex] = useState(0);
-  const [isTourOpen, setIsTourOpen] = useState(false);
+  const [tourFlag, setTourFlag] = useState(false);
 
   useEffect(() => {
     // Only show the tour if it hasn't been shown in this session
@@ -46,6 +46,10 @@ export default function TakeTourOverlay() {
       sessionStorage.setItem("hasSeenTour", "true");
     }
   }, []);
+
+  useEffect(() => {
+    setStepIndex(0);
+  }, [isTourOpen]);
 
   const step = tourSteps[stepIndex];
 

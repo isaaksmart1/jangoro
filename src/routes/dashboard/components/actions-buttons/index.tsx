@@ -1,10 +1,10 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { Card, Typography, Button, Space, Tooltip } from "antd";
+import { BarChartOutlined } from "@ant-design/icons";
 import { useLocation } from "react-router";
 import { Text } from "@/components";
 import { AI_URL, API_URL, authProvider, httpProvider } from "@/providers";
 import { generateAIResponseText } from "@/utilities/helper";
-import { BarChart3 } from "lucide-react";
-import { Card } from "antd";
 
 type FileInputProps = {
   setFiles: Dispatch<SetStateAction<any>>;
@@ -42,7 +42,7 @@ export const UploadFilesButton = ({ setFiles }: FileInputProps) => {
   return (
     <div>
       <button
-        style={{ margin: 4 }}
+        style={{ margin: 4, color: "#FFFFFF" }}
         className="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-500 text-white p-4 rounded-lg"
         onClick={onFileInputChange}
       >
@@ -238,54 +238,51 @@ export const AnalyzerActionButtons = ({
         boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
       }}
       title={
-        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+        <Space align="center">
           <div
-            style={{ width: 40, height: 40, backgroundColor: "#6F2EBE" }}
-            className="rounded-xl flex items-center justify-center"
+            style={{
+              width: 40,
+              height: 40,
+              backgroundColor: "#6F2EBE",
+              borderRadius: 12,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
           >
-            <BarChart3 className="w-6 h-6 text-white" />
+            <BarChartOutlined style={{ color: "#FFFFFF", fontSize: 20 }} />
           </div>
           <Text size="lg" style={{ marginLeft: ".7rem", color: "#000000" }}>
             AI Actions
           </Text>
-        </div>
+        </Space>
       }
     >
-      <div className="flex flex-row items-center">
-        <UploadFilesButton setFiles={setFiles} />
+      <Space wrap>
         {buttonActions
           .filter((btn) => user || btn.version === "free")
           .map((btn, index) => (
-            <button
-              disabled={!hasFiles}
+            <Tooltip
               key={index}
-              style={{
-                margin: 4,
-                backgroundColor: hasFiles ? "#3b82f6" : "#e5e5e5",
-              }}
-              className="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-500 hover:to-blue-500 text-white p-4 rounded-lg"
-              onClick={btn.action}
-              onMouseEnter={() => setHoveredButton(btn.caption)}
-              onMouseLeave={() => setHoveredButton(null)}
+              title={hoveredButton === btn.caption ? btn.caption : ""}
             >
-              {btn.label}
-            </button>
+              <Button
+                type="primary"
+                size="middle"
+                disabled={!hasFiles}
+                style={{
+                  backgroundColor: hasFiles ? "#3b82f6" : "#e5e5e5",
+                  border: "none",
+                }}
+                onClick={btn.action}
+                onMouseEnter={() => setHoveredButton(btn.caption)}
+                onMouseLeave={() => setHoveredButton(null)}
+              >
+                {btn.label}
+              </Button>
+            </Tooltip>
           ))}
-        {hoveredButton && (
-          <div
-            className="absolute text-sm text-black font-semibold p-1 rounded shadow-md"
-            style={{
-              bottom: 0,
-              right: "-5rem",
-              whiteSpace: "nowrap",
-              transform: "translateX(-50%)",
-              backgroundColor: "beige",
-            }}
-          >
-            {hoveredButton}
-          </div>
-        )}
-      </div>
+      </Space>
     </Card>
   );
 };

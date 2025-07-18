@@ -10,7 +10,7 @@ import {
 import { Link } from "react-router-dom";
 import { authProvider } from "@/providers";
 
-import logo from "../../../assets/img/logo.png";
+import logo from "../../../assets/img/logo-2.png";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { UpgradeBanner } from "../upgrade-banner";
 
@@ -37,7 +37,7 @@ const Sidebar = () => {
       collapsed={windowWidth < 720 || collapsed}
       trigger={null}
       style={{
-        backgroundColor: "#FFFFFF",
+        backgroundColor: "#6C16DC",
         boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
       }}
     >
@@ -56,11 +56,12 @@ const Sidebar = () => {
       </div>
 
       <Menu
-        theme="light"
+        theme="dark"
         mode="inline"
+        className="sidebar-menu"
         style={{
           padding: 12,
-          border: "none",
+          borderTop: "1px solid #666666",
           overflow: "auto",
           height: "calc(100% - 72px)",
         }}
@@ -81,7 +82,8 @@ const Sidebar = () => {
           <Link to="/billing">Billing</Link>
         </Menu.Item>
 
-        <hr />
+        <hr color="#666666" style={{ borderColor: "#666666" }} />
+
         <Menu.Item
           key="/logout"
           style={{ fontSize: 16 }}
@@ -103,11 +105,11 @@ const Sidebar = () => {
             icon={
               collapsed ? (
                 <ArrowRight
-                  style={{ fontSize: 20, color: "#6F2EBE", fontWeight: "bold" }}
+                  style={{ fontSize: 20, color: "#FFFFFF", fontWeight: "bold" }}
                 />
               ) : (
                 <ArrowLeft
-                  style={{ fontSize: 20, color: "#6F2EBE", fontWeight: "bold" }}
+                  style={{ fontSize: 20, color: "#FFFFFF", fontWeight: "bold" }}
                 />
               )
             }

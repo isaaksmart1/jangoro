@@ -5,6 +5,7 @@ import { Text } from "@/components";
 import { useState } from "react";
 import { PollOutlined } from "@mui/icons-material";
 import { File } from "lucide-react";
+import { UploadFilesButton } from "../actions-buttons";
 
 type Props = {
   files: any;
@@ -49,25 +50,24 @@ export const FileList = ({
         <div
           style={{
             display: "flex",
+            justifyContent: "space-between",
             alignItems: "center",
             gap: "8px",
           }}
         >
-          <div
-            style={{ width: 64, height: 40, backgroundColor: "#BE2E2E" }}
-            className="rounded-xl flex items-center justify-center p-2"
-          >
-            <File className="w-6 h-6 text-white" />
-          </div>
           <Text size="lg" style={{ marginLeft: ".7rem", color: "#000000" }}>
-            Surveys and Reviews{" "}
-            <span
-              className="text-sm"
-              style={{ fontWeight: 400, color: "#aaaaaa" }}
-            >
-              .csv {"(Comma-Separated Values)"} format
-            </span>
+            Upload Survey Data
           </Text>
+          <span className="text-xs bg-indigo-100 text-indigo-800 px-2 py-1 rounded-full">
+            CSV Format
+          </span>
+          {/* <span
+            className="text-sm"
+            style={{ fontWeight: 400, color: "#aaaaaa" }}
+          >
+            .csv {"(Comma-Separated Values)"} format
+          </span> */}
+          <UploadFilesButton setFiles={setFiles} />
         </div>
       }
     >
@@ -128,7 +128,10 @@ export const FileList = ({
                           onFileSelectChange(event.target.value)
                         }
                       />
-                      <Text size="md" style={{ color: "#000000" }}>
+                      <Text
+                        size="md"
+                        style={{ color: "#000000", marginLeft: 8 }}
+                      >
                         {item.name}
                       </Text>
                     </div>

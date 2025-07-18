@@ -1,10 +1,9 @@
 import React from "react";
-
-import { Card } from "antd";
-
-import { Text } from "@/components";
+import { Card, Typography, Space } from "antd";
+import { ArrowUpOutlined } from "@ant-design/icons";
 import { NumberOfResponses } from "./responses";
-import { TrendingUpOutlined } from "@mui/icons-material";
+
+const { Text } = Typography;
 
 export const ResponsesChart = ({ files }: any) => {
   return (
@@ -17,26 +16,31 @@ export const ResponsesChart = ({ files }: any) => {
       }}
       headStyle={{ padding: "8px 16px" }}
       title={
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "8px",
-          }}
-        >
+        <Space align="center">
           <div
-            style={{ width: 40, height: 40, backgroundColor: "#2E82BE" }}
-            className="rounded-xl flex items-center justify-center"
+            style={{
+              width: 40,
+              height: 40,
+              backgroundColor: "#6F2EBE",
+              borderRadius: 12,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
           >
-            <TrendingUpOutlined
-              className="w-6 h-6 text-white"
-              htmlColor="#FFFFFF"
-            />
+            <ArrowUpOutlined style={{ color: "#FFFFFF", fontSize: 20 }} />
           </div>
-          <Text size="lg" style={{ color: "#000000", marginLeft: ".5rem" }}>
+          <Text
+            style={{
+              fontSize: 16,
+              fontWeight: 500,
+              color: "#000000",
+              marginLeft: 8,
+            }}
+          >
             Number of Responses
           </Text>
-        </div>
+        </Space>
       }
     >
       <NumberOfResponses files={files} />

@@ -35,8 +35,11 @@ import {
 } from "@/routes";
 import "@refinedev/antd/dist/reset.css";
 import BillingPage from "./routes/billing";
+import { useState } from "react";
 
 const App = () => {
+  const [isTourOpen, setIsTourOpen] = useState(false);
+
   const resetPassword = async (email: string) => {
     const response = await fetch(`${API_URL}/user/forgot-password`, {
       method: "POST",
@@ -74,13 +77,29 @@ const App = () => {
               <Route
                 path="/free"
                 element={
-                  <Layout>
+                  <Layout isTourOpen={isTourOpen} setIsTourOpen={setIsTourOpen}>
                     <Outlet />
                   </Layout>
                 }
               >
-                <Route index element={<DashboardPage />} />
-                <Route path="billing" element={<BillingPage />} />
+                <Route
+                  index
+                  element={
+                    <DashboardPage
+                      isTourOpen={isTourOpen}
+                      setIsTourOpen={setIsTourOpen}
+                    />
+                  }
+                />
+                <Route
+                  path="billing"
+                  element={
+                    <BillingPage
+                      isTourOpen={isTourOpen}
+                      setIsTourOpen={setIsTourOpen}
+                    />
+                  }
+                />
                 <Route path="*" element={<ErrorComponent />} />
               </Route>
 
@@ -91,7 +110,10 @@ const App = () => {
                     key="authenticated-layout"
                     fallback={<CatchAllNavigate to="/login" />}
                   >
-                    <Layout>
+                    <Layout
+                      isTourOpen={isTourOpen}
+                      setIsTourOpen={setIsTourOpen}
+                    >
                       <AuthWrapper>
                         <Outlet />
                       </AuthWrapper>
@@ -99,8 +121,24 @@ const App = () => {
                   </Authenticated>
                 }
               >
-                <Route index element={<DashboardPage />} />
-                <Route path="billing" element={<BillingPage />} />
+                <Route
+                  index
+                  element={
+                    <DashboardPage
+                      isTourOpen={isTourOpen}
+                      setIsTourOpen={setIsTourOpen}
+                    />
+                  }
+                />
+                <Route
+                  path="billing"
+                  element={
+                    <BillingPage
+                      isTourOpen={isTourOpen}
+                      setIsTourOpen={setIsTourOpen}
+                    />
+                  }
+                />
                 <Route path="*" element={<ErrorComponent />} />
               </Route>
 

@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-
-import { Card, Col, Row } from "antd";
-
-import { Text } from "@/components";
-import { AutoAwesome } from "@mui/icons-material";
-import { AI } from "./ai";
+import { Card, Row, Col, Select, Tabs, Typography, Spin } from "antd";
+import { OpenAIOutlined } from "@ant-design/icons"; // or use AutoAwesome from MUI
 import { AIProgress } from "@/components/icon/AIIcon";
+import { AI } from "./ai";
+
+const { Option } = Select;
+const { Text } = Typography;
+const { TabPane } = Tabs;
 
 type Props = {
   aiResponse: any;
@@ -28,30 +29,26 @@ export const AIAnalytics = ({
 }: Props) => {
   const [activeTab, setActiveTab] = useState("tab4");
 
-  useEffect(() => {
-    const tabs = document.querySelectorAll(".tab");
+  const onSelectTab = (tab: string) => {
+    const allTabs = document.querySelectorAll(".tab-content");
+    const activeTab = document.getElementById(tab);
 
-    tabs.forEach((tab, index) => {
-      tab.addEventListener("click", () => {
-        const contents = document.querySelectorAll(".tab-content");
-        const content = document.getElementById(contents[index].id);
-
-        // Remove active classes from all tabs and contents
-        tabs.forEach((t) => t.classList.remove("tab-active"));
-        contents.forEach((c) => c.classList.add("hidden"));
-
-        // Add active class to the clicked tab and corresponding content
-        tab.classList.add("tab-active");
-        setActiveTab(contents[index].id);
-        content?.classList.remove("hidden");
-      });
+    allTabs.forEach((el) => {
+      el.classList.remove("tab-active");
+      el.classList.add("hidden");
     });
-  }, []);
+
+    if (activeTab) {
+      activeTab.classList.add("tab-active");
+      activeTab.classList.remove("hidden");
+    }
+
+    setActiveTab(tab);
+  };
 
   return (
     <Card
       id="ai-analytics"
-      className="ai-analytics"
       style={{
         height: "100%",
         padding: "1rem",
@@ -60,77 +57,66 @@ export const AIAnalytics = ({
       }}
       headStyle={{ padding: "8px 16px" }}
       title={
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "8px",
-          }}
-        >
-          {isLoading ? (
-            <span>
-              {/* <CircularProgress /> */}
+        <Row align="middle" gutter={[16, 8]} style={{ flexWrap: "wrap" }}>
+          <Col>
+            {isLoading ? (
               <AIProgress />
-            </span>
-          ) : (
-            <div
-              style={{ width: 40, height: 40, backgroundColor: "#BC6C2E" }}
-              className="rounded-xl flex items-center justify-center"
-            >
-              <AutoAwesome className="w-6 h-6 text-white" htmlColor="#FFFFFF" />
-            </div>
-          )}
-          <Row style={{ flex: 1, flexDirection: "row", flexWrap: "wrap" }}>
-            <Col style={{ marginLeft: "1rem", marginRight: "1rem" }}>
-              {selectedFiles.length > 0 && (
-                <select
-                  onChange={(event) => setSelected(event.target.value)}
-                  className="bg-white border border-gray-300 rounded-md py-2 px-4 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                >
-                  {selectedFiles.map((file: any, index: number) => (
-                    <option key={index} value={file}>
-                      {file}
-                    </option>
-                  ))}
-                </select>
-              )}
-            </Col>
-            <Col className="tabs" xs={24} sm={24} xl={4}>
-              <div className="tab-headers flex border-b border-gray-200 mb-4">
-                <button
-                  className="tab tab-active px-4 py-2 text-gray-500 hover:text-gray-700 border-b-2 border-transparent"
-                  data-tab="tab4"
-                >
-                  Action Plan
-                </button>
-                <button
-                  className="tab px-4 py-2 text-gray-500 hover:text-gray-700 border-b-2 border-transparent"
-                  data-tab="tab5"
-                >
-                  Ask AI
-                </button>
-                <button
-                  className="tab px-4 py-2 text-gray-500 hover:text-gray-700 border-b-2 border-transparent"
-                  data-tab="tab2"
-                >
-                  Summary
-                </button>
-                <button
-                  className="tab px-4 py-2 text-gray-500 hover:text-gray-700 border-b-2 border-transparent"
-                  data-tab="tab3"
-                >
-                  Survey Builder
-                </button>
-                <button
-                  className="tab px-4 py-2 text-gray-500 hover:text-gray-700 border-b-2 border-transparent"
-                  data-tab="tab1"
-                >
-                  Sentiment Score
-                </button>
+            ) : (
+              <div
+                style={{
+                  width: 40,
+                  height: 40,
+                  backgroundColor: "#6F2EBE",
+                  borderRadius: 12,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <OpenAIOutlined style={{ color: "#FFFFFF", fontSize: 20 }} />
               </div>
-            </Col>
-          </Row>
-        </div>
+            )}
+          </Col>
+
+          <Col>
+            {selectedFiles.length > 0 && (
+              <Select
+                value={selected}
+                onChange={(value) => setSelected(value)}
+                style={{ width: 200, color: "#000000" }}
+                placeholder="Select file"
+              >
+                {selectedFiles.map((file, index) => (
+                  <Option key={index} value={file}>
+                    {file}
+                  </Option>
+                ))}
+              </Select>
+            )}
+          </Col>
+
+          <Col flex="auto">
+            <Tabs
+              activeKey={activeTab}
+              onChange={(key) => onSelectTab(key)}
+              tabBarStyle={{ marginBottom: 0 }}
+            >
+              <TabPane className="tab-content" tab="Action Plan" key="tab4" />
+              <TabPane className="tab-content" tab="Ask AI" key="tab5" />
+              <TabPane className="tab-content" tab="Summary" key="tab2" />
+              <TabPane
+                className="tab-content"
+                tab="Survey Builder"
+                key="tab3"
+              />
+              <TabPane
+                className="tab-content"
+                tab="Sentiment Score"
+                key="tab1"
+              />
+            </Tabs>
+          </Col>
+        </Row>
       }
     >
       <Row style={{ height: "100%" }}>
