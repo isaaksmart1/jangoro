@@ -84,10 +84,19 @@ export const AI = ({
                 }}
               />
             ) : (
-              <p style={{ color: "red" }}>
-                Unable to build survey. Either reload the Dashboard or click
-                'Build Survey' and try again...
-              </p>
+              <div class="mt-6 bg-red-50 border-l-4 border-red-500 p-4 rounded-lg">
+                <div class="flex">
+                  <div class="flex-shrink-0">
+                    <i class="fas fa-exclamation-circle text-red-500"></i>
+                  </div>
+                  <div class="ml-3">
+                    <p class="text-sm text-red-700 font-normal">
+                      Unable to build survey. Either reload the Dashboard or
+                      click 'Build Survey' and try again...
+                    </p>
+                  </div>
+                </div>
+              </div>
             )}
           </div>
         </Col>
