@@ -10,9 +10,7 @@ import {
   Legend,
 } from "recharts";
 
-export function NumberOfResponses({ files }: any) {
-  const [fileCounts, setFileCounts] = useState([]);
-
+export function NumberOfResponses({ files, fileCounts, setFileCounts }: any) {
   useEffect(() => {
     let promises: any = [];
 
@@ -44,7 +42,7 @@ export function NumberOfResponses({ files }: any) {
   }, [files]);
 
   return (
-    <div style={{ marginRight: 24, width: '100%' }}>
+    <div style={{ marginRight: 24, width: "100%" }}>
       {fileCounts.length > 0 && (
         <BarChart width={600} maxBarSize={96} height={400} data={fileCounts}>
           <CartesianGrid strokeDasharray="3 3" />

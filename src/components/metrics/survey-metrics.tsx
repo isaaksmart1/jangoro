@@ -4,7 +4,11 @@ import { UserOutlined, StarOutlined } from "@ant-design/icons";
 
 const { Title, Text } = Typography;
 
-export const SurveyOverview = ({ averageScore }: any) => {
+export const SurveyOverview = ({ averageScore, fileCounts }: any) => {
+  const totalResponses = fileCounts.reduce(
+    (sum, c) => sum + Number(c.count || 0),
+    0,
+  );
   return (
     <Card
       title={
@@ -26,7 +30,7 @@ export const SurveyOverview = ({ averageScore }: any) => {
                 Number of Responses
               </Text>
               <Title level={2} style={{ margin: 0, color: "#1f2937" }}>
-                0
+                {totalResponses ? totalResponses : "0"}
               </Title>
             </Col>
             <Col>

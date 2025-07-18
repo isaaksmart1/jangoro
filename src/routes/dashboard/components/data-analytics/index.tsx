@@ -5,7 +5,7 @@ import { NumberOfResponses } from "./responses";
 
 const { Text } = Typography;
 
-export const ResponsesChart = ({ files }: any) => {
+export const ResponsesChart = ({ files, fileCounts, setFileCounts }: any) => {
   return (
     <Card
       style={{
@@ -43,7 +43,11 @@ export const ResponsesChart = ({ files }: any) => {
         </Space>
       }
     >
-      <NumberOfResponses files={files} />
+      <NumberOfResponses
+        files={files}
+        fileCounts={fileCounts}
+        setFileCounts={setFileCounts}
+      />
     </Card>
   );
 };

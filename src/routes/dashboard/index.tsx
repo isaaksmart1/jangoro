@@ -22,6 +22,7 @@ export const DashboardPage = ({ isTourOpen, setIsTourOpen }: any) => {
   const [aiResponse, setAIResponse] = useState({});
   const [isAILoading, setIsAILoading] = useState(false);
   const [averageScore, setAverageScore] = useState(null);
+  const [fileCounts, setFileCounts] = useState([]);
 
   return (
     <React.Fragment>
@@ -57,7 +58,10 @@ export const DashboardPage = ({ isTourOpen, setIsTourOpen }: any) => {
               transition={{ duration: 0.5, delay: 0.2 }}
               style={{ height: "inherit" }}
             >
-              <SurveyOverview averageScore={averageScore} />
+              <SurveyOverview
+                averageScore={averageScore}
+                fileCounts={fileCounts}
+              />
             </motion.div>
           </Col>
 
@@ -132,7 +136,11 @@ export const DashboardPage = ({ isTourOpen, setIsTourOpen }: any) => {
               transition={{ duration: 0.5, delay: 0.8 }}
               style={{ height: "inherit" }}
             >
-              <ResponsesChart files={files} />
+              <ResponsesChart
+                files={files}
+                fileCounts={fileCounts}
+                setFileCounts={setFileCounts}
+              />
             </motion.div>
           </Col>
         </Row>
