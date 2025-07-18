@@ -15,7 +15,8 @@ export const Layout = ({ children, isTourOpen, setIsTourOpen }: any) => {
     if (
       path.endsWith("/dashboard") ||
       path.endsWith("/") ||
-      path.endsWith(".com")
+      path.endsWith("/free") ||
+      path.endsWith(".com") ||
     ) {
       setTitle("Survey Analyser");
     } else if (path.endsWith("/billing")) {
