@@ -1,18 +1,27 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import { ThemedLayoutV2, ThemedTitleV2 } from "@refinedev/antd";
 
 import { Header } from "./header";
 import Sidebar from "./sidebar";
 
 export const Layout = ({ children, isTourOpen, setIsTourOpen }: any) => {
-  const path = window.location.pathname;
+  const [title, setTitle] = useState("");
+  const location = useLocation();
 
-  let title = "";
-  if (path.includes("dashboard")) {
-    title = "Survey Analyser";
-  } else if (path.includes("billing")) {
-    title = "Billing & Subscriptions";
-  }
+  useEffect(() => {
+    const path = location.pathname;
+
+    if (
+      path.endsWith("/dashboard") ||
+      path.endsWith("/") ||
+      path.endsWith(".com")
+    ) {
+      setTitle("Survey Analyser");
+    } else if (path.endsWith("/billing")) {
+      setTitle("Billing & Subscriptions");
+    }
+  }, [location.pathname]);
 
   return (
     <>
