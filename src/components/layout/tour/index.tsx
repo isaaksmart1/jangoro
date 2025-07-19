@@ -20,13 +20,24 @@ const tourSteps = [
   },
   {
     id: 3,
+    title: "Take a Tour - Survey Overview",
+    description: `Here you can view a couple of metrics, just:\n
+    1. Upload a File \n
+    2. Select the File in two panels (File Explorer then inside AI-Analytics) \n
+    3. Select a column in the 'Score' metric panel \n
+    4. Click Generate Metrics in the panel you chose \n
+    Following the above steps will populate the stats for the Survey Overview Panel.`,
+    targetId: "survey-overview",
+  },
+  {
+    id: 4,
     title: "Take a Tour - AI Actions",
     description:
       "First click 'Upload' to open a file, then perform various actions on your uploaded data.",
     targetId: "ai-actions",
   },
   {
-    id: 4,
+    id: 5,
     title: "Take a Tour - AI Analysis",
     description:
       "View the output generated from performing different AI Actions (Summary, Sentiment Score, Action Plan etc.).",

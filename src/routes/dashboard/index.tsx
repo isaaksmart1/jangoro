@@ -51,6 +51,11 @@ export const DashboardPage = ({ isTourOpen, setIsTourOpen }: any) => {
             </motion.div>
           </Col>
 
+          {/* Generate Metrics */}
+          <Col xs={20} sm={20} xl={5}>
+            <MetricPanel type="list" files={files} selected={selected} />
+          </Col>
+
           <Col xs={20} sm={20} xl={5}>
             <motion.div
               initial={{ x: 50, opacity: 0 }}
@@ -63,11 +68,6 @@ export const DashboardPage = ({ isTourOpen, setIsTourOpen }: any) => {
                 fileCounts={fileCounts}
               />
             </motion.div>
-          </Col>
-
-          {/* Generate Metrics */}
-          <Col xs={20} sm={20} xl={5}>
-            <MetricPanel type="list" files={files} selected={selected} />
           </Col>
 
           <Col xs={20} sm={20} xl={5}>

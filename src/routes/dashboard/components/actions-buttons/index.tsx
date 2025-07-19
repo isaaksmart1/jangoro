@@ -268,7 +268,7 @@ export const AnalyzerActionButtons = ({
             >
               <Button
                 type="primary"
-                size="middle"
+                size="large"
                 disabled={!hasFiles}
                 style={{
                   backgroundColor: hasFiles ? "#3b82f6" : "#e5e5e5",

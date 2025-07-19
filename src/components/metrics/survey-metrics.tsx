@@ -11,6 +11,7 @@ export const SurveyOverview = ({ averageScore, fileCounts }: any) => {
   );
   return (
     <Card
+      id="survey-overview"
       title={
         <Title level={4} style={{ margin: 0 }}>
           Survey Overview
