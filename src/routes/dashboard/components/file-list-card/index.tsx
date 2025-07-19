@@ -36,9 +36,9 @@ export const FileList = ({
       id="file-explorer"
       style={{
         height: "100%",
-        overflow: "scroll",
         padding: "1rem",
         overflowX: "hidden",
+        overflowY: "scroll",
         backgroundColor: "#FFFFFF",
         boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
       }}
@@ -50,6 +50,7 @@ export const FileList = ({
             justifyContent: "space-between",
             alignItems: "center",
             gap: "8px",
+            flexWrap: "wrap",
           }}
         >
           <Text size="lg" style={{ marginLeft: ".7rem", color: "#000000" }}>
@@ -58,12 +59,6 @@ export const FileList = ({
           <span className="text-xs bg-indigo-100 text-indigo-800 px-2 py-1 rounded-full">
             CSV Format
           </span>
-          {/* <span
-            className="text-sm"
-            style={{ fontWeight: 400, color: "#aaaaaa" }}
-          >
-            .csv {"(Comma-Separated Values)"} format
-          </span> */}
           <UploadFilesButton setFiles={setFiles} />
         </div>
       }

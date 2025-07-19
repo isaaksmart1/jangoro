@@ -32,7 +32,7 @@ const Sidebar = () => {
 
   return (
     <Sider
-      width={300}
+      width={256}
       collapsible
       collapsed={windowWidth < 720 || collapsed}
       trigger={null}
