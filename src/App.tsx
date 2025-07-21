@@ -91,15 +91,7 @@ const App = () => {
                     />
                   }
                 />
-                <Route
-                  path="billing"
-                  element={
-                    <BillingPage
-                      isTourOpen={isTourOpen}
-                      setIsTourOpen={setIsTourOpen}
-                    />
-                  }
-                />
+                <Route path="billing" element={<BillingPage />} />
                 <Route path="*" element={<ErrorComponent />} />
               </Route>
 
@@ -130,15 +122,7 @@ const App = () => {
                     />
                   }
                 />
-                <Route
-                  path="billing"
-                  element={
-                    <BillingPage
-                      isTourOpen={isTourOpen}
-                      setIsTourOpen={setIsTourOpen}
-                    />
-                  }
-                />
+                <Route path="billing" element={<BillingPage />} />
                 <Route path="*" element={<ErrorComponent />} />
               </Route>
 

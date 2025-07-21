@@ -14,13 +14,14 @@ export const ForgotPassword = ({ onResetRequest }) => {
     setLoading(true);
     try {
       // Call the password reset API (replace with actual API request)
-      await onResetRequest(values.email);
+      // await onResetRequest(values.email);
+      window.location.href = `mailto:team.jangoro@gmail.com?subject=Password Reset Request - ${values.email}&body=I wish to reset my password, please send me instructions.`;
 
       setAlert(true);
       setMessage({
         message: "Reset Link Sent",
         description:
-          "Check your email for password reset instructions. Make sure to check your Spam.",
+          "Check your email for the confirmation. Make sure to check your Spam.",
       });
     } catch (error: any) {
       setAlert(true);
