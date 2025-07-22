@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Badge, Card, List, Skeleton as AntdSkeleton } from "antd";
 import { Text } from "@/components";
 import { PollOutlined } from "@mui/icons-material";
 import { UploadFilesButton } from "../actions-buttons";
+import { wsClient, wsSession } from "@/utilities/ws";
 
 type Props = {
   files: any;
@@ -18,6 +19,33 @@ export const FileList = ({
   setSelectedFiles,
 }: Props) => {
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    wsClient.onmessage = (event) => {
+      const message = JSON.parse(event.data);
+      if (message.type === "csv-sync") {
+        const { filename, contentType, data } = message.payload;
+
+        // Decode base64 string to binary data
+        const byteCharacters = atob(data);
+        const byteNumbers = Array.from(byteCharacters, (char) =>
+          char.charCodeAt(0),
+        );
+        const byteArray = new Uint8Array(byteNumbers);
+
+        // Create a File object (or Blob)
+        const file = new File([byteArray], filename, { type: contentType });
+        const csvFiles = [file].map((file: any) => {
+          return {
+            name: file.name,
+            file,
+            type: file.type,
+          };
+        });
+        setFiles(csvFiles);
+      }
+    };
+  }, [wsSession]);
 
   const onFileSelectChange = async (file: any) => {
     const idx = selectedFiles.indexOf(file);
