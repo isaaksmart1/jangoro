@@ -15,23 +15,28 @@ import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import { DollarOutlined } from "@ant-design/icons";
 import { API_URL, authProvider } from "@/providers";
+import { CardContent, CardHeader } from "@mui/material";
+import { Badge, Bot } from "lucide-react";
 
 const { Title, Text } = Typography;
 
 const stripePromise = loadStripe(
-  "pk_test_51MPpHXARPqfde7N5ZVZicL8SRNwvzvoyFe7vCgCID73swbWAn0JtbjuscgsC0mQmbZrdW7w340LOLAVV0TadxV6e00LNsJGPyl",
+  "pk_live_51QsQzNL7QJgb8vM73DD1rfi7SQOZZulzMgwfpRnNU0aZon4bjr5RvjOOHcUtoYpoVNWfUhZayZLkFIk5zMI6zNcY00TwNoC2zc",
 );
 
 const BillingForm = () => {
   const [billingData, setBillingData] = useState([]);
+  const [usageStats, setUsageStats] = useState({ usage: 0 });
   const [loading, setLoading] = useState(false);
   const [subscriptionPlan, setSubscriptionPlan] = useState<string | null>(null);
+  const [user, setUser] = useState<any>(null);
 
   useEffect(() => {
     const loadCustomer = async () => {
       let plan;
       const user = await authProvider.getIdentity();
       if (user) {
+        setUser(user);
         switch (user.subscription) {
           case "month":
             plan = "Monthly Access";
@@ -43,7 +48,7 @@ const BillingForm = () => {
             plan = "Lifetime Access";
             break;
           default:
-            plan = "Monthly Access";
+            plan = "Free Access";
             break;
         }
         setSubscriptionPlan(plan);
@@ -53,6 +58,24 @@ const BillingForm = () => {
     loadCustomer();
     fetchBillingHistory();
   }, []);
+
+  useEffect(() => {
+    fetchUsageStats();
+  }, [user]);
+
+  const fetchUsageStats = async () => {
+    try {
+      const response = await fetch(`${API_URL}/ai-queries/${user.id}`);
+      if (!response.ok) {
+        throw new Error("Failed to fetch usage stats");
+      }
+      const data = await response.json();
+      setUsageStats(data);
+      return data;
+    } catch (error) {
+      console.error("Error fetching usage stats:", error);
+    }
+  };
 
   const fetchBillingHistory = async () => {
     setLoading(true);
@@ -130,6 +153,78 @@ const BillingForm = () => {
           <Title level={4} style={{ color: "#444" }}>
             Manage subscriptions and view transaction history
           </Title>
+        </motion.div>
+      </Col>
+
+      <Col span={24}>
+        <motion.div
+          initial={{ x: 50, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+        >
+          <Card
+            style={{
+              background: "#f9fafb",
+              borderRadius: 16,
+              boxShadow: "0 4px 20px rgba(0, 0, 0, 0.05)",
+            }}
+          >
+            <CardHeader>
+              <Title level={4} style={{ marginBottom: 8, color: "#1f2937" }}>
+                Usage Statistics
+              </Title>
+              <Text type="secondary" style={{ fontSize: 14 }}>
+                Monitor your monthly usage limits.
+              </Text>
+            </CardHeader>
+
+            <CardContent>
+              <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+                {/* AI Queries Card */}
+                <div className="w-full">
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="flex items-center">
+                      <Bot className="h-12 w-12 text-indigo-600 mr-2" />
+                      <span className="font-semibold text-gray-800 text-base">
+                        AI Queries
+                      </span>
+                    </div>
+                    <Badge
+                      variant="secondary"
+                      className="bg-indigo-100 text-indigo-800 rounded-full px-3 py-1 text-sm"
+                    >
+                      {usageStats.usage} / 1000
+                    </Badge>
+                  </div>
+
+                  {/* Progress Bar */}
+                  <div className="relative w-full h-3 bg-gray-200 rounded-full overflow-hidden">
+                    <div
+                      className={`h-full transition-all duration-500 ease-in-out ${
+                        usageStats.usage / 1000 < 0.8
+                          ? "bg-red-500"
+                          : "bg-indigo-500"
+                      }`}
+                      style={{
+                        width: `${Math.min((usageStats.usage / 1000) * 100, 100)}%`,
+                      }}
+                    />
+                  </div>
+
+                  {/* Remaining or Upsell Message */}
+                  <div className="mt-2 text-xs text-gray-600">
+                    {subscriptionPlan === "Free Access" ? (
+                      <span className="text-red-500 font-medium">
+                        Upgrade your plan to unlock AI queries
+                      </span>
+                    ) : (
+                      `${usageStats.usage} queries remaining this month`
+                    )}
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
         </motion.div>
       </Col>
 

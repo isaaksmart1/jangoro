@@ -15,7 +15,7 @@ export const ForgotPassword = ({ onResetRequest }) => {
     try {
       // Call the password reset API (replace with actual API request)
       // await onResetRequest(values.email);
-      window.location.href = `mailto:team.jangoro@gmail.com?subject=Password Reset Request - ${values.email}&body=I wish to reset my password, please send me instructions.`;
+      window.location.href = `mailto:team@jangoro.com?subject=Password Reset Request - ${values.email}&body=I wish to reset my password, please send me instructions.`;
 
       setAlert(true);
       setMessage({

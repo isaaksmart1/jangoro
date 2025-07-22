@@ -130,7 +130,11 @@ function MetricPanel({ files, selected, type, setAverageScore }: any) {
                     </Text>
                   </List.Item>
                 )}
-                style={{ marginTop: "1rem" }}
+                style={{
+                  marginTop: "1rem",
+                  maxHeight: "200px", // You can adjust the height as needed
+                  overflowY: "auto",
+                }}
               />
             </div>
           )}

@@ -131,6 +131,8 @@ export const AnalyzerActionButtons = ({
 
   const createFormData = (file: any) => {
     const formData = new FormData();
+    formData.append("email", user?.email || "");
+    formData.append("id", user?.id || "");
     formData.append(file.name, file.file);
     return formData;
   };

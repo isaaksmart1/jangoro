@@ -5,6 +5,7 @@ module.exports = {
       indigo: "#6F2EBE",
       white: "#ffffff",
       black: "#000000",
+      warning: "#FF8C00",
     },
   },
   plugins: [],
