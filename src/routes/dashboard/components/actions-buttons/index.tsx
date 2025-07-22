@@ -155,8 +155,13 @@ export const AnalyzerActionButtons = ({
 
       usageStats = JSON.parse(text);
       if (!usageStats || usageStats.usage === 0) {
-        alert("You have no usage left this month for AI queries.");
-        return;
+        alert(
+          "You have no usage left this month for AI queries. See billing for details.",
+        );
+        return {
+          error:
+            "You have no usage left this month for AI queries. See billing for details.",
+        };
       }
     } catch (err) {
       setIsLoading(false);
@@ -174,7 +179,9 @@ export const AnalyzerActionButtons = ({
 
     try {
       // Fetch usage stats for the user and check if they have usage left
-      const usageStats = await checkUsageStats();
+      const response = await checkUsageStats();
+
+      if (response && response.error) return;
 
       formFiles.forEach(async (file: any, index: any) => {
         try {
