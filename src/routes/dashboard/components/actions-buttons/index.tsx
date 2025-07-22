@@ -137,6 +137,33 @@ export const AnalyzerActionButtons = ({
     return formData;
   };
 
+  const checkUsageStats = async () => {
+    if (!user) return { usage: 0 };
+
+    try {
+      const response = await fetch(`${API_URL}/ai-queries/${user.id}`);
+      const text = await response.text();
+
+      if (!response.ok) {
+        console.error("Usage API error:", response.status, text);
+        return { usage: 0 };
+      }
+
+      if (!text) return { usage: 0 };
+
+      let usageStats;
+
+      usageStats = JSON.parse(text);
+      if (!usageStats || usageStats.usage === 0) {
+        alert("You have no usage left this month for AI queries.");
+        return;
+      }
+    } catch (err) {
+      setIsLoading(false);
+      throw new Error("Usage API returned invalid JSON");
+    }
+  };
+
   const handleRequest = async (url: any, setState: any) => {
     setIsLoading(true);
     setProcessingCount(-1);
@@ -146,6 +173,9 @@ export const AnalyzerActionButtons = ({
     );
 
     try {
+      // Fetch usage stats for the user and check if they have usage left
+      const usageStats = await checkUsageStats();
+
       formFiles.forEach(async (file: any, index: any) => {
         try {
           const data = createFormData(file);
