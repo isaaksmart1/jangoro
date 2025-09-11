@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Form, Input, Button, Card, Typography, notification } from "antd";
-import { MailOutlined } from "@ant-design/icons";
+import { MailOutlined, LockOutlined } from "@ant-design/icons";
+import { updatePassword } from "../../providers/data/user";
 import { ErrorAlert } from "../alert";
 
 const { Title, Text } = Typography;
@@ -15,14 +16,22 @@ export const ForgotPassword = ({ onResetRequest }) => {
     try {
       // Call the password reset API (replace with actual API request)
       // await onResetRequest(values.email);
-      window.location.href = `mailto:team@jangoro.com?subject=Password Reset Request - ${values.email}&body=I wish to reset my password, please send me instructions.`;
+      // window.location.href = `mailto:team@jangoro.com?subject=Password Reset Request - ${values.email}&body=I wish to reset my password, please send me instructions.`;
+
+      const payload = {
+        email: values.email,
+        password: values.password,
+      };
+
+      const response = await updatePassword(payload);
 
       setAlert(true);
       setMessage({
-        message: "Reset Link Sent",
+        message: "Reset Sent",
         description:
-          "Check your email for the confirmation. Make sure to check your Spam.",
+          "Your password has been reset.",
       });
+      window.location.href = '/login';
     } catch (error: any) {
       setAlert(true);
       setMessage({
@@ -52,6 +61,36 @@ export const ForgotPassword = ({ onResetRequest }) => {
           <Input
             prefix={<MailOutlined />}
             placeholder="Enter your email"
+            disabled={loading}
+          />
+        </Form.Item>
+
+        <Form.Item
+          name="password"
+          rules={[
+            { required: true, message: "Type your new password" },
+            { type: "string", message: "Enter your new password" },
+          ]}
+        >
+          <Input
+            prefix={<LockOutlined />}
+            placeholder="Enter your new password"
+            type="password"
+            disabled={loading}
+          />
+        </Form.Item>
+
+        <Form.Item
+          name="password"
+          rules={[
+            { required: true, message: "Confirm your new password" },
+            { type: "string", message: "Confirm your new password" },
+          ]}
+        >
+          <Input
+            prefix={<LockOutlined />}
+            placeholder="Confirm your new password"
+            type="password"
             disabled={loading}
           />
         </Form.Item>
