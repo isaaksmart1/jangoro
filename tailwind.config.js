@@ -2,10 +2,20 @@ module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"], // Adjust the paths as per your project structure
   theme: {
     extend: {
-      indigo: "#6F2EBE",
-      white: "#ffffff",
-      black: "#000000",
-      warning: "#FF8C00",
+      colors: {
+        indigo: "#6610f2",
+        primary: "#6f2ebe",
+        secondary: "#845ec2",
+        accent: "#d65db1",
+        success: "#00c9a7",
+        warning: "#ffc75f",
+        error: "#ff5e5e",
+        white: "#ffffff",
+        "gray-light": "#f9f9f9",
+        gray: "#e0e0e0",
+        "gray-dark": "#a0a0a0",
+        black: '#000000',
+      }
     },
   },
   plugins: [],

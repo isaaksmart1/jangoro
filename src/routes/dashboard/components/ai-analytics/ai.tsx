@@ -2,6 +2,7 @@ import React from "react";
 import { CopyToClipboardButton } from "@/components/icon/Copy";
 import { Col, Row } from "antd";
 import { isMobile } from "react-device-detect";
+import Markdown from "react-markdown";
 import { AIQuery } from "./ai-query";
 
 type Props = {
@@ -78,11 +79,7 @@ export const AI = ({
         >
           <div>
             {refine ? (
-              <div
-                dangerouslySetInnerHTML={{
-                  __html: refine,
-                }}
-              />
+              <Markdown>{refine}</Markdown>
             ) : (
               <div className="mt-6 bg-red-50 border-l-4 border-red-500 p-4 rounded-lg">
                 <div className="flex">

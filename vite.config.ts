@@ -24,4 +24,7 @@ export default defineConfig({
   preview: {
     allowedHosts: ["app.jangoro.com"],
   },
+  // optimizeDeps: {
+  //   exclude: ["@refinedev/react-router", "antd"],
+  // },
 });
