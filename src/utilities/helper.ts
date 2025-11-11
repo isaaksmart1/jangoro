@@ -23,7 +23,7 @@ export const generateAIResponseText = (
   if (refinement.length > 0) {
     const obj = filterObjectsWithFileName(refinement, selected);
     const key = Object.keys(obj)[0];
-    refine = formatUnstructuredTextToHTML(obj[key]);
+    refine = formatUnstructuredTextToHTML(obj[key], "markdown");
     r = obj;
   }
 
@@ -66,7 +66,11 @@ export function filterObjectsWithFileName(arr, fileName) {
   return arr.filter((obj) => obj.hasOwnProperty(fileName))[0];
 }
 
-export function formatUnstructuredTextToHTML(text) {
+export function formatUnstructuredTextToHTML(text, typeText = "html") {
+  if (typeText === "markdown") {
+    return text;
+  }
+
   const styles = `
       <style>
           .container {
@@ -121,7 +125,7 @@ export function formatUnstructuredTextToHTML(text) {
       htmlContent += `<p>${trimmedPara}</p>`;
     } else if (
       /\?$|how|what|why|do you|did you|rate|please respond/i.test(trimmedPara)
-    ) {
+    ) { 
       htmlContent += `<div class="question">${trimmedPara}</div>`;
     } else if (
       /yes|no/i.test(trimmedPara) &&
@@ -156,7 +160,7 @@ export function formatUnstructuredTextToHTML(text) {
 }
 
 export function buildSurvey(text) {
-  const startKeyword = "DOCTYPE html>\n";
+  const startKeyword = "<!DOCTYPE html>\n";
   const endKeyword = "```";
 
   const startIndex = text.indexOf(startKeyword);
