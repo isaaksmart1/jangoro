@@ -75,7 +75,7 @@ export const AnalyzerActionButtons = ({
   const [summary, setSummary] = useState([]);
   const [refinement, setRefinement] = useState([]);
   const [actionPlan, setActionPlan] = useState([]);
-  const [processingCount, setProcessingCount] = useState(-1);
+  const [processingCount, setProcessingCount] = useState(0);
   const location = useLocation();
 
   const hasFiles = selectedFiles.length > 0;
@@ -171,7 +171,7 @@ export const AnalyzerActionButtons = ({
 
   const handleRequest = async (url: any, setState: any) => {
     setIsLoading(true);
-    setProcessingCount(-1);
+    setProcessingCount(0);
 
     const formFiles = files.filter((file: any) =>
       selectedFiles.includes(file.name),

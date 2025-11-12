@@ -10,6 +10,7 @@ import {
   DashboardLatestActivities,
   FileList,
   ResponsesChart,
+  EngagementChart,
 } from "./components";
 import TakeTourOverlay from "@/components/layout/tour";
 import MetricPanel from "./components/metric-panel";
@@ -129,7 +130,7 @@ export const DashboardPage = ({ isTourOpen, setIsTourOpen }: any) => {
 
         <Row gutter={[32, 32]} style={{ marginTop: "16px" }}>
           {/* Responses Chart - Slide in from Bottom */}
-          <Col xs={20} lg={20} xl={20} className="dashboard-panel">
+          <Col xs={20} lg={15} xl={15} className="dashboard-panel">
             <motion.div
               initial={{ y: 50, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
@@ -141,6 +142,17 @@ export const DashboardPage = ({ isTourOpen, setIsTourOpen }: any) => {
                 fileCounts={fileCounts}
                 setFileCounts={setFileCounts}
               />
+            </motion.div>
+          </Col>
+          {/* Engagement Chart - Slide in from Bottom */}
+          <Col xs={20} lg={5} xl={5} className="dashboard-panel">
+            <motion.div
+              initial={{ y: 50, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.8 }}
+              style={{ height: "inherit" }}
+            >
+              <EngagementChart files={files} selectedFiles={selectedFiles} />
             </motion.div>
           </Col>
         </Row>
