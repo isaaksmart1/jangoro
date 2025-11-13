@@ -6,6 +6,12 @@ import {
   LogoutOutlined,
   LeftOutlined,
   RightOutlined,
+  FacebookOutlined,
+  InstagramOutlined,
+  LinkedinOutlined,
+  VideoCameraOutlined,
+  CalendarOutlined,
+  ScheduleOutlined,
 } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import { authProvider } from "@/providers";
@@ -74,6 +80,7 @@ const Sidebar = () => {
         >
           <Link to="/">Dashboard</Link>
         </Menu.Item>
+
         <Menu.Item
           key="/billing"
           style={{ fontSize: 16 }}
@@ -83,6 +90,57 @@ const Sidebar = () => {
         </Menu.Item>
 
         <hr color="#666666" style={{ borderColor: "#666666" }} />
+
+        {/* Social Section */}
+        <Menu.SubMenu
+          key="social"
+          title="Social"
+          icon={<ScheduleOutlined />}
+          style={{ fontSize: 16 }}
+        >
+          <Menu.Item
+            key="/social/instagram"
+            icon={<InstagramOutlined />}
+            style={{ backgroundColor: "#E4405F" }}
+          >
+            <Link to="/social/instagram">Instagram</Link>
+          </Menu.Item>
+          <Menu.Item
+            key="/social/facebook"
+            icon={<FacebookOutlined />}
+            style={{ backgroundColor: "#1877F2" }}
+          >
+            <Link to="/social/facebook">Facebook</Link>
+          </Menu.Item>
+          <Menu.Item
+            key="/social/linkedin"
+            icon={<LinkedinOutlined />}
+            style={{ backgroundColor: "#0A66C2" }}
+          >
+            <Link to="/social/linkedin">LinkedIn</Link>
+          </Menu.Item>
+          <Menu.Item
+            key="/social/tiktok"
+            icon={<VideoCameraOutlined />}
+            style={{ backgroundColor: "#000000" }}
+          >
+            <Link to="/social/tiktok">TikTok</Link>
+          </Menu.Item>
+          <Menu.Item
+            key="/social/scheduler"
+            icon={<ScheduleOutlined />}
+            style={{ backgroundColor: "#6C16DC" }}
+          >
+            <Link to="/social/scheduler">Scheduler</Link>
+          </Menu.Item>
+          <Menu.Item
+            key="/social/calendar"
+            icon={<CalendarOutlined />}
+            style={{ backgroundColor: "#0E7351FF" }}
+          >
+            <Link to="/social/calendar">Calendar</Link>
+          </Menu.Item>
+        </Menu.SubMenu>
 
         <Menu.Item
           key="/logout"

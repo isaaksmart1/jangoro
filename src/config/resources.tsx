@@ -5,6 +5,7 @@ import {
   DollarOutlined,
   ProjectOutlined,
   ShopOutlined,
+  CalendarOutlined,
 } from "@ant-design/icons";
 
 export const resources: IResourceItem[] = [
@@ -24,25 +25,31 @@ export const resources: IResourceItem[] = [
       icon: <DollarOutlined />,
     },
   },
-  // {
-  //   name: "companies",
-  //   list: "/companies",
-  //   show: "/companies/:id",
-  //   create: "/companies/new",
-  //   edit: "/companies/edit/:id",
-  //   meta: {
-  //     label: "Companies",
-  //     icon: <ShopOutlined />,
-  //   },
-  // },
-  // {
-  //   name: "tasks",
-  //   list: "/tasks",
-  //   create: "/tasks/new",
-  //   edit: "/tasks/edit/:id",
-  //   meta: {
-  //     label: "Tasks",
-  //     icon: <ProjectOutlined />,
-  //   },
-  // },
+
+  // Social resources
+  {
+    name: "socialAccounts",
+    list: "/social/accounts",
+    meta: {
+      label: "Social Accounts",
+      icon: <ProjectOutlined />,
+    },
+  },
+  {
+    name: "socialPosts",
+    list: "/social/posts",
+    create: "/social/scheduler",
+    meta: {
+      label: "Social Posts",
+      icon: <ShopOutlined />,
+    },
+  },
+  {
+    name: "scheduledPosts",
+    list: "/social/scheduled",
+    meta: {
+      label: "Scheduled Posts",
+      icon: <CalendarOutlined />,
+    },
+  },
 ];

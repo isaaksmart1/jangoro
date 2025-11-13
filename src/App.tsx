@@ -32,6 +32,10 @@ import {
   TasksCreatePage,
   TasksEditPage,
   TasksListPage,
+  SocialIndexPage,
+  PlatformPage,
+  SchedulerPage,
+  SocialCalendarPage,
 } from "@/routes";
 import "@refinedev/antd/dist/reset.css";
 import BillingPage from "./routes/billing";
@@ -92,6 +96,28 @@ const App = () => {
                   }
                 />
                 <Route path="billing" element={<BillingPage />} />
+                <Route path="social" element={<SocialIndexPage />} />
+                <Route
+                  path="social/instagram"
+                  element={<PlatformPage platform="instagram" />}
+                />
+                <Route
+                  path="social/facebook"
+                  element={<PlatformPage platform="facebook" />}
+                />
+                <Route
+                  path="social/linkedin"
+                  element={<PlatformPage platform="linkedin" />}
+                />
+                <Route
+                  path="social/tiktok"
+                  element={<PlatformPage platform="tiktok" />}
+                />
+                <Route path="social/scheduler" element={<SchedulerPage />} />
+                <Route
+                  path="social/calendar"
+                  element={<SocialCalendarPage />}
+                />
                 <Route path="*" element={<ErrorComponent />} />
               </Route>
 
@@ -123,6 +149,28 @@ const App = () => {
                   }
                 />
                 <Route path="billing" element={<BillingPage />} />
+                <Route path="social" element={<SocialIndexPage />} />
+                <Route
+                  path="social/instagram"
+                  element={<PlatformPage platform="instagram" />}
+                />
+                <Route
+                  path="social/facebook"
+                  element={<PlatformPage platform="facebook" />}
+                />
+                <Route
+                  path="social/linkedin"
+                  element={<PlatformPage platform="linkedin" />}
+                />
+                <Route
+                  path="social/tiktok"
+                  element={<PlatformPage platform="tiktok" />}
+                />
+                <Route path="social/scheduler" element={<SchedulerPage />} />
+                <Route
+                  path="social/calendar"
+                  element={<SocialCalendarPage />}
+                />
                 <Route path="*" element={<ErrorComponent />} />
               </Route>
 

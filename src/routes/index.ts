@@ -4,3 +4,4 @@ export * from "./billing";
 export * from "./login";
 export * from "./register";
 export * from "./tasks";
+export * from "./social";

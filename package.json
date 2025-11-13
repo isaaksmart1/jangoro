@@ -38,7 +38,7 @@
     "antd": "^5.23.3",
     "classnames": "^2.5.1",
     "cross-env": "^7.0.3",
-    "dayjs": "^1.11.13",
+    "dayjs": "^1.11.19",
     "framer-motion": "^12.4.7",
     "graphql": "^16.10.0",
     "graphql-tag": "^2.12.6",
