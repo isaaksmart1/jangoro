@@ -3,6 +3,7 @@
 // This file provides client-side helpers to trigger OAuth redirects and call server endpoints.
 
 import { URL_ROUTES } from "@/config/config";
+import { authProvider } from "@/providers";
 
 type Platform = "instagram" | "facebook" | "linkedin" | "tiktok";
 
@@ -13,6 +14,8 @@ const endpoints = {
     `${URL_ROUTES.api}/api/social/${platform}/oauth/exchange`,
   posts: (platform: Platform) =>
     `${URL_ROUTES.api}/api/social/${platform}/posts`,
+  fetchPosts: (platform: Platform, userId: string) =>
+    `${URL_ROUTES.api}/api/social/${platform}/posts?userId=${encodeURIComponent(userId)}`,
   schedule: () => `${URL_ROUTES.api}/api/social/scheduled`,
   check: (platform: Platform) =>
     `${URL_ROUTES.api}/api/social/${platform}/status`,
@@ -47,7 +50,8 @@ const socialApi = {
   },
 
   async fetchPosts(platform: Platform) {
-    const res = await fetch(endpoints.posts(platform));
+    const user = await authProvider.getIdentity();
+    const res = await fetch(endpoints.fetchPosts(platform, user.email));
     if (!res.ok) throw new Error("Failed to fetch posts");
     return res.json();
   },
