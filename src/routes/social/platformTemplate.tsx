@@ -14,10 +14,8 @@ const PlatformPage: React.FC<Props> = ({ platform }) => {
   const [media, setMedia] = useState<File | null>(null);
 
   useEffect(() => {
-    // On mount, attempt to check if account is connected (server-side check)
     async function check() {
-      // placeholder: implement server endpoint check
-      const has = false;
+      const has = await socialApi.checkConnection(platform);
       setConnected(has);
       if (has) {
         await loadPosts();
@@ -36,7 +34,6 @@ const PlatformPage: React.FC<Props> = ({ platform }) => {
   };
 
   const handleConnect = () => {
-    // Redirect to OAuth flow for platform
     socialApi.oauthRedirect(platform);
   };
 
@@ -57,8 +54,11 @@ const PlatformPage: React.FC<Props> = ({ platform }) => {
   };
 
   return (
-    <div className="page-container">
-      <Card title={`${platform[0].toUpperCase() + platform.slice(1)} Integration`} style={{ minHeight: 400 }}>
+    <div className="page-container" style={{ padding: 24 }}>
+      <Card
+        title={`${platform[0].toUpperCase() + platform.slice(1)} Integration`}
+        style={{ minHeight: 400 }}
+      >
         {!connected ? (
           <Button type="primary" onClick={handleConnect}>
             Connect {platform}
@@ -93,8 +93,13 @@ const PlatformPage: React.FC<Props> = ({ platform }) => {
               dataSource={posts}
               renderItem={(item) => (
                 <List.Item key={item.id}>
-                  <List.Item.Meta title={item.caption || item.message || item.text} description={item.createdAt} />
-                  {item.media && <img src={item.media} alt="" style={{ maxWidth: 400 }} />}
+                  <List.Item.Meta
+                    title={item.caption || item.message || item.text}
+                    description={item.createdAt}
+                  />
+                  {item.media && (
+                    <img src={item.media} alt="" style={{ maxWidth: 400 }} />
+                  )}
                 </List.Item>
               )}
             />

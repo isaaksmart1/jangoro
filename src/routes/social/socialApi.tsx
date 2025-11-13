@@ -14,9 +14,23 @@ const endpoints = {
   posts: (platform: Platform) =>
     `${URL_ROUTES.api}/api/social/${platform}/posts`,
   schedule: () => `${URL_ROUTES.api}/api/social/scheduled`,
+  check: (platform: Platform) =>
+    `${URL_ROUTES.api}/api/social/${platform}/status`,
 };
 
 const socialApi = {
+  async checkConnection(platform: Platform): Promise<boolean> {
+    try {
+      const res = await fetch(endpoints.check(platform));
+      if (!res.ok) throw new Error("Failed");
+      const data = await res.json();
+      return data.connected;
+    } catch (err) {
+      console.error("Check connection failed", err);
+      return false;
+    }
+  },
+
   oauthRedirect(platform: Platform) {
     // Redirect client to server endpoint that builds provider OAuth URL
     window.location.href = endpoints.oauthRedirect(platform);
