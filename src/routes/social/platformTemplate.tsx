@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Button, Card, List, Input, Upload, message } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import socialApi from "./socialApi";
+import SchedulerPage from "./scheduler";
+import { Text } from "@/components";
 
 type Props = {
   platform: "instagram" | "facebook" | "linkedin" | "tiktok";
@@ -79,14 +81,31 @@ const PlatformPage: React.FC<Props> = ({ platform }) => {
                 }}
                 showUploadList={true}
               >
-                <Button icon={<UploadOutlined />}>Upload media</Button>
+                <Button style={{ marginTop: 12 }} icon={<UploadOutlined />}>
+                  Upload media
+                </Button>
               </Upload>
               <div style={{ marginTop: 12 }}>
                 <Button type="primary" onClick={handleCreate}>
                   Post now
                 </Button>
               </div>
+              <br />
+              <SchedulerPage platform={platform} />
             </div>
+            <br />
+
+            <Text
+              style={{
+                fontSize: 18,
+                fontWeight: 600,
+                border: "1px solid #CCCCCC",
+                borderRadius: 6,
+                padding: 6,
+              }}
+            >
+              My Posts
+            </Text>
 
             <List
               itemLayout="vertical"

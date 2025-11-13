@@ -62,8 +62,10 @@ const socialApi = {
   ) {
     // If sending media, should be sent as multipart/form-data to the server.
     const form = new FormData();
+    const user = await authProvider.getIdentity();
     if (payload.text) form.append("text", payload.text);
     if (payload.media) form.append("media", payload.media);
+    form.append("userId", user.email);
     const res = await fetch(endpoints.posts(platform), {
       method: "POST",
       body: form,

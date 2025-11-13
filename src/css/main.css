@@ -12,7 +12,7 @@ body {
 ::-webkit-scrollbar-thumb {
   background-color: #888888; /* Default color */
   border-radius: 50px; /* Pill shape */
-  border: 2px solid #DDDDDD; /* Optional border around thumb */
+  border: 2px solid #dddddd; /* Optional border around thumb */
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -20,7 +20,7 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #F1F1F1; /* Track color */
+  background: #f1f1f1; /* Track color */
   border-radius: 50px; /* Match the rounded track */
 }
 
@@ -31,14 +31,14 @@ body {
 
 .tab-headers {
   display: flex;
-  border-bottom: 1px solid #6F2EBE;
+  border-bottom: 1px solid #6f2ebe;
   margin-bottom: 0.2rem;
 }
 
 /* Tab Buttons */
 .tab {
   padding: 0.5rem 1rem; /* Tailwind's px-4 py-2 */
-  color: #6B7280; /* Tailwind's text-gray-500 */
+  color: #6b7280; /* Tailwind's text-gray-500 */
   border-bottom: 2px solid transparent;
   font-weight: 400; /* Default font weight */
   cursor: pointer;
@@ -52,7 +52,7 @@ body {
 }
 
 .tab-active {
-  color: #6F2EBE; /* Tailwind's text-gray-700 */
+  color: #6f2ebe; /* Tailwind's text-gray-700 */
   border: none; /* Tailwind's border-blue-500 */
   font-weight: 500; /* Tailwind's font-medium */
 }
@@ -61,7 +61,7 @@ body {
 .scrollable {
   overflow-y: auto; /* Enables vertical scrolling */
   padding: 1rem; /* Optional padding for better readability */
-  border: 1px solid #DDDDDD; /* Optional border for visual distinction */
+  border: 1px solid #dddddd; /* Optional border for visual distinction */
   border-radius: 8px; /* Optional rounded corners */
 }
 
@@ -86,16 +86,16 @@ body {
 
 /* Layout */
 .ant-menu {
-  background: #FFFFFF !important;
+  background: #ffffff !important;
 }
 
 .ant-layout-content {
-  background-color: #FAFAFA;
+  background-color: #fafafa;
   border: none;
 }
 
 .ant-layout-sider {
-  border-right: 1px solid #DDDDDD !important;
+  border-right: 1px solid #dddddd !important;
 }
 
 .dashboard-panel {
@@ -108,5 +108,9 @@ body {
 }
 
 .sidebar-menu {
-  background-color: #6C16DC !important;
+  background-color: #6c16dc !important;
+}
+
+.ant-menu.ant-menu-sub.ant-menu-inline {
+  background-color: transparent !important;
 }
