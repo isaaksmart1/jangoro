@@ -1,4 +1,4 @@
-export const DEVELOPMENT = true;
+export const DEVELOPMENT = false;
 
 const prod = {
   base: "https://app.jangoro.com",
