@@ -36,21 +36,30 @@ const socialApi = {
 
   oauthRedirect(platform: Platform) {
     // Redirect client to server endpoint that builds provider OAuth URL
-    window.location.href = endpoints.oauthRedirect(platform);
+    const url = endpoints.oauthRedirect(platform);
+    window.location.href = url;
   },
 
   async exchangeCode(platform: Platform, code: string) {
+    const state = crypto.randomUUID();
+    sessionStorage.setItem(`oauth_state_${platform}`, state);
+    const user = await authProvider.getIdentity() as any;
+
+    console.log(code);
+    console.log(state);
+    console.log(user.id);
+
     // Exchange code for token via server
     const res = await fetch(endpoints.exchange(platform), {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ code }),
+      body: JSON.stringify({ code, state, userId: user.id }),
     });
     return res.json();
   },
 
   async fetchPosts(platform: Platform) {
-    const user = await authProvider.getIdentity();
+    const user = await authProvider.getIdentity() as any;
     const res = await fetch(endpoints.fetchPosts(platform, user.email));
     if (!res.ok) throw new Error("Failed to fetch posts");
     return res.json();

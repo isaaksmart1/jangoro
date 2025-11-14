@@ -14,6 +14,7 @@ const PlatformPage: React.FC<Props> = ({ platform }) => {
   const [posts, setPosts] = useState<any[]>([]);
   const [text, setText] = useState("");
   const [media, setMedia] = useState<File | null>(null);
+  const [code, setCode] = useState<string | null>("");
 
   useEffect(() => {
     async function check() {
@@ -25,6 +26,29 @@ const PlatformPage: React.FC<Props> = ({ platform }) => {
     }
     check();
   }, [platform]);
+
+  useEffect(() => {
+    if (code) {
+      (async () => {
+        try {
+          const tokenData = await socialApi.exchangeCode(platform, code);
+          console.log("Access token:", tokenData);
+          // e.g. store token, navigate to dashboard, etc.
+        } catch (err) {
+          console.error("Code exchange failed", err);
+        }
+      })();
+    }
+  }, [code]);
+
+  useEffect(() => {
+    const uri = window.location.href;
+    if (!uri.includes("code=")) {
+      return;
+    }
+    console.log("Redirecting to", uri);
+    setCode(uri.split("code=")[1]);
+  }, [window.location.href]);
 
   const loadPosts = async () => {
     try {
