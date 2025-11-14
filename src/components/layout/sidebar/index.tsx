@@ -92,7 +92,7 @@ const Sidebar = () => {
         <hr color="#666666" style={{ borderColor: "#666666" }} />
 
         {/* Social Section */}
-        <Menu.SubMenu
+        {/* <Menu.SubMenu
           key="social"
           title="Social"
           icon={<ScheduleOutlined />}
@@ -126,13 +126,6 @@ const Sidebar = () => {
           >
             <Link to="/social/tiktok">TikTok</Link>
           </Menu.Item>
-          {/* <Menu.Item
-            key="/social/scheduler"
-            icon={<ScheduleOutlined />}
-            style={{ backgroundColor: "#6C16DC" }}
-          >
-            <Link to="/social/scheduler">Scheduler</Link>
-          </Menu.Item> */}
           <Menu.Item
             key="/social/calendar"
             icon={<CalendarOutlined />}
@@ -140,7 +133,7 @@ const Sidebar = () => {
           >
             <Link to="/social/calendar">Calendar</Link>
           </Menu.Item>
-        </Menu.SubMenu>
+        </Menu.SubMenu> */}
 
         <Menu.Item
           key="/logout"
