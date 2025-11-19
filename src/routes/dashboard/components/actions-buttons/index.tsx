@@ -107,8 +107,10 @@ export const AnalyzerActionButtons = ({
   useEffect(() => {
     if (processingCount === selectedFiles.length - 1) {
       setIsLoading(false);
+    } else if (selectedFiles.length === 0) {
+      setIsLoading(false);
     }
-  }, [processingCount]);
+  }, [processingCount, selectedFiles]);
 
   useEffect(() => {
     const response = generateAIResponseText(
@@ -171,7 +173,7 @@ export const AnalyzerActionButtons = ({
 
   const handleRequest = async (url: any, setState: any) => {
     setIsLoading(true);
-    setProcessingCount(0);
+    setProcessingCount(-1);
 
     const formFiles = files.filter((file: any) =>
       selectedFiles.includes(file.name),
