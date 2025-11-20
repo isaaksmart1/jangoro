@@ -307,6 +307,12 @@ const SurveyBuilder = () => {
               options={[
                 { value: "default", label: "Default" },
                 { value: "light", label: "Light" },
+                { value: "red", label: "Red" },
+                { value: "blue", label: "Blue" },
+                { value: "yellow", label: "Yellow" },
+                { value: "green", label: "Green" },
+                { value: "purple", label: "Purple" },
+                { value: "orange", label: "Orange" },
                 // { value: "dark", label: "Dark" },
               ]}
             />

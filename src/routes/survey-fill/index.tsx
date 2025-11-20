@@ -33,6 +33,7 @@ const SurveyFill = () => {
   const [surveyQuestions, setSurveyQuestions] = useState<Question[]>([]);
   const [surveyLogoUrl, setSurveyLogoUrl] = useState<string | null>(null);
   const [surveyTheme, setSurveyTheme] = useState<string>("default");
+  const [currentTheme, setCurrentTheme] = useState<React.CSSProperties>({});
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -83,10 +84,20 @@ const SurveyFill = () => {
   };
 
   const themeStyles: { [key: string]: React.CSSProperties } = {
-    default: { backgroundColor: "#f0f2f5" },
-    light: { backgroundColor: "#ffffff" },
+    default: { backgroundColor: "#f0f2f5", color: "#000000" },
+    light: { backgroundColor: "#ffffff", color: "#000000" },
+    red: { backgroundColor: "#ffcccc", color: "#ffcccc" },
+    blue: { backgroundColor: "#cce5ff", color: "#cce5ff" },
+    yellow: { backgroundColor: "#fff9cc", color: "#fff9cc" },
+    green: { backgroundColor: "#ccffcc", color: "#ccffcc" },
+    purple: { backgroundColor: "#e5ccff", color: "#e5ccff" },
+    orange: { backgroundColor: "#ffe5cc", color: "#ffe5cc" },
     dark: { backgroundColor: "#333333", color: "#ffffff" },
   };
+
+  useEffect(() => {
+    setCurrentTheme(themeStyles[surveyTheme]);
+  }, [surveyTheme]);
 
   if (loading) {
     return (
@@ -105,7 +116,7 @@ const SurveyFill = () => {
   }
 
   return (
-    <Layout style={{ minHeight: "100vh", ...themeStyles[surveyTheme] }}>
+    <Layout style={{ minHeight: "100vh", ...themeStyles["default"] }}>
       <Content
         style={{
           padding: "50px",
@@ -114,13 +125,7 @@ const SurveyFill = () => {
           margin: "auto",
         }}
       >
-        <Card
-          style={
-            surveyTheme === "dark"
-              ? { backgroundColor: "#555555", color: "#ffffff" }
-              : {}
-          }
-        >
+        <Card>
           {surveyLogoUrl && (
             <div style={{ textAlign: "center", marginBottom: "20px" }}>
               <img
@@ -135,7 +140,7 @@ const SurveyFill = () => {
             style={{
               textAlign: "center",
               marginBottom: "30px",
-              color: surveyTheme === "dark" ? "#ffffff" : "#000000",
+              color: currentTheme.color || "inherit",
             }}
           >
             Complete the {surveyTitle} Survey
@@ -196,11 +201,10 @@ const SurveyFill = () => {
             ))}
             <Form.Item>
               <Button
-                type="primary"
                 htmlType="submit"
-                style={{ width: "100%", marginTop: "20px" }}
+                style={{ width: "100%", marginTop: "20px", backgroundColor: currentTheme.backgroundColor }}
               >
-                Submit Survey
+                Submit
               </Button>
             </Form.Item>
           </Form>
