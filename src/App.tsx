@@ -110,10 +110,12 @@ const App = () => {
                   element={<PlatformPage platform="tiktok" />}
                 />
                 {/* <Route path="social/scheduler" element={<SchedulerPage />} /> */}
-                                <Route path="social/calendar" element={<SocialCalendarPage />} />
-                                <Route path="survey-builder" element={<SurveyBuilder />} />
-                                <Route path="survey-fill/:encodedSurveyData" element={<SurveyFill />} />
-                                <Route path="*" element={<ErrorComponent />} />
+                <Route
+                  path="social/calendar"
+                  element={<SocialCalendarPage />}
+                />
+                <Route path="survey-builder" element={<SurveyBuilder />} />
+                <Route path="*" element={<ErrorComponent />} />
               </Route>
 
               {/* Authenticated routes */}
@@ -167,7 +169,6 @@ const App = () => {
                   element={<SocialCalendarPage />}
                 />
                 <Route path="survey-builder" element={<SurveyBuilder />} />
-                <Route path="survey-fill/:encodedSurveyData" element={<SurveyFill />} />
                 <Route path="*" element={<ErrorComponent />} />
               </Route>
 
@@ -191,6 +192,11 @@ const App = () => {
                 />
                 <Route path="/redeem" element={<RedeemCode />} />
               </Route>
+
+              <Route
+                path="survey-fill/:encodedSurveyData"
+                element={<SurveyFill />}
+              />
             </Routes>
 
             <UnsavedChangesNotifier />

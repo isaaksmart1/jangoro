@@ -1,7 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-import { Button, Card, Checkbox, Form, Input, Layout, message,Radio, Slider, Space, Typography } from "antd";
+import {
+  Button,
+  Card,
+  Checkbox,
+  Form,
+  Input,
+  Layout,
+  message,
+  Radio,
+  Slider,
+  Space,
+  Typography,
+} from "antd";
+
+import { API_URL } from "@/providers";
 
 const { Content } = Layout;
 const { Title, Text } = Typography;
@@ -23,29 +37,48 @@ const SurveyFill = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  const [customerName, customerEmail, surveyTitle] = (
+    encodedSurveyData || ""
+  ).split("|");
+
   useEffect(() => {
-    if (encodedSurveyData) {
-      try {
-        const decodedData = atob(decodeURIComponent(encodedSurveyData));
-        const parsedData = JSON.parse(decodedData);
-        setSurveyQuestions(parsedData.questions || []);
-        setSurveyLogoUrl(parsedData.logoUrl || null);
-        setSurveyTheme(parsedData.theme || "default");
+    fetch(
+      `${API_URL}/survey-fill?customerName=${encodeURIComponent(customerName)}&customerEmail=${encodeURIComponent(customerEmail)}&surveyTitle=${encodeURIComponent(surveyTitle)}`,
+    )
+      .then((res) => res.json())
+      .then((result) => {
+        if (result && result.encodedData) {
+          const { encodedData } = result;
+          const encodedSurveyData = encodedData;
+          try {
+            const decodedData = atob(decodeURIComponent(encodedSurveyData));
+            const parsedData = JSON.parse(decodedData);
+            setSurveyQuestions(parsedData.questions || []);
+            setSurveyLogoUrl(parsedData.logoUrl || null);
+            setSurveyTheme(parsedData.theme || "default");
+            setLoading(false);
+          } catch (e) {
+            console.error("Failed to decode or parse survey data:", e);
+            setError("Invalid survey link.");
+            setLoading(false);
+          }
+        } else {
+          setError("No survey data provided.");
+          setLoading(false);
+        }
+      })
+      .catch((err) => {
+        console.error("Error fetching survey data:", err);
+        setError("Failed to fetch survey data.");
         setLoading(false);
-      } catch (e) {
-        console.error("Failed to decode or parse survey data:", e);
-        setError("Invalid survey link.");
-        setLoading(false);
-      }
-    } else {
-      setError("No survey data provided.");
-      setLoading(false);
-    }
-  }, [encodedSurveyData]);
+      });
+  }, []);
 
   const onFinish = (values: any) => {
     console.log("Survey responses:", values);
-    message.success("Survey submitted successfully! Check console for responses.");
+    message.success(
+      "Survey submitted successfully! Check console for responses.",
+    );
     // In a real application, you would send these responses to a backend.
   };
 
@@ -56,24 +89,56 @@ const SurveyFill = () => {
   };
 
   if (loading) {
-    return <Content style={{ padding: "50px", textAlign: "center" }}><Text>Loading survey...</Text></Content>;
+    return (
+      <Content style={{ padding: "50px", textAlign: "center" }}>
+        <Text>Loading survey...</Text>
+      </Content>
+    );
   }
 
   if (error) {
-    return <Content style={{ padding: "50px", textAlign: "center" }}><Text type="danger">{error}</Text></Content>;
+    return (
+      <Content style={{ padding: "50px", textAlign: "center" }}>
+        <Text type="danger">{error}</Text>
+      </Content>
+    );
   }
 
   return (
     <Layout style={{ minHeight: "100vh", ...themeStyles[surveyTheme] }}>
-      <Content style={{ padding: "50px", maxWidth: "800px", margin: "auto" }}>
-        <Card style={surveyTheme === "dark" ? { backgroundColor: "#555555", color: "#ffffff" } : {}}>
+      <Content
+        style={{
+          padding: "50px",
+          width: "720px",
+          maxWidth: "720px",
+          margin: "auto",
+        }}
+      >
+        <Card
+          style={
+            surveyTheme === "dark"
+              ? { backgroundColor: "#555555", color: "#ffffff" }
+              : {}
+          }
+        >
           {surveyLogoUrl && (
             <div style={{ textAlign: "center", marginBottom: "20px" }}>
-              <img src={surveyLogoUrl} alt="Survey Logo" style={{ maxWidth: "150px", maxHeight: "150px" }} />
+              <img
+                src={surveyLogoUrl}
+                alt="Survey Logo"
+                style={{ maxWidth: "150px", maxHeight: "150px" }}
+              />
             </div>
           )}
-          <Title level={2} style={{ textAlign: "center", marginBottom: "30px", color: surveyTheme === "dark" ? "#ffffff" : "#000000" }}>
-            Complete the Survey
+          <Title
+            level={2}
+            style={{
+              textAlign: "center",
+              marginBottom: "30px",
+              color: surveyTheme === "dark" ? "#ffffff" : "#000000",
+            }}
+          >
+            Complete the {surveyTitle} Survey
           </Title>
           <Form form={form} layout="vertical" onFinish={onFinish}>
             {surveyQuestions.map((question) => (
@@ -81,9 +146,16 @@ const SurveyFill = () => {
                 key={question.id}
                 label={<Text strong>{question.label}</Text>}
                 name={question.id}
-                rules={[{ required: true, message: `Please answer ${question.label}` }]}
+                rules={[
+                  {
+                    required: true,
+                    message: `Please answer ${question.label}`,
+                  },
+                ]}
               >
-                {question.type === "text" && <Input placeholder="Your answer" />}
+                {question.type === "text" && (
+                  <Input placeholder="Your answer" />
+                )}
                 {question.type === "multiple-choice" && (
                   <Radio.Group>
                     <Space direction="vertical">
@@ -112,10 +184,10 @@ const SurveyFill = () => {
                     max={question.scale || 5}
                     marks={
                       question.scale
-                        ? Array.from({ length: question.scale }, (_, i) => i + 1).reduce(
-                            (acc, val) => ({ ...acc, [val]: val }),
-                            {}
-                          )
+                        ? Array.from(
+                            { length: question.scale },
+                            (_, i) => i + 1,
+                          ).reduce((acc, val) => ({ ...acc, [val]: val }), {})
                         : { 1: 1, 2: 2, 3: 3, 4: 4, 5: 5 }
                     }
                   />
@@ -123,7 +195,11 @@ const SurveyFill = () => {
               </Form.Item>
             ))}
             <Form.Item>
-              <Button type="primary" htmlType="submit" style={{ width: "100%", marginTop: "20px" }}>
+              <Button
+                type="primary"
+                htmlType="submit"
+                style={{ width: "100%", marginTop: "20px" }}
+              >
                 Submit Survey
               </Button>
             </Form.Item>

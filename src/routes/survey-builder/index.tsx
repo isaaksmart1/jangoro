@@ -19,6 +19,9 @@ import {
   Typography,
   Upload,
 } from "antd";
+import LZString from "lz-string";
+
+import { API_URL } from "@/providers";
 
 const { Content, Sider } = Layout;
 const { Title, Text, Paragraph } = Typography;
@@ -45,9 +48,19 @@ const SurveyBuilder = () => {
   const [generatedLink, setGeneratedLink] = useState<string | null>(null);
   const [logoUrl, setLogoUrl] = useState<string | null>(null);
   const [theme, setTheme] = useState<string>("default");
+  const [customerName, setCustomerName] = useState<string>("");
+  const [customerEmail, setCustomerEmail] = useState<string>("");
+  const [surveyTitle, setSurveyTitle] = useState<string>("");
 
   const serializeSurvey = (): string => {
-    return JSON.stringify({ questions, logoUrl, theme });
+    return JSON.stringify({
+      questions,
+      logoUrl,
+      theme,
+      customerName,
+      customerEmail,
+      surveyTitle,
+    });
   };
 
   const availableQuestionTypes: AvailableQuestionType[] = [
@@ -162,8 +175,24 @@ const SurveyBuilder = () => {
     // and generate a short, unique ID to pass in the URL.
     // For this example, we'll encode the entire survey data into the URL.
     const encodedData = encodeURIComponent(btoa(serialized));
-    const baseUrl = window.location.origin; // Or your deployed app URL
-    const link = `${baseUrl}/survey-fill/${encodedData}`;
+    const compressed = LZString.compressToEncodedURIComponent(
+      JSON.stringify({
+        encodedData,
+        customerName,
+        customerEmail,
+        surveyTitle,
+      }),
+    );
+    const baseUrl = window.location.origin;
+    fetch(`${API_URL}/survey-fill`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ compressed }),
+    });
+    const encodedSurveyData = `${customerName}|${customerEmail}|${surveyTitle}`;
+    const link = `${baseUrl}/survey-fill/${encodedSurveyData}`;
     setGeneratedLink(link);
     message.success("Survey link generated!");
   };
@@ -198,6 +227,27 @@ const SurveyBuilder = () => {
             Click on question types to add them, and configure their properties.
           </Text>
 
+          <Space
+            direction="vertical"
+            style={{ width: "100%", marginTop: "20px" }}
+          >
+            <Input
+              placeholder="Customer Name"
+              value={customerName}
+              onChange={(e) => setCustomerName(e.target.value)}
+            />
+            <Input
+              placeholder="Customer Email"
+              value={customerEmail}
+              onChange={(e) => setCustomerEmail(e.target.value)}
+            />
+            <Input
+              placeholder="Survey Title"
+              value={surveyTitle}
+              onChange={(e) => setSurveyTitle(e.target.value)}
+            />
+          </Space>
+
           <Button
             type="primary"
             icon={<CopyOutlined />}
@@ -223,9 +273,9 @@ const SurveyBuilder = () => {
               showUploadList={false}
               beforeUpload={() => false} // Prevent automatic upload
               onChange={(info) => {
-                if (info.file.originFileObj) {
+                if (info.file) {
                   const reader = new FileReader();
-                  reader.readAsDataURL(info.file.originFileObj);
+                  reader.readAsDataURL(info.file);
                   reader.onload = () => {
                     setLogoUrl(reader.result as string);
                   };
@@ -242,7 +292,9 @@ const SurveyBuilder = () => {
               )}
             </Upload>
             {logoUrl && (
-              <Button danger onClick={() => setLogoUrl(null)}>Remove Logo</Button>
+              <Button danger onClick={() => setLogoUrl(null)}>
+                Remove Logo
+              </Button>
             )}
           </div>
 
@@ -255,7 +307,7 @@ const SurveyBuilder = () => {
               options={[
                 { value: "default", label: "Default" },
                 { value: "light", label: "Light" },
-                { value: "dark", label: "Dark" },
+                // { value: "dark", label: "Dark" },
               ]}
             />
           </div>

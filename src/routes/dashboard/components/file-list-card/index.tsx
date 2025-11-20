@@ -54,15 +54,15 @@ export const FileList = ({
   setSelectedFiles,
 }: Props) => {
   const [uploadType, setUploadType] = useState("csv");
-
+  const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [provider, setProvider] = useState("gmail");
   const [onLoggedIn, setOnLoggedIn] = useState<any>(null);
 
   useEffect(() => {
-    console.log("Session ID:", onLoggedIn);
-  }, [onLoggedIn]);
+    setIsLoading(false);
+  }, []);
 
   useEffect(() => {
     wsClient.onmessage = (event) => {
