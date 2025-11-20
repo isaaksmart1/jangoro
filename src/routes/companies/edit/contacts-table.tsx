@@ -1,14 +1,14 @@
 import { useParams } from "react-router";
-
-import { FilterDropdown, useTable } from "@refinedev/antd";
-import type { GetFieldsFromList } from "@refinedev/nestjs-query";
-
 import {
   MailOutlined,
   PhoneOutlined,
   SearchOutlined,
   TeamOutlined,
 } from "@ant-design/icons";
+
+import { FilterDropdown, useTable } from "@refinedev/antd";
+import type { GetFieldsFromList } from "@refinedev/nestjs-query";
+
 import { Button, Card, Input, Select, Space, Table } from "antd";
 
 import { ContactStatusTag, CustomAvatar, Text } from "@/components";

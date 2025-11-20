@@ -1,21 +1,6 @@
 import React from "react";
-import "@dotlottie/player-component";
 
-declare global {
-  namespace JSX {
-    interface IntrinsicElements {
-      "dotlottie-player": React.DetailedHTMLProps<
-        React.HTMLAttributes<HTMLElement>,
-        HTMLElement
-      > & {
-        src?: string;
-        autoplay?: boolean;
-        loop?: boolean;
-        style?: React.CSSProperties;
-      };
-    }
-  }
-}
+import "@dotlottie/player-component";
 
 export const AIProgress = () => {
   return (

@@ -1,3 +1,5 @@
+import { FlagOutlined } from "@ant-design/icons";
+
 import { useForm, useSelect } from "@refinedev/antd";
 import type { HttpError } from "@refinedev/core";
 import type {
@@ -6,7 +8,6 @@ import type {
   GetVariables,
 } from "@refinedev/nestjs-query";
 
-import { FlagOutlined } from "@ant-design/icons";
 import { Checkbox, Form, Select, Space } from "antd";
 
 import { AccordionHeaderSkeleton } from "@/components";

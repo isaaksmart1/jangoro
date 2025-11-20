@@ -1,30 +1,22 @@
-import { SaveButton, useForm } from "@refinedev/antd";
-import { useNavigation, type HttpError } from "@refinedev/core";
-import type { GetFields, GetVariables } from "@refinedev/nestjs-query";
-
+import { useEffect, useState } from "react";
 import { CloseOutlined } from "@ant-design/icons";
-import { Button, Card, Drawer, Form, Input, Spin } from "antd";
 
-import type {
-  UpdateUserMutation,
-  UpdateUserMutationVariables,
-} from "@/graphql/types";
+import { Button, Card, Drawer, Form } from "antd";
+
+import { ErrorAlert } from "@/components/alert";
+import { API_URL } from "@/providers";
 import { getNameInitials } from "@/utilities";
 
 import { CustomAvatar } from "../../custom-avatar";
 import { Text } from "../../text";
-import { UPDATE_USER_MUTATION } from "./queries";
-import { useEffect, useState } from "react";
-import { API_URL } from "@/providers";
-import { ErrorAlert } from "@/components/alert";
+
 
 type Props = {
   opened: boolean;
   setOpened: (opened: boolean) => void;
-  userId: string;
 };
 
-export const AccountSettings = ({ opened, setOpened, userId }: Props) => {
+export const AccountSettings = ({ opened, setOpened }: Props) => {
   const [user, setUser] = useState();
   const [error, setError] = useState({ title: "", message: "" });
   const [alert, setAlert] = useState(false);

@@ -1,8 +1,10 @@
 import React from "react";
-import { CopyToClipboardButton } from "@/components/icon/Copy";
-import { Col, Row } from "antd";
-import { isMobile } from "react-device-detect";
 import Markdown from "react-markdown";
+
+import { Col, Row } from "antd";
+
+import { CopyToClipboardButton } from "@/components/icon/Copy";
+
 import { AIQuery } from "./ai-query";
 
 type Props = {
@@ -89,7 +91,7 @@ export const AI = ({
                   <div className="ml-3">
                     <p className="text-sm text-red-700 font-normal">
                       Unable to build survey. Either reload the Dashboard or
-                      click 'Build Survey' and try again...
+                      click &apos;Build Survey&apos; and try again...
                     </p>
                   </div>
                 </div>

@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from "react";
-import { Card, Row, Col, Select, Tabs, Typography, Spin } from "antd";
+import React, { useState } from "react";
 import { OpenAIOutlined } from "@ant-design/icons"; // or use AutoAwesome from MUI
+
+import { Card, Col, Row, Select, Tabs } from "antd";
+
 import { AIProgress } from "@/components/icon/AIIcon";
+
 import { AI } from "./ai";
 
 const { Option } = Select;
-const { Text } = Typography;
 const { TabPane } = Tabs;
 
 type Props = {

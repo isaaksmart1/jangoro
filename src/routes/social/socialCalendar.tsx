@@ -1,5 +1,6 @@
 import React from "react";
-import { Calendar, Badge } from "antd";
+
+import { Badge,Calendar } from "antd";
 import dayjs from "dayjs";
 
 type Event = {

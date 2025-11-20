@@ -1,6 +1,7 @@
 import React from "react";
-import { Card, Typography, Row, Col, Space } from "antd";
-import { UserOutlined, StarOutlined } from "@ant-design/icons";
+import { StarOutlined,UserOutlined } from "@ant-design/icons";
+
+import { Card, Col, Row, Space,Typography } from "antd";
 
 const { Title, Text } = Typography;
 

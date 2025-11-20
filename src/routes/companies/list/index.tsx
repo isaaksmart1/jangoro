@@ -1,4 +1,5 @@
 import React from "react";
+import { SearchOutlined } from "@ant-design/icons";
 
 import {
   CreateButton,
@@ -11,7 +12,6 @@ import {
 import { getDefaultFilter, type HttpError, useGo } from "@refinedev/core";
 import type { GetFieldsFromList } from "@refinedev/nestjs-query";
 
-import { SearchOutlined } from "@ant-design/icons";
 import { Input, Space, Table } from "antd";
 
 import { CustomAvatar, PaginationTotal, Text } from "@/components";
@@ -25,7 +25,7 @@ type Company = GetFieldsFromList<CompaniesListQuery>;
 export const CompanyListPage = ({ children }: React.PropsWithChildren) => {
   const go = useGo();
 
-  const { tableProps, filters, ...rest } = useTable<Company, HttpError, Company>({
+  const { tableProps, filters } = useTable<Company, HttpError, Company>({
     resource: "companies",
     onSearch: (values) => {
       return [

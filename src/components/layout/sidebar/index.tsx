@@ -1,23 +1,18 @@
 import React, { useState } from "react";
-import { Layout, Menu, Typography, Space, Button } from "antd";
+import { Link } from "react-router-dom";
 import {
   DashboardOutlined,
   DollarOutlined,
+  FormOutlined,
   LogoutOutlined,
-  LeftOutlined,
-  RightOutlined,
-  FacebookOutlined,
-  InstagramOutlined,
-  LinkedinOutlined,
-  VideoCameraOutlined,
-  CalendarOutlined,
-  ScheduleOutlined,
 } from "@ant-design/icons";
-import { Link } from "react-router-dom";
+
+import { Button,Layout, Menu } from "antd";
+import { ArrowLeft, ArrowRight } from "lucide-react";
+
 import { authProvider } from "@/providers";
 
 import logo from "../../../assets/img/logo-2.png";
-import { ArrowLeft, ArrowRight } from "lucide-react";
 import { UpgradeBanner } from "../upgrade-banner";
 
 const { Sider } = Layout;
@@ -87,6 +82,13 @@ const Sidebar = () => {
           icon={<DollarOutlined />}
         >
           <Link to="/billing">Billing</Link>
+        </Menu.Item>
+        <Menu.Item
+          key="/survey-builder"
+          style={{ fontSize: 16 }}
+          icon={<FormOutlined />}
+        >
+          <Link to="/survey-builder">Survey Builder</Link>
         </Menu.Item>
 
         <hr color="#666666" style={{ borderColor: "#666666" }} />

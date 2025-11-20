@@ -1,7 +1,9 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { Card, Typography, Button, Space, Tooltip } from "antd";
-import { BarChartOutlined } from "@ant-design/icons";
 import { useLocation } from "react-router";
+import { BarChartOutlined } from "@ant-design/icons";
+
+import { Button, Card, Space, Tooltip } from "antd";
+
 import { Text } from "@/components";
 import { AI_URL, API_URL, authProvider, httpProvider } from "@/providers";
 import { generateAIResponseText } from "@/utilities/helper";
@@ -13,7 +15,6 @@ type FileInputProps = {
 type Props = {
   files: any;
   setIsLoading: any;
-  setFiles: Dispatch<SetStateAction<any>>;
   selected: any;
   selectedFiles: any;
   setSelected: Dispatch<SetStateAction<any>>;
@@ -63,7 +64,6 @@ export const UploadFilesButton = ({ setFiles }: FileInputProps) => {
 export const AnalyzerActionButtons = ({
   setIsLoading,
   files,
-  setFiles,
   selected,
   selectedFiles,
   setSelected,
@@ -87,13 +87,13 @@ export const AnalyzerActionButtons = ({
           localStorage.removeItem("user");
         } else {
           const user = (await authProvider.getIdentity()) as any;
-          if (user.hasOwnProperty("id")) {
+          if (Object.prototype.hasOwnProperty.call(user, "id")) {
             const response = await httpProvider.custom(
               `${API_URL}/user/id/${user.id}`,
               {},
             );
             const dbUser = await response.json();
-            if (dbUser.hasOwnProperty("id")) setUser(dbUser);
+            if (Object.prototype.hasOwnProperty.call(dbUser, "id")) setUser(dbUser);
             else setUser(undefined);
           }
         }
@@ -161,9 +161,7 @@ export const AnalyzerActionButtons = ({
 
       if (!text) return { usage: 0 };
 
-      let usageStats;
-
-      usageStats = JSON.parse(text);
+      const usageStats = JSON.parse(text);
       if (!usageStats || usageStats.usage === 0) {
         alert(
           "You have no usage left this month for AI queries. See billing for details.",
@@ -174,6 +172,7 @@ export const AnalyzerActionButtons = ({
         };
       }
     } catch (err) {
+      console.error(err);
       setIsLoading(false);
       throw new Error("Usage API returned invalid JSON");
     }
@@ -223,7 +222,7 @@ export const AnalyzerActionButtons = ({
 
             setSelected(selectedFile);
 
-            let text: any = {};
+            const text: any = {};
             text[selectedFile] = result[key][0][selectedFile];
 
             setState((prevState: any) =>

@@ -1,9 +1,11 @@
 import React from "react";
-import { Card, Button, Space, Typography } from "antd";
 import { Link } from "react-router-dom";
+
+import { Button, Card, Space, Typography } from "antd";
+
+import SocialCalendarPage from "./calendar";
 import PlatformPage from "./platformTemplate";
 import SchedulerPage from "./scheduler";
-import SocialCalendarPage from "./calendar";
 
 const { Title, Paragraph } = Typography;
 

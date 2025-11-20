@@ -1,7 +1,8 @@
+import { CalendarOutlined } from "@ant-design/icons";
+
 import { useList } from "@refinedev/core";
 import type { GetFieldsFromList } from "@refinedev/nestjs-query";
 
-import { CalendarOutlined } from "@ant-design/icons";
 import { Badge, Card, List, Skeleton as AntdSkeleton } from "antd";
 import dayjs from "dayjs";
 

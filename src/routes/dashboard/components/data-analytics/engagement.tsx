@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
+
 import {
-  PieChart,
-  Pie,
   Cell,
+  Pie,
+  PieChart,
   ResponsiveContainer,
   Tooltip,
 } from "recharts";
+
 import { AI_URL, authProvider, httpProvider } from "@/providers";
 
 type Props = {

@@ -1,10 +1,10 @@
 import React from "react";
-
 import {
   CheckCircleOutlined,
   ExpandOutlined,
   SendOutlined,
 } from "@ant-design/icons";
+
 import { Tag } from "antd";
 
 import type { QuoteStatus } from "@/graphql/schema.types";

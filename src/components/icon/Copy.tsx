@@ -1,8 +1,8 @@
 import { useState } from "react";
 
-import clipboard from "../../assets/img/copy.png";
-import tick from "../../assets/img/tick.png";
 import { Copy } from "lucide-react";
+
+import tick from "../../assets/img/tick.png";
 
 type Props = {
   text: string;

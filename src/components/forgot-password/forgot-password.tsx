@@ -1,12 +1,14 @@
 import React, { useState } from "react";
-import { Form, Input, Button, Card, Typography, notification } from "antd";
-import { MailOutlined, LockOutlined } from "@ant-design/icons";
+import { LockOutlined,MailOutlined } from "@ant-design/icons";
+
+import { Button, Card, Form, Input, Typography } from "antd";
+
 import { updatePassword } from "../../providers/data/user";
 import { ErrorAlert } from "../alert";
 
 const { Title, Text } = Typography;
 
-export const ForgotPassword = ({ onResetRequest }) => {
+export const ForgotPassword = ({ _onResetRequest }) => {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState({ message: "", description: "" });
   const [alert, setAlert] = useState(false);
@@ -23,7 +25,7 @@ export const ForgotPassword = ({ onResetRequest }) => {
         password: values.password,
       };
 
-      const response = await updatePassword(payload);
+      await updatePassword(payload);
 
       setAlert(true);
       setMessage({

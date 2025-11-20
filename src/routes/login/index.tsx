@@ -1,16 +1,18 @@
 import React, { useEffect } from "react";
-import { Image } from "antd";
-import { AuthPage } from "@refinedev/antd";
-
-import { API_URL, authCredentials } from "@/providers";
-import { Text } from "@/components";
-import logo from "@/assets/img/logo.png";
-import { URL_ROUTES } from "@/config/config";
-import { updateProvider } from "@/providers/auth";
 import { useSearchParams } from "react-router";
 
+import { AuthPage } from "@refinedev/antd";
+
+import { Image } from "antd";
+
+import logo from "@/assets/img/logo.png";
+import { Text } from "@/components";
+import { URL_ROUTES } from "@/config/config";
+import { API_URL, authCredentials } from "@/providers";
+import { updateProvider } from "@/providers/auth";
+
 export const LoginPage = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
 
   useEffect(() => {
     const urlPath = searchParams.get("session_id");
@@ -31,6 +33,7 @@ export const LoginPage = () => {
       });
       return result;
     } catch (error) {
+      console.error(error);
       return 500;
     }
   };

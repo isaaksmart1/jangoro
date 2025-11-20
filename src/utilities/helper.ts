@@ -63,7 +63,7 @@ export const generateAIResponseText = (
 };
 
 export function filterObjectsWithFileName(arr, fileName) {
-  return arr.filter((obj) => obj.hasOwnProperty(fileName))[0];
+  return arr.filter((obj) => Object.prototype.hasOwnProperty.call(obj, fileName))[0];
 }
 
 export function formatUnstructuredTextToHTML(text, typeText = "html") {

@@ -1,13 +1,17 @@
 import React, { useState } from "react";
-import { Form, Input, Button, Card, Typography, notification } from "antd";
-import { useNavigation } from "@refinedev/core";
 import { useParams, useSearchParams } from "react-router";
+
+import { useNavigation } from "@refinedev/core";
+
+import { Button, Card, Form, Input, notification,Typography } from "antd";
+
 import { API_URL } from "@/providers";
+
 const { Title, Text } = Typography;
 
 export const ResetPassword = () => {
   const { token } = useParams();
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const { push } = useNavigation();
 
   const email = searchParams.get("email");

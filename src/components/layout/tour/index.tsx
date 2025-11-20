@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import React, { useEffect,useState } from "react";
+
 import { Button, Card } from "antd";
+import { motion } from "framer-motion";
 
 const { Meta } = Card;
 
@@ -47,7 +48,6 @@ const tourSteps = [
 
 export default function TakeTourOverlay({ isTourOpen, setIsTourOpen }: any) {
   const [stepIndex, setStepIndex] = useState(0);
-  const [tourFlag, setTourFlag] = useState(false);
 
   useEffect(() => {
     // Only show the tour if it hasn't been shown in this session

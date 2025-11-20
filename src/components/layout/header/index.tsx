@@ -1,16 +1,15 @@
-import React, { useState } from "react";
-import { Layout, Space, Typography, theme } from "antd";
-import { Link } from "react-router-dom";
-import { authProvider } from "@/providers";
-
-import { CurrentUser } from "../current-user";
+import React from "react";
 import { QuestionCircleFilled } from "@ant-design/icons";
 
-const { useToken } = theme;
+import { Layout, Space, Typography } from "antd";
+
+import { CurrentUser } from "../current-user";
+
+
 const { Title } = Typography;
 
 export const Header = ({ title, isTourOpen, setIsTourOpen }) => {
-  const { token } = useToken();
+
 
   const headerStyles: React.CSSProperties = {
     backgroundColor: "#FFFFFF",

@@ -1,23 +1,16 @@
 import React, { useState } from "react";
+
 import {
-  Card,
-  Form,
-  Input,
-  DatePicker,
-  TimePicker,
-  Select,
   Button,
+  Card,
+  DatePicker,
+  Form,
   message,
+  TimePicker,
 } from "antd";
-import socialApi from "./socialApi";
 import dayjs from "dayjs";
 
-const { TextArea } = Input;
-const { Option } = Select;
-
-type Props = {
-  platform: "instagram" | "facebook" | "linkedin" | "tiktok";
-};
+import socialApi from "./socialApi";
 
 const SchedulerPage: React.FC<Props> = ({ platform }) => {
   const [loading, setLoading] = useState(false);
@@ -36,7 +29,8 @@ const SchedulerPage: React.FC<Props> = ({ platform }) => {
         media: null, // Extend to handle media upload
       });
       message.success("Post scheduled");
-    } catch (err) {
+    } catch (_) {
+      void _; // Workaround for unused _ in catch block
       message.error("Failed to schedule post");
     } finally {
       setLoading(false);

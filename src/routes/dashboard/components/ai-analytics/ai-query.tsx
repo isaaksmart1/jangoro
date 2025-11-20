@@ -1,9 +1,11 @@
+import React, { useEffect, useState } from "react";
+import { SendOutlined } from "@ant-design/icons";
+
+import { Button, Col, Input } from "antd";
+
 import { CopyToClipboardButton } from "@/components/icon/Copy";
 import { AI_URL, httpProvider } from "@/providers";
 import { generateAIResponseText } from "@/utilities/helper";
-import { SendOutlined } from "@ant-design/icons";
-import { Button, Col, Input } from "antd";
-import React, { useEffect, useState } from "react";
 
 type Props = {
   isLoading: any;
@@ -115,7 +117,7 @@ export const AIQuery = ({
               return;
             }
 
-            let text: any = {};
+            const text: any = {};
             text[selectedFile] = result[key][0][selectedFile];
 
             setSelected(selectedFile);
@@ -123,12 +125,12 @@ export const AIQuery = ({
             // BUG
             setState((prevState: any) => {
               if (Array.isArray(prevState)) {
-                let index = prevState.findIndex((element: any) =>
-                  element.hasOwnProperty(selectedFile),
+                const index = prevState.findIndex((element: any) =>
+                  element && Object.prototype.hasOwnProperty.call(element, selectedFile),
                 );
                 if (index > -1) {
-                  let file = prevState.find((element: any) =>
-                    element.hasOwnProperty(selectedFile),
+                  const file = prevState.find((element: any) =>
+                    element && Object.prototype.hasOwnProperty.call(element, selectedFile),
                   );
                   prevState[file] = text;
                 } else {

@@ -1,45 +1,41 @@
+import { useState } from "react";
 import { BrowserRouter, Outlet, Route, Routes } from "react-router";
 
 import { RefineThemes, useNotificationProvider } from "@refinedev/antd";
 import { Authenticated, ErrorComponent, Refine } from "@refinedev/core";
-import { DevtoolsPanel, DevtoolsProvider } from "@refinedev/devtools";
 import routerProvider, {
   CatchAllNavigate,
   DocumentTitleHandler,
-  NavigateToResource,
   UnsavedChangesNotifier,
 } from "@refinedev/react-router";
 
 import { App as AntdApp, ConfigProvider } from "antd";
 
 import {
-  Layout,
-  PageTitleUpdater,
   AuthWrapper,
   ForgotPassword,
-  ResetPassword,
+  Layout,
+  PageTitleUpdater,
   RedeemCode,
+  ResetPassword,
 } from "@/components";
 import { resources } from "@/config/resources";
 import { API_URL, authProvider, dataProvider, liveProvider } from "@/providers";
 import {
-  CompanyCreatePage,
-  CompanyEditPage,
-  CompanyListPage,
   DashboardPage,
   LoginPage,
-  RegisterPage,
-  TasksCreatePage,
-  TasksEditPage,
-  TasksListPage,
-  SocialIndexPage,
   PlatformPage,
+  RegisterPage,
   SchedulerPage,
   SocialCalendarPage,
+  SocialIndexPage,
+  SurveyBuilder,
+  SurveyFill,
 } from "@/routes";
-import "@refinedev/antd/dist/reset.css";
+
 import BillingPage from "./routes/billing";
-import { useState } from "react";
+
+import "@refinedev/antd/dist/reset.css";
 
 const App = () => {
   const [isTourOpen, setIsTourOpen] = useState(false);
@@ -113,12 +109,11 @@ const App = () => {
                   path="social/tiktok"
                   element={<PlatformPage platform="tiktok" />}
                 />
-                <Route path="social/scheduler" element={<SchedulerPage />} />
-                <Route
-                  path="social/calendar"
-                  element={<SocialCalendarPage />}
-                />
-                <Route path="*" element={<ErrorComponent />} />
+                {/* <Route path="social/scheduler" element={<SchedulerPage />} /> */}
+                                <Route path="social/calendar" element={<SocialCalendarPage />} />
+                                <Route path="survey-builder" element={<SurveyBuilder />} />
+                                <Route path="survey-fill/:encodedSurveyData" element={<SurveyFill />} />
+                                <Route path="*" element={<ErrorComponent />} />
               </Route>
 
               {/* Authenticated routes */}
@@ -171,6 +166,8 @@ const App = () => {
                   path="social/calendar"
                   element={<SocialCalendarPage />}
                 />
+                <Route path="survey-builder" element={<SurveyBuilder />} />
+                <Route path="survey-fill/:encodedSurveyData" element={<SurveyFill />} />
                 <Route path="*" element={<ErrorComponent />} />
               </Route>
 

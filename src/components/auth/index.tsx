@@ -1,2 +1,2 @@
-export * from "./wrapper";
 export * from "./redeem";
+export * from "./wrapper";

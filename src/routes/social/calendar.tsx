@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
+
 import { Card, List, Spin } from "antd";
-import SocialCalendar from "./socialCalendar";
+
 import socialApi from "./socialApi";
+import SocialCalendar from "./socialCalendar";
 
 const SocialCalendarPage: React.FC = () => {
   const [events, setEvents] = useState<any[]>([]);

@@ -1,18 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
+
 import Papa from "papaparse";
 import {
-  BarChart,
   Bar,
+  BarChart,
+  CartesianGrid,
+  Legend,
+  Tooltip,
   XAxis,
   YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
 } from "recharts";
 
 export function NumberOfResponses({ files, fileCounts, setFileCounts }: any) {
   useEffect(() => {
-    let promises: any[] = [];
+    const promises: any[] = [];
 
     Array.from(files).forEach((file: any) => {
       // ⛔ Skip if file.file does NOT exist

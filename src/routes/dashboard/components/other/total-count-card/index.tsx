@@ -1,7 +1,7 @@
 import React from "react";
-
 import { AuditOutlined, ShopOutlined, TeamOutlined } from "@ant-design/icons";
 import { Area, type AreaConfig } from "@ant-design/plots";
+
 import { Card, Skeleton } from "antd";
 
 import { Text } from "@/components";

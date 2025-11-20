@@ -1,16 +1,16 @@
 import React from "react";
+import { SettingOutlined } from "@ant-design/icons";
 
 import { useGetIdentity } from "@refinedev/core";
 
-import { SettingOutlined } from "@ant-design/icons";
 import { Button, Popover } from "antd";
 
 import type { User } from "@/graphql/schema.types";
+import { getNameInitials } from "@/utilities";
 
 import { CustomAvatar } from "../../custom-avatar";
 import { Text } from "../../text";
 import { AccountSettings } from "../account-settings";
-import { getNameInitials } from "@/utilities";
 
 export const CurrentUser = () => {
   const [opened, setOpened] = React.useState(false);

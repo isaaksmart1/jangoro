@@ -78,10 +78,11 @@ export const authProvider: AuthProvider = {
         success: true,
       };
     } catch (e) {
+      console.error(e);
       return {
         success: false,
         error: {
-          message: e?.message || "Registration failed",
+          message: "Registration failed",
           name: "Invalid registration details",
         },
       };
@@ -136,6 +137,7 @@ export const authProvider: AuthProvider = {
         redirectTo: `/`,
       };
     } catch (e) {
+      console.error(e);
       return {
         success: false,
         error: {
@@ -181,13 +183,12 @@ export const authProvider: AuthProvider = {
         };
       }
     } catch (e) {
-      const error = e as Error;
-
+      console.error(e);
       return {
         success: false,
         error: {
-          message: "message" in error ? error.message : "Logout failed",
-          name: "name" in error ? error.name : "Unknown error",
+          message: "Logout failed",
+          name: "Unknown error",
         },
       };
     }
@@ -225,6 +226,7 @@ export const authProvider: AuthProvider = {
         redirectTo: `${BASE_URL}/`,
       };
     } catch (error) {
+      console.error(error);
       return {
         authenticated: false,
         redirectTo: `${BASE_URL}/login`,
@@ -256,13 +258,12 @@ export const authProvider: AuthProvider = {
 
       return { id: idNum, idStr, jwtToken: accessToken, ...data };
     } catch (e) {
-      const error = e as Error;
-
+      console.error(e);
       return {
         success: false,
         error: {
-          message: "message" in error ? error.message : "Get Identity failed",
-          name: "name" in error ? error.name : "Unknown error",
+          message: "Get Identity failed",
+          name: "Unknown error",
         },
       };
     }

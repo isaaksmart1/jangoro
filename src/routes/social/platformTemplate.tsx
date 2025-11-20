@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Button, Card, List, Input, Upload, message } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
-import socialApi from "./socialApi";
-import SchedulerPage from "./scheduler";
+
+import { Button, Card, Input, List, message,Upload } from "antd";
+
 import { Text } from "@/components";
+
+import SchedulerPage from "./scheduler";
+import socialApi from "./socialApi";
 
 type Props = {
   platform: "instagram" | "facebook" | "linkedin" | "tiktok";
@@ -34,8 +37,8 @@ const PlatformPage: React.FC<Props> = ({ platform }) => {
           const tokenData = await socialApi.exchangeCode(platform, code);
           console.log("Access token:", tokenData);
           // e.g. store token, navigate to dashboard, etc.
-        } catch (err) {
-          console.error("Code exchange failed", err);
+        } catch (e) {
+          console.error("Code exchange failed", e);
         }
       })();
     }
@@ -54,7 +57,8 @@ const PlatformPage: React.FC<Props> = ({ platform }) => {
     try {
       const res = await socialApi.fetchPosts(platform);
       setPosts(res || []);
-    } catch (err) {
+    } catch (e) {
+      console.error(e);
       message.error("Failed to load posts");
     }
   };
@@ -74,7 +78,8 @@ const PlatformPage: React.FC<Props> = ({ platform }) => {
       setText("");
       setMedia(null);
       await loadPosts();
-    } catch (err) {
+    } catch (_) {
+      console.error(_);
       message.error("Failed to post");
     }
   };

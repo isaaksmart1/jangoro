@@ -1,9 +1,12 @@
 import React from "react";
-import { Card, Typography, Space } from "antd";
 import { ArrowUpOutlined } from "@ant-design/icons";
-import { NumberOfResponses } from "./responses";
+
+import { Card, Space } from "antd";
+
 import { Text } from "@/components";
+
 import { Engagements } from "./engagement";
+import { NumberOfResponses } from "./responses";
 
 export const EngagementChart = ({ files, selectedFiles }: any) => {
   return (

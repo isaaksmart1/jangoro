@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
+
 import { Form, Input, List, Select } from "antd";
-import { AI_URL } from "@/providers";
 import axios from "axios";
+
 import { Text } from "@/components";
+import { AI_URL } from "@/providers";
 
 export function Feedback({
   sessionId,
@@ -50,7 +52,7 @@ export function Feedback({
                       id={`file-${_}`}
                       value={item.id}
                       className="h-4 w-4 rounded border-gray-300 focus:ring-blue-500"
-                      onClick={(event: any) => onSelect(item)}
+                      onClick={(_event: any) => onSelect(item)}
                     />
                     <div>
                       <Text
@@ -96,6 +98,7 @@ export default function Login({
       <br />
 
       <Form.Item>
+        <label htmlFor="provider">Email Provider</label>
         <Select
           className="py-4 my-4 text-lg"
           value={provider}
@@ -109,6 +112,7 @@ export default function Login({
       </Form.Item>
 
       <Form.Item>
+        <label htmlFor="email">Email Address</label>
         <Input
           className="py-4 my-4 text-lg"
           placeholder="Email address"
@@ -118,6 +122,7 @@ export default function Login({
       </Form.Item>
 
       <Form.Item>
+        <label htmlFor="password">Password (or App Password)</label>
         <Input
           className="py-4 my-4 text-lg"
           placeholder="Password / App Password"

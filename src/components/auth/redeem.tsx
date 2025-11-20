@@ -1,15 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { Form, Input, Button, Card, Typography, notification } from "antd";
+import { useSearchParams } from "react-router";
+
 import { useNavigation } from "@refinedev/core";
+
+import { Button, Card, Form, Input, Typography } from "antd";
+
 import { API_URL } from "@/providers";
 import { updateProvider } from "@/providers/auth";
+
 import { ErrorAlert } from "../alert";
-import { useSearchParams } from "react-router";
+
 const { Title, Text } = Typography;
 
 export const RedeemCode = () => {
   const { push } = useNavigation();
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -42,7 +47,7 @@ export const RedeemCode = () => {
     try {
       const data = await updateProvider.redeemRegistration({ email, password });
 
-      if (data.hasOwnProperty("error")) {
+      if (Object.prototype.hasOwnProperty.call(data, "error")) {
         throw new Error(
           "You have either created an account or used the same redeem code more than once",
         );

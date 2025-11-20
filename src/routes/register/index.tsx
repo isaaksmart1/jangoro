@@ -1,14 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSearchParams } from "react-router";
-import { Image } from "antd";
+
 import { AuthPage } from "@refinedev/antd";
 
-import { authCredentials } from "@/providers";
-import { Text } from "@/components";
+import { Image } from "antd";
 
 import logo from "@/assets/img/logo.png";
+import { Text } from "@/components";
 import { URL_ROUTES } from "@/config/config";
-import { useEffect } from "react";
+import { authCredentials } from "@/providers";
 
 export const RegisterPage = () => {
   const [searchParams] = useSearchParams();

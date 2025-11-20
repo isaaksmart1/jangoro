@@ -1,20 +1,19 @@
-import { motion } from "framer-motion";
-import { useCustom } from "@refinedev/core";
+import React, { useState } from "react";
+
 import { Col, Row } from "antd";
-import React, { useEffect, useState } from "react";
-import { QueryStatsRounded } from "@mui/icons-material";
+import { motion } from "framer-motion";
+
+import TakeTourOverlay from "@/components/layout/tour";
+import { SurveyOverview } from "@/components/metrics/survey-metrics";
 
 import {
   AIAnalytics,
   AnalyzerActionButtons,
-  DashboardLatestActivities,
+  EngagementChart,
   FileList,
   ResponsesChart,
-  EngagementChart,
 } from "./components";
-import TakeTourOverlay from "@/components/layout/tour";
 import MetricPanel from "./components/metric-panel";
-import { SurveyOverview } from "@/components/metrics/survey-metrics";
 
 export const DashboardPage = ({ isTourOpen, setIsTourOpen }: any) => {
   const [files, setFiles] = useState([]);

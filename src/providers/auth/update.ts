@@ -1,10 +1,10 @@
 import { generateStripeCustomerId } from "@/utilities/helper";
+
 import {
   API_URL,
   BASE_URL,
   dataProvider,
   GRAPH_QL_URL,
-  httpProvider,
 } from "../data";
 
 export const updateProvider: any = {
@@ -99,20 +99,12 @@ export const updateProvider: any = {
   },
   updateIdentity: async (user: any) => {
     try {
-      if (user) {
-        const response = await httpProvider.custom(`${API_URL}/user/update`, {
-          method: "post",
-          body: JSON.stringify(user),
-        });
-
-        const result = await response.json();
-
-        const idStr = user.id;
-        const idNum = Math.floor(Math.random() * 10 ** 21);
+              if (user) {
+              const idStr = user.id;        const idNum = Math.floor(Math.random() * 10 ** 21);
 
         const account = { ...user, id: idNum, idStr };
 
-        // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
+         
         localStorage.setItem("user", JSON.stringify(account));
       }
     } catch (e) {

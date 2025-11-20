@@ -32,6 +32,7 @@ export const fetchWrapper = async (url: string, options: RequestInit) => {
       throw error;
     }
   } catch (error) {
+    console.error(error);
     return response;
   }
 

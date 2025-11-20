@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
+
 import { Badge, Card, List, Skeleton as AntdSkeleton } from "antd";
+
 import { Text } from "@/components";
-import { UploadFilesButton } from "../actions-buttons";
-import { wsClient, wsSession } from "@/utilities/ws";
-import Login, { Feedback } from "./email";
 import { AI_URL } from "@/providers";
+import { wsClient, wsSession } from "@/utilities/ws";
+
+import { UploadFilesButton } from "../actions-buttons";
+import Login, { Feedback } from "./email";
 
 type Props = {
   files: any;
@@ -16,7 +19,7 @@ type Props = {
 const upload: {
   [key: string]: (setFiles: any, login: any) => React.JSX.Element;
 } = {
-  csv: (setFiles: any, login: any) => {
+  csv: (setFiles: any, _login: any) => {
     return (
       <React.Fragment>
         <span className="text-xs bg-indigo-100 text-indigo-800 px-2 py-1 rounded-full">
@@ -35,6 +38,7 @@ const upload: {
         <button
           onClick={login}
           className="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-500 text-white p-4 rounded-lg"
+          style={{ color: "#FFFFFF" }}
         >
           Connect
         </button>
@@ -49,7 +53,6 @@ export const FileList = ({
   selectedFiles,
   setSelectedFiles,
 }: Props) => {
-  const [isLoading, setIsLoading] = useState(false);
   const [uploadType, setUploadType] = useState("csv");
 
   const [email, setEmail] = useState("");

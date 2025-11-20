@@ -1,7 +1,8 @@
 import React from "react";
-import { Alert } from "antd";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
+
 import { CheckCircleOutline } from "@mui/icons-material";
+import { Alert } from "antd";
 
 export const ErrorAlert: React.FC<{
   type: string;

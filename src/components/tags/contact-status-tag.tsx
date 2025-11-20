@@ -1,11 +1,11 @@
 import React from "react";
-
 import {
   CheckCircleOutlined,
   MinusCircleOutlined,
   PlayCircleFilled,
   PlayCircleOutlined,
 } from "@ant-design/icons";
+
 import { Tag, type TagProps } from "antd";
 
 import type { ContactStatus } from "@/graphql/schema.types";
