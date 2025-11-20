@@ -132,10 +132,18 @@ export const AnalyzerActionButtons = ({
   }, [refinement, summary, sentiment, actionPlan, selected]);
 
   const createFormData = (file: any) => {
+    const uploadType = localStorage.getItem("uploadType");
     const formData = new FormData();
     formData.append("email", user?.email || "");
     formData.append("id", user?.id || "");
     formData.append(file.name, file.file);
+    if (uploadType) {
+      formData.append("source", uploadType);
+      if (uploadType === "email") {
+        formData.append("emailBody", file.body);
+        formData.append("emailSubject", file.subject);
+      }
+    }
     return formData;
   };
 

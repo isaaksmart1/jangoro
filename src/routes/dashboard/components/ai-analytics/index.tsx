@@ -86,7 +86,7 @@ export const AIAnalytics = ({
                 style={{ width: 200, color: "#000000" }}
                 placeholder="Select file"
               >
-                {selectedFiles.map((file, index) => (
+                {selectedFiles.map((file: any, index: any) => (
                   <Option key={index} value={file}>
                     {file}
                   </Option>

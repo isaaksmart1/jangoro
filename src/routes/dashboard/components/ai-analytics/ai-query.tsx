@@ -60,6 +60,14 @@ export const AIQuery = ({
     const formData = new FormData();
     formData.append("query", aiQuery);
     formData.append(file.name, file.file);
+    const uploadType = localStorage.getItem("uploadType");
+    if (uploadType) {
+      formData.append("source", uploadType);
+      if (uploadType === "email") {
+        formData.append("emailBody", file.body);
+        formData.append("emailSubject", file.subject);
+      }
+    }
     return formData;
   };
 

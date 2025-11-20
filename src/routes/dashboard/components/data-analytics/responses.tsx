@@ -12,25 +12,32 @@ import {
 
 export function NumberOfResponses({ files, fileCounts, setFileCounts }: any) {
   useEffect(() => {
-    let promises: any = [];
+    let promises: any[] = [];
 
     Array.from(files).forEach((file: any) => {
+      // ⛔ Skip if file.file does NOT exist
+      if (!file?.file) return;
+
       const promise = new Promise((resolve) => {
         Papa.parse(file.file, {
           complete: (result: any) => {
-            // Clean up the rows by removing empty ones
             const validRows = result.data.filter((row: any) =>
               Object.values(row).some((value) => value !== ""),
             );
-            const rowCount = validRows.length; // No need to subtract 1 for the header if you've filtered out empty rows
-            resolve({ name: file.name, count: rowCount });
+            resolve({ name: file.name, count: validRows.length });
           },
-          header: true, // assuming first row is a header
+          header: true,
         });
       });
 
       promises.push(promise);
     });
+
+    // If no valid files, avoid Promise.all([]) -> resolves instantly
+    if (promises.length === 0) {
+      setFileCounts([]);
+      return;
+    }
 
     Promise.all(promises)
       .then((counts: any) => {

@@ -14,20 +14,34 @@ function MetricPanel({ files, selected, type, setAverageScore }: any) {
   const [columnNames, setColumnNames] = useState([]);
 
   useEffect(() => {
-    if (files.length > 0)
-      Papa.parse(files.find((f: any) => f.name === selected).file, {
-        complete: (result: any) => {
-          setData(result.data as any);
-          // Extract column names dynamically from the first row (headers)
-          const columns = Object.keys(result.data[0] as any);
-          setColumnNames(columns as any);
-          // Set initial values for columns
-          setScoreColumn(columns[0] || "");
-          setEntityColumn(columns[1] || "");
-        },
-        header: true,
-      });
-  }, [selected]);
+    if (!selected) return;
+    if (!files || files.length === 0) return;
+
+    const fileObj = files.find((f: any) => f.name === selected);
+
+    // ⛔ Skip if file object or file content does not exist
+    if (!fileObj || !fileObj.file) return;
+
+    Papa.parse(fileObj.file, {
+      complete: (result: any) => {
+        if (!result.data || result.data.length === 0) return; // ⛔ Skip empty CSV
+
+        setData(result.data as any);
+
+        // ⛔ Defensive check: ensure first row exists
+        const firstRow = result.data[0];
+        if (!firstRow || typeof firstRow !== "object") return;
+
+        const columns = Object.keys(firstRow);
+        setColumnNames(columns as any);
+
+        // Initial dropdown defaults
+        setScoreColumn(columns[0] || "");
+        setEntityColumn(columns[1] || "");
+      },
+      header: true,
+    });
+  }, [selected, files]);
 
   const calculateAverageScore = (column: string | number) => {
     if (column && data.length) {

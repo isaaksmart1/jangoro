@@ -36,6 +36,7 @@
     "@tailwindcss/vite": "^4.1.11",
     "@uiw/react-md-editor": "^4.0.5",
     "antd": "^5.23.3",
+    "axios": "^1.13.2",
     "classnames": "^2.5.1",
     "cross-env": "^7.0.3",
     "dayjs": "^1.11.19",
