@@ -19,6 +19,9 @@ export const authCredentials = {
 export const authProvider: AuthProvider = {
   register: async ({ email, password }) => {
     try {
+      // Normally this value would be set based on user input during registration
+      const seats = 1;
+
       const plan = localStorage.getItem("plan");
 
       localStorage.setItem("email", email);
@@ -45,6 +48,7 @@ export const authProvider: AuthProvider = {
           plan: plan || "month",
         },
         amount,
+        seats,
       };
 
       // Call backend to create Stripe Checkout session
