@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import CryptoJS from "crypto-js";
 
 import {
   Button,
@@ -15,6 +16,7 @@ import {
 } from "antd";
 
 import { AI_URL, API_URL, authProvider } from "@/providers";
+import { getEncryptionKey } from "@/config/config";
 
 const { Content } = Layout;
 const { Title, Text } = Typography;
@@ -67,6 +69,7 @@ const SurveyFill = () => {
   const { encodedSurveyData } = useParams<{ encodedSurveyData: string }>();
   const [surveyQuestions, setSurveyQuestions] = useState<Question[]>([]);
   const [surveyLogoUrl, setSurveyLogoUrl] = useState<string | null>(null);
+  const [surveyTitle, setSurveyTitle] = useState<string>("");
   const [surveyTheme, setSurveyTheme] = useState<string>("default");
   const [currentTheme, setCurrentTheme] = useState<React.CSSProperties>({});
   const [thankYouVisible, setThankYouVisible] = useState(false);
@@ -74,14 +77,16 @@ const SurveyFill = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const [customerName, customerEmail, surveyTitle] = (
-    encodedSurveyData || ""
-  ).split("|");
-
   useEffect(() => {
-    fetch(
-      `${API_URL}/survey-fill?customerName=${encodeURIComponent(customerName)}&customerEmail=${encodeURIComponent(customerEmail)}&surveyTitle=${encodeURIComponent(surveyTitle)}`,
-    )
+    decryptSurveyData(encodedSurveyData || "")
+      .then((decryptedData) => {
+        const [customerName, customerEmail, surveyTitle] = (
+          decryptedData || ""
+        ).split("|");
+        return fetch(
+          `${API_URL}/survey-fill?customerName=${encodeURIComponent(customerName)}&customerEmail=${encodeURIComponent(customerEmail)}&surveyTitle=${encodeURIComponent(surveyTitle)}`,
+        );
+      })
       .then((res) => res.json())
       .then((result) => {
         if (result && result.encodedData) {
@@ -90,6 +95,7 @@ const SurveyFill = () => {
           try {
             const decodedData = atob(decodeURIComponent(encodedSurveyData));
             const parsedData = JSON.parse(decodedData);
+            setSurveyTitle(parsedData.surveyTitle || "");
             setSurveyQuestions(parsedData.questions || []);
             setSurveyLogoUrl(parsedData.logoUrl || null);
             setSurveyTheme(parsedData.theme || "default");
@@ -110,6 +116,28 @@ const SurveyFill = () => {
         setLoading(false);
       });
   }, []);
+
+  const decryptSurveyData = async (encodedData: string) => {
+    let decrypted = "";
+
+    try {
+      decrypted = atob(decodeURIComponent(encodedData));
+    } catch (e) {
+      console.error("Failed to decode Base64", e);
+    }
+    // const secretKey = await getEncryptionKey();
+    // try {
+    //   const bytes = CryptoJS.AES.decrypt(
+    //     encodedData,
+    //     secretKey,
+    //   );
+    //   decrypted = bytes.toString(CryptoJS.enc.Utf8);
+    // } catch (e) {
+    //   console.error("Failed to decrypt.", e);
+    // }
+
+    return decrypted;
+  };
 
   const onFinish = async (values: any) => {
     const res = {} as any;

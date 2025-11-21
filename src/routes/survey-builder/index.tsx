@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { CopyToClipboard } from "react-copy-to-clipboard";
+import CryptoJS from "crypto-js";
 import {
   CopyOutlined,
   DeleteOutlined,
@@ -24,6 +25,7 @@ import LZString from "lz-string";
 
 import { ErrorAlert } from "@/components";
 import { API_URL, authProvider } from "@/providers";
+import { getEncryptionKey } from "@/config/config";
 
 const { Content, Sider } = Layout;
 const { Title, Text, Paragraph } = Typography;
@@ -187,12 +189,14 @@ const SurveyBuilder = () => {
       alert("Please add some questions first!");
       return;
     }
+
     if (!canCreateMoreLinks) {
       alert(
         "Free accounts are limited to one survey link. Please upgrade to create more!",
       );
       return;
     }
+
     const serialized = serializeSurvey();
     const encodedData = encodeURIComponent(btoa(serialized));
     const compressed = LZString.compressToEncodedURIComponent(
@@ -211,9 +215,17 @@ const SurveyBuilder = () => {
       },
       body: JSON.stringify({ compressed }),
     });
-    const encodedSurveyData = `${customerName}|${customerEmail}|${surveyTitle}`;
-    const link = `${baseUrl}/survey-fill/${encodedSurveyData}`;
+
+    const rawSurveyData = `${customerName}|${customerEmail}|${surveyTitle}`;
+    const encodedSurveyData = btoa(rawSurveyData);
+    // const secretKey = await getEncryptionKey();
+    // const encodedSurveyData = CryptoJS.AES.encrypt(
+    //   rawSurveyData,
+    //   secretKey,
+    // ).toString().replaceAll("/", "").replaceAll("+", "").replaceAll("=", "");
+    const link = `${baseUrl}/survey-fill/${encodeURIComponent(encodedSurveyData)}`;
     setGeneratedLink(link);
+
     const user = await authProvider.getIdentity();
     if (user) {
       const updatedUser = { ...user, surveyCount: (user.surveyCount || 0) + 1 };
@@ -225,6 +237,7 @@ const SurveyBuilder = () => {
         body: JSON.stringify(updatedUser),
       });
     }
+
     setShowAlert(true);
     setTimeout(() => setShowAlert(false), 2000);
   };

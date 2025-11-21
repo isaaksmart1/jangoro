@@ -14,4 +14,15 @@ const dev = {
   ai: "http://localhost:5000",
 };
 
+export const getEncryptionKey = async () => {
+  try {
+  const response = await fetch(`${DEVELOPMENT ? dev.api : prod.api}/config/encryption-key`)
+    const data = await response.json();
+    return data.encryptionSecretKey;
+  } catch (err) {
+    console.error("Failed to fetch encryption key:", err);
+    return "default-key";
+  }
+};
+
 export const URL_ROUTES = DEVELOPMENT ? dev : prod;
