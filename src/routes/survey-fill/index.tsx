@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import {
+  Alert,
   Button,
   Card,
   Checkbox,
@@ -15,7 +16,7 @@ import {
   Typography,
 } from "antd";
 
-import { API_URL } from "@/providers";
+import { AI_URL, API_URL, authProvider } from "@/providers";
 
 const { Content } = Layout;
 const { Title, Text } = Typography;
@@ -75,24 +76,60 @@ const SurveyFill = () => {
       });
   }, []);
 
-  const onFinish = (values: any) => {
-    console.log("Survey responses:", values);
-    message.success(
-      "Survey submitted successfully! Check console for responses.",
-    );
-    // In a real application, you would send these responses to a backend.
+  const onFinish = async (values: any) => {
+    let res = {} as any;
+    let payload = {};
+    const user = await authProvider.getIdentity();
+    const email = user.email || customerEmail || "" || "";
+    Object.keys(values).forEach((key) => {
+      const question = surveyQuestions.find((q) => q.id === key);
+      if (!question) {
+        return null;
+      }
+      let label = question.label;
+      res[label] = values[key];
+      return res;
+    });
+    payload = {
+      customerName,
+      customerEmail: email,
+      surveyTitle,
+      responses: res,
+    };
+    // Post payload to the backend API
+    fetch(`${AI_URL}/survey-submit`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return res.json();
+      })
+      .then((data) => {
+        console.log("Successfully submitted survey responses:", data);
+        alert("Survey submitted successfully!");
+      })
+      .catch((err) => {
+        console.error("Error submitting survey responses:", err);
+        alert("Failed to submit survey. Please try again later.");
+      });
   };
 
   const themeStyles: { [key: string]: React.CSSProperties } = {
     default: { backgroundColor: "#f0f2f5", color: "#000000" },
     light: { backgroundColor: "#ffffff", color: "#000000" },
-    red: { backgroundColor: "#ffcccc", color: "#ffcccc" },
-    blue: { backgroundColor: "#cce5ff", color: "#cce5ff" },
-    yellow: { backgroundColor: "#fff9cc", color: "#fff9cc" },
-    green: { backgroundColor: "#ccffcc", color: "#ccffcc" },
-    purple: { backgroundColor: "#e5ccff", color: "#e5ccff" },
-    orange: { backgroundColor: "#ffe5cc", color: "#ffe5cc" },
-    dark: { backgroundColor: "#333333", color: "#ffffff" },
+    red: { backgroundColor: "#ff7e7eff", color: "#ff7e7eff" },
+    blue: { backgroundColor: "#84bfffff", color: "#84bfffff" },
+    yellow: { backgroundColor: "#fff186ff", color: "#fff186ff" },
+    green: { backgroundColor: "#7bff7bff", color: "#7bff7bff" },
+    purple: { backgroundColor: "#ab66f5ff", color: "#ab66f5ff" },
+    orange: { backgroundColor: "#fdba7bff", color: "#fdba7bff" },
+    dark: { backgroundColor: "#333333", color: "#333333" },
   };
 
   useEffect(() => {
@@ -143,7 +180,7 @@ const SurveyFill = () => {
               color: currentTheme.color || "inherit",
             }}
           >
-            Complete the {surveyTitle} Survey
+            Customer {surveyTitle} Survey
           </Title>
           <Form form={form} layout="vertical" onFinish={onFinish}>
             {surveyQuestions.map((question) => (
@@ -202,7 +239,11 @@ const SurveyFill = () => {
             <Form.Item>
               <Button
                 htmlType="submit"
-                style={{ width: "100%", marginTop: "20px", backgroundColor: currentTheme.backgroundColor }}
+                style={{
+                  width: "100%",
+                  marginTop: "20px",
+                  backgroundColor: currentTheme.backgroundColor,
+                }}
               >
                 Submit
               </Button>

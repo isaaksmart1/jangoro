@@ -106,11 +106,11 @@ export const AIAnalytics = ({
               <TabPane className="tab-content" tab="Action Plan" key="tab4" />
               <TabPane className="tab-content" tab="Ask AI" key="tab5" />
               <TabPane className="tab-content" tab="Summary" key="tab2" />
-              <TabPane
+              {/* <TabPane
                 className="tab-content"
                 tab="Survey Builder"
                 key="tab3"
-              />
+              /> */}
               <TabPane
                 className="tab-content"
                 tab="Sentiment Score"

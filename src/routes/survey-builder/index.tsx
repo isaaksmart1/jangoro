@@ -292,7 +292,11 @@ const SurveyBuilder = () => {
               )}
             </Upload>
             {logoUrl && (
-              <Button danger onClick={() => setLogoUrl(null)}>
+              <Button
+                style={{ marginTop: 15 }}
+                danger
+                onClick={() => setLogoUrl(null)}
+              >
                 Remove Logo
               </Button>
             )}

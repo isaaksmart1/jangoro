@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
 
-import { Badge, Card, List, Skeleton as AntdSkeleton } from "antd";
+import { Card } from "antd";
 
 import { Text } from "@/components";
-import { AI_URL } from "@/providers";
+import { AI_URL, authProvider } from "@/providers";
 import { wsClient, wsSession } from "@/utilities/ws";
 
 import { UploadFilesButton } from "../actions-buttons";
 import Login, { Feedback } from "./email";
+import { NoFiles as CsvNoFiles } from "./csv";
+import CSV from "./csv";
 
 type Props = {
   files: any;
@@ -17,7 +19,7 @@ type Props = {
 };
 
 const upload: {
-  [key: string]: (setFiles: any, login: any) => React.JSX.Element;
+  [key: string]: (setFiles: any, login: any, update: any) => React.JSX.Element;
 } = {
   csv: (setFiles: any, _login: any) => {
     return (
@@ -41,6 +43,22 @@ const upload: {
           style={{ color: "#FFFFFF" }}
         >
           Connect
+        </button>
+      </React.Fragment>
+    );
+  },
+  builder: (_setFiles: any, _login: any, update: any) => {
+    return (
+      <React.Fragment>
+        <span className="text-xs bg-indigo-100 text-indigo-800 px-2 py-1 rounded-full">
+          Responses
+        </span>
+        <button
+          onClick={update}
+          className="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-500 text-white p-4 rounded-lg"
+          style={{ color: "#FFFFFF" }}
+        >
+          Update
         </button>
       </React.Fragment>
     );
@@ -116,6 +134,41 @@ export const FileList = ({
     }
   };
 
+  const update = async () => {
+    const user = await authProvider.getIdentity();
+    const customerEmail = user.email || "";
+    // Fetch a list of csv files from the backend
+    const res = await fetch(
+      `${AI_URL}/survey-builder/responses?email=${customerEmail}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      },
+    );
+    const data = await res.json();
+
+    const csvFiles = data.surveys.map((f: any) => {
+      const byteString = atob(f.base64);
+      const array = new Uint8Array(byteString.length);
+      for (let i = 0; i < byteString.length; i++) {
+        array[i] = byteString.charCodeAt(i);
+      }
+
+      const blob = new Blob([array], { type: f.type });
+
+      const file = new File([blob], f.name, {
+        type: f.type,
+        lastModified: f.lastModified,
+      });
+
+      return { name: f.name, file, type: f.type };
+    });
+
+    setFiles(csvFiles);
+  };
+
   const login = async () => {
     const res = await fetch(`${AI_URL}/login-email`, {
       method: "POST",
@@ -177,82 +230,24 @@ export const FileList = ({
                 Upload Email Data
               </Text>
             </option>
+            <option
+              value="builder"
+              style={{ display: "flex", alignItems: "center" }}
+            >
+              <Text size="lg" style={{ marginLeft: ".7rem", color: "#000000" }}>
+                Upload Survey Builder Data
+              </Text>
+            </option>
           </select>
-          {upload[uploadType](setFiles, login)}
+          {upload[uploadType](setFiles, login, update)}
         </div>
       }
     >
       {uploadType === "csv" ? (
         isLoading ? (
-          <List
-            itemLayout="horizontal"
-            dataSource={files.map((_: any, index: number) => ({
-              id: index,
-            }))}
-            renderItem={() => {
-              return (
-                <List.Item>
-                  <List.Item.Meta
-                    avatar={<Badge color="transparent" />}
-                    title={
-                      <AntdSkeleton.Button
-                        active
-                        style={{
-                          height: "14px",
-                        }}
-                      />
-                    }
-                    description={
-                      <AntdSkeleton.Button
-                        active
-                        style={{
-                          width: "300px",
-                          marginTop: "8px",
-                          height: "16px",
-                        }}
-                      />
-                    }
-                  />
-                </List.Item>
-              );
-            }}
-          />
+          <CsvNoFiles files={files} />
         ) : (
-          <List
-            itemLayout="horizontal"
-            dataSource={files || []}
-            renderItem={(item: any, _: number) => {
-              return (
-                <List.Item>
-                  <List.Item.Meta
-                    //   avatar={<Badge color={item.color} />}
-                    title={
-                      <div
-                        key={_}
-                        className="flex items-center space-x-2 mb-2 last:mb-0"
-                      >
-                        <input
-                          type="checkbox"
-                          id={`file-${_}`}
-                          value={item.name}
-                          className="h-4 w-4 rounded border-gray-300 focus:ring-blue-500"
-                          onClick={(event: any) =>
-                            onFileSelectChange(event.target.value)
-                          }
-                        />
-                        <Text
-                          size="md"
-                          style={{ color: "#000000", marginLeft: 8 }}
-                        >
-                          {item.name}
-                        </Text>
-                      </div>
-                    }
-                  />
-                </List.Item>
-              );
-            }}
-          />
+          <CSV files={files} onFileSelectChange={onFileSelectChange} />
         )
       ) : uploadType === "email" ? (
         !onLoggedIn ? (
@@ -271,6 +266,8 @@ export const FileList = ({
             setFiles={setFiles}
           />
         )
+      ) : uploadType === "builder" ? (
+        <CSV files={files} onFileSelectChange={onFileSelectChange} />
       ) : (
         <></>
       )}

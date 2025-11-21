@@ -261,12 +261,12 @@ export const AnalyzerActionButtons = ({
       action: handleSummary,
       caption: "Generate a short summary of your uploaded files.",
     },
-    {
-      version: "paid",
-      label: "Build Survey",
-      action: handleRefinement,
-      caption: "Create a refined survey based on data insights.",
-    },
+    // {
+    //   version: "paid",
+    //   label: "Build Survey",
+    //   action: handleRefinement,
+    //   caption: "Create a refined survey based on data insights.",
+    // },
     {
       version: "paid",
       label: "Sentiment Score",
