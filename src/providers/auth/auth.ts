@@ -156,7 +156,10 @@ export const authProvider: AuthProvider = {
       const user = localStorage.getItem("user");
       const account = user ? JSON.parse(user) : null;
 
-      if (!account) throw new Error("Account does not exist");
+      if (!account) {
+        window.location.href = "/login";
+        throw new Error("Account does not exist");
+      }
 
       const data = {
         ...account,
@@ -256,7 +259,13 @@ export const authProvider: AuthProvider = {
       const idStr = data.id;
       const idNum = Math.floor(Math.random() * 10 ** 21);
 
-      return { id: idNum, idStr, jwtToken: accessToken, ...data };
+      return {
+        id: idNum,
+        idStr,
+        jwtToken: accessToken,
+        ...data,
+        surveyCount: data.surveyCount,
+      };
     } catch (e) {
       console.error(e);
       return {

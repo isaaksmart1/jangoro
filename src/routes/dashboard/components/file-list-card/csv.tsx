@@ -1,6 +1,8 @@
-import { Text } from "@/components";
-import { Badge, List, Skeleton as AntdSkeleton } from "antd";
 import React from "react";
+
+import { Badge, List, Skeleton as AntdSkeleton } from "antd";
+
+import { Text } from "@/components";
 
 export const NoFiles = ({files}: any) => (
   <List

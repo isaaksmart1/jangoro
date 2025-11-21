@@ -2,14 +2,12 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import {
-  Alert,
   Button,
   Card,
   Checkbox,
   Form,
   Input,
   Layout,
-  message,
   Radio,
   Slider,
   Space,
@@ -77,7 +75,7 @@ const SurveyFill = () => {
   }, []);
 
   const onFinish = async (values: any) => {
-    let res = {} as any;
+    const res = {} as any;
     let payload = {};
     const user = await authProvider.getIdentity();
     const email = user.email || customerEmail || "" || "";
@@ -86,7 +84,7 @@ const SurveyFill = () => {
       if (!question) {
         return null;
       }
-      let label = question.label;
+      const label = question.label;
       res[label] = values[key];
       return res;
     });

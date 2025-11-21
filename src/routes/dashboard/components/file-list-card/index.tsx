@@ -7,9 +7,8 @@ import { AI_URL, authProvider } from "@/providers";
 import { wsClient, wsSession } from "@/utilities/ws";
 
 import { UploadFilesButton } from "../actions-buttons";
+import CSV, { NoFiles as CsvNoFiles } from "./csv";
 import Login, { Feedback } from "./email";
-import { NoFiles as CsvNoFiles } from "./csv";
-import CSV from "./csv";
 
 type Props = {
   files: any;

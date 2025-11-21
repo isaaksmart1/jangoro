@@ -7,13 +7,14 @@ import {
   PlusOutlined,
 } from "@ant-design/icons";
 
+import { useGetIdentity } from "@refinedev/core";
+
 import {
   Button,
   Card,
   Input,
   InputNumber,
   Layout,
-  message,
   Select,
   Space,
   Typography,
@@ -21,7 +22,7 @@ import {
 } from "antd";
 import LZString from "lz-string";
 
-import { API_URL } from "@/providers";
+import { API_URL, authProvider } from "@/providers";
 
 const { Content, Sider } = Layout;
 const { Title, Text, Paragraph } = Typography;
@@ -51,6 +52,19 @@ const SurveyBuilder = () => {
   const [customerName, setCustomerName] = useState<string>("");
   const [customerEmail, setCustomerEmail] = useState<string>("");
   const [surveyTitle, setSurveyTitle] = useState<string>("");
+
+  const { data: user } = useGetIdentity<{
+    id: number;
+    idStr: string;
+    jwtToken: string;
+    subscription: string;
+    surveyCount: number;
+  }>();
+
+  const isPaidAccount =
+    user?.subscription === "month" || user?.subscription === "year";
+  const canCreateMoreLinks =
+    isPaidAccount || (isPaidAccount && (user?.surveyCount || 0) < 1);
 
   const serializeSurvey = (): string => {
     return JSON.stringify({
@@ -165,15 +179,18 @@ const SurveyBuilder = () => {
     );
   };
 
-  const handleGenerateLink = () => {
+  const handleGenerateLink = async () => {
     if (questions.length === 0) {
-      message.warn("Please add some questions first!");
+      alert("Please add some questions first!");
+      return;
+    }
+    if (!canCreateMoreLinks) {
+      alert(
+        "Free accounts are limited to one survey link. Please upgrade to create more!",
+      );
       return;
     }
     const serialized = serializeSurvey();
-    // In a real application, you would store this serialized data in a database
-    // and generate a short, unique ID to pass in the URL.
-    // For this example, we'll encode the entire survey data into the URL.
     const encodedData = encodeURIComponent(btoa(serialized));
     const compressed = LZString.compressToEncodedURIComponent(
       JSON.stringify({
@@ -194,12 +211,23 @@ const SurveyBuilder = () => {
     const encodedSurveyData = `${customerName}|${customerEmail}|${surveyTitle}`;
     const link = `${baseUrl}/survey-fill/${encodedSurveyData}`;
     setGeneratedLink(link);
-    message.success("Survey link generated!");
+    const user = await authProvider.getIdentity();
+    if (user) {
+      const updatedUser = { ...user, surveyCount: (user.surveyCount || 0) + 1 };
+      fetch(`${API_URL}/user/update`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedUser),
+      });
+    }
+    alert("Survey link generated!");
   };
 
   const handleCopyLink = () => {
     if (generatedLink) {
-      message.success("Survey link copied to clipboard!");
+      alert("Survey link copied to clipboard!");
     }
   };
 
@@ -253,6 +281,7 @@ const SurveyBuilder = () => {
             icon={<CopyOutlined />}
             onClick={handleGenerateLink}
             style={{ marginTop: "20px", marginLeft: "10px" }}
+            disabled={!canCreateMoreLinks}
           >
             Generate Shareable Link
           </Button>
