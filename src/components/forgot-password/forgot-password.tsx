@@ -108,6 +108,7 @@ export const ForgotPassword = ({ _onResetRequest }) => {
           type="success"
           message={message.message}
           description={message.description}
+          showAlert={alert}
         />
       )}
     </Card>

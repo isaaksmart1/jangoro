@@ -182,6 +182,7 @@ export const AccountSettings = ({ opened, setOpened }: Props) => {
               type={alertType}
               message={error.title}
               description={error.message}
+              showAlert={alert}
             />
           )}
         </Card>

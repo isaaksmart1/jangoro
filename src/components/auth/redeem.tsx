@@ -99,6 +99,7 @@ export const RedeemCode = () => {
           type="success"
           message="Your lifetime subscription is ready! Enter the redeem code below."
           description={code}
+          showAlert={true}
         />
       )}
       <Title level={3} style={{ color: "#722ed1" }}>
@@ -150,6 +151,7 @@ export const RedeemCode = () => {
           type={alertType}
           message={error.title}
           description={error.message}
+          showAlert={alert}
         />
       )}
     </Card>

@@ -22,6 +22,7 @@ import {
 } from "antd";
 import LZString from "lz-string";
 
+import { ErrorAlert } from "@/components";
 import { API_URL, authProvider } from "@/providers";
 
 const { Content, Sider } = Layout;
@@ -46,6 +47,8 @@ const SurveyBuilder = () => {
   const [editingQuestionId, setEditingQuestionId] = useState<string | null>(
     null,
   );
+  const [showAlert, setShowAlert] = useState<boolean>(false);
+  const [showCopyLink, setShowCopyLink] = useState<boolean>(false);
   const [generatedLink, setGeneratedLink] = useState<string | null>(null);
   const [logoUrl, setLogoUrl] = useState<string | null>(null);
   const [theme, setTheme] = useState<string>("default");
@@ -222,12 +225,14 @@ const SurveyBuilder = () => {
         body: JSON.stringify(updatedUser),
       });
     }
-    alert("Survey link generated!");
+    setShowAlert(true);
+    setTimeout(() => setShowAlert(false), 2000);
   };
 
   const handleCopyLink = () => {
     if (generatedLink) {
-      alert("Survey link copied to clipboard!");
+      setShowCopyLink(true);
+      setTimeout(() => setShowCopyLink(false), 2000);
     }
   };
 
@@ -276,22 +281,34 @@ const SurveyBuilder = () => {
             />
           </Space>
 
-          <Button
-            type="primary"
-            icon={<CopyOutlined />}
-            onClick={handleGenerateLink}
-            style={{ marginTop: "20px", marginLeft: "10px" }}
-            disabled={!canCreateMoreLinks}
+          <ErrorAlert
+            showAlert={showAlert}
+            type="success"
+            message="Survey link generated!"
           >
-            Generate Shareable Link
-          </Button>
+            <Button
+              type="primary"
+              icon={<CopyOutlined />}
+              onClick={handleGenerateLink}
+              style={{ marginTop: "20px", marginLeft: "10px" }}
+              disabled={!canCreateMoreLinks}
+            >
+              Generate Shareable Link
+            </Button>
+          </ErrorAlert>
 
           {generatedLink && (
             <Space style={{ marginTop: "10px", width: "100%" }}>
               <Input value={generatedLink} readOnly />
-              <CopyToClipboard text={generatedLink} onCopy={handleCopyLink}>
-                <Button icon={<CopyOutlined />}>Copy</Button>
-              </CopyToClipboard>
+              <ErrorAlert
+                showAlert={showCopyLink}
+                type="success"
+                message="Survey link copied to clipboard!"
+              >
+                <CopyToClipboard text={generatedLink} onCopy={handleCopyLink}>
+                  <Button icon={<CopyOutlined />}>Copy</Button>
+                </CopyToClipboard>
+              </ErrorAlert>
             </Space>
           )}
 
