@@ -158,8 +158,20 @@ const SurveyFill = () => {
           width: "720px",
           maxWidth: "720px",
           margin: "auto",
+          paddingTop: "25px",
         }}
       >
+        <h2
+          style={{
+            textAlign: "center",
+            marginBottom: "20px",
+            color: "#999999",
+            fontSize: "16px",
+            fontWeight: "bold",
+          }}
+        >
+          Powered by Jangoro
+        </h2>
         <Card>
           {surveyLogoUrl && (
             <div style={{ textAlign: "center", marginBottom: "20px" }}>
