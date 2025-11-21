@@ -27,12 +27,49 @@ interface Question {
   scale?: number;
 }
 
+const ThanksForTakingSurvey = ({ themeStyles }: any) => (
+  <Layout style={{ minHeight: "100vh", ...themeStyles["default"] }}>
+    <Content
+      style={{
+        padding: "50px",
+        width: "720px",
+        maxWidth: "720px",
+        margin: "auto",
+        textAlign: "center",
+      }}
+    >
+      <Card>
+        <Title level={2} style={{ marginBottom: "20px" }}>
+          Thank You!
+        </Title>
+        <Text>Your responses have been recorded successfully.</Text>
+        {/* Go Back */}
+        <div style={{ marginTop: "30px" }}>
+          <Button
+            type="primary"
+            style={{
+              backgroundColor: themeStyles.backgroundColor,
+              color: themeStyles.color,
+            }}
+            onClick={() => {
+              window.location.reload();
+            }}
+          >
+            Fill Another Survey
+          </Button>
+        </div>
+      </Card>
+    </Content>
+  </Layout>
+);
+
 const SurveyFill = () => {
   const { encodedSurveyData } = useParams<{ encodedSurveyData: string }>();
   const [surveyQuestions, setSurveyQuestions] = useState<Question[]>([]);
   const [surveyLogoUrl, setSurveyLogoUrl] = useState<string | null>(null);
   const [surveyTheme, setSurveyTheme] = useState<string>("default");
   const [currentTheme, setCurrentTheme] = useState<React.CSSProperties>({});
+  const [thankYouVisible, setThankYouVisible] = useState(false);
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -110,7 +147,7 @@ const SurveyFill = () => {
       })
       .then((data) => {
         console.log("Successfully submitted survey responses:", data);
-        alert("Survey submitted successfully!");
+        setThankYouVisible(true);
       })
       .catch((err) => {
         console.error("Error submitting survey responses:", err);
@@ -151,117 +188,126 @@ const SurveyFill = () => {
   }
 
   return (
-    <Layout style={{ minHeight: "100vh", ...themeStyles["default"] }}>
-      <Content
-        style={{
-          padding: "50px",
-          width: "720px",
-          maxWidth: "720px",
-          margin: "auto",
-          paddingTop: "25px",
-        }}
-      >
-        <h2
-          style={{
-            textAlign: "center",
-            marginBottom: "20px",
-            color: "#999999",
-            fontSize: "16px",
-            fontWeight: "bold",
-          }}
-        >
-          Powered by Jangoro
-        </h2>
-        <Card>
-          {surveyLogoUrl && (
-            <div style={{ textAlign: "center", marginBottom: "20px" }}>
-              <img
-                src={surveyLogoUrl}
-                alt="Survey Logo"
-                style={{ maxWidth: "150px", maxHeight: "150px" }}
-              />
-            </div>
-          )}
-          <Title
-            level={2}
+    <React.Fragment>
+      {!thankYouVisible ? (
+        <Layout style={{ minHeight: "100vh", ...themeStyles["default"] }}>
+          <Content
             style={{
-              textAlign: "center",
-              marginBottom: "30px",
-              color: currentTheme.color || "inherit",
+              padding: "50px",
+              width: "720px",
+              maxWidth: "720px",
+              margin: "auto",
+              paddingTop: "25px",
             }}
           >
-            Customer {surveyTitle} Survey
-          </Title>
-          <Form form={form} layout="vertical" onFinish={onFinish}>
-            {surveyQuestions.map((question) => (
-              <Form.Item
-                key={question.id}
-                label={<Text strong>{question.label}</Text>}
-                name={question.id}
-                rules={[
-                  {
-                    required: true,
-                    message: `Please answer ${question.label}`,
-                  },
-                ]}
-              >
-                {question.type === "text" && (
-                  <Input placeholder="Your answer" />
-                )}
-                {question.type === "multiple-choice" && (
-                  <Radio.Group>
-                    <Space direction="vertical">
-                      {question.options?.map((option) => (
-                        <Radio key={option.id} value={option.value}>
-                          {option.value}
-                        </Radio>
-                      ))}
-                    </Space>
-                  </Radio.Group>
-                )}
-                {question.type === "checkbox" && (
-                  <Checkbox.Group>
-                    <Space direction="vertical">
-                      {question.options?.map((option) => (
-                        <Checkbox key={option.id} value={option.value}>
-                          {option.value}
-                        </Checkbox>
-                      ))}
-                    </Space>
-                  </Checkbox.Group>
-                )}
-                {question.type === "rating" && (
-                  <Slider
-                    min={1}
-                    max={question.scale || 5}
-                    marks={
-                      question.scale
-                        ? Array.from(
-                            { length: question.scale },
-                            (_, i) => i + 1,
-                          ).reduce((acc, val) => ({ ...acc, [val]: val }), {})
-                        : { 1: 1, 2: 2, 3: 3, 4: 4, 5: 5 }
-                    }
+            <h2
+              style={{
+                textAlign: "center",
+                marginBottom: "20px",
+                color: "#999999",
+                fontSize: "16px",
+                fontWeight: "bold",
+              }}
+            >
+              Powered by Jangoro
+            </h2>
+            <Card>
+              {surveyLogoUrl && (
+                <div style={{ textAlign: "center", marginBottom: "20px" }}>
+                  <img
+                    src={surveyLogoUrl}
+                    alt="Survey Logo"
+                    style={{ maxWidth: "150px", maxHeight: "150px" }}
                   />
-                )}
-              </Form.Item>
-            ))}
-            <Form.Item>
-              <Button
-                htmlType="submit"
+                </div>
+              )}
+              <Title
+                level={2}
                 style={{
-                  width: "100%",
-                  marginTop: "20px",
-                  backgroundColor: currentTheme.backgroundColor,
+                  textAlign: "center",
+                  marginBottom: "30px",
+                  color: currentTheme.color || "inherit",
                 }}
               >
-                Submit
-              </Button>
-            </Form.Item>
-          </Form>
-        </Card>
-      </Content>
-    </Layout>
+                Customer {surveyTitle} Survey
+              </Title>
+              <Form form={form} layout="vertical" onFinish={onFinish}>
+                {surveyQuestions.map((question) => (
+                  <Form.Item
+                    key={question.id}
+                    label={<Text strong>{question.label}</Text>}
+                    name={question.id}
+                    rules={[
+                      {
+                        required: true,
+                        message: `Please answer ${question.label}`,
+                      },
+                    ]}
+                  >
+                    {question.type === "text" && (
+                      <Input placeholder="Your answer" />
+                    )}
+                    {question.type === "multiple-choice" && (
+                      <Radio.Group>
+                        <Space direction="vertical">
+                          {question.options?.map((option) => (
+                            <Radio key={option.id} value={option.value}>
+                              {option.value}
+                            </Radio>
+                          ))}
+                        </Space>
+                      </Radio.Group>
+                    )}
+                    {question.type === "checkbox" && (
+                      <Checkbox.Group>
+                        <Space direction="vertical">
+                          {question.options?.map((option) => (
+                            <Checkbox key={option.id} value={option.value}>
+                              {option.value}
+                            </Checkbox>
+                          ))}
+                        </Space>
+                      </Checkbox.Group>
+                    )}
+                    {question.type === "rating" && (
+                      <Slider
+                        min={1}
+                        max={question.scale || 5}
+                        marks={
+                          question.scale
+                            ? Array.from(
+                                { length: question.scale },
+                                (_, i) => i + 1,
+                              ).reduce(
+                                (acc, val) => ({ ...acc, [val]: val }),
+                                {},
+                              )
+                            : { 1: 1, 2: 2, 3: 3, 4: 4, 5: 5 }
+                        }
+                      />
+                    )}
+                  </Form.Item>
+                ))}
+                <Form.Item>
+                  <Button
+                    htmlType="submit"
+                    style={{
+                      width: "100%",
+                      marginTop: "20px",
+                      backgroundColor: currentTheme.backgroundColor,
+                    }}
+                  >
+                    Submit
+                  </Button>
+                </Form.Item>
+              </Form>
+            </Card>
+          </Content>
+        </Layout>
+      ) : (
+        <ThanksForTakingSurvey themeStyles={themeStyles} />
+      )}
+    </React.Fragment>
   );
 };
 
