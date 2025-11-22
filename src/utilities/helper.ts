@@ -63,7 +63,9 @@ export const generateAIResponseText = (
 };
 
 export function filterObjectsWithFileName(arr, fileName) {
-  return arr.filter((obj) => Object.prototype.hasOwnProperty.call(obj, fileName))[0];
+  return arr.filter((obj) =>
+    Object.prototype.hasOwnProperty.call(obj, fileName),
+  )[0];
 }
 
 export function formatUnstructuredTextToHTML(text, typeText = "html") {
@@ -82,6 +84,9 @@ export function formatUnstructuredTextToHTML(text, typeText = "html") {
           h2, h3 {
               color: #333;
               margin-bottom: 10px;
+          }
+          p {
+              font-weight: 400;
           }
           .question {
               font-weight: bold;
@@ -125,7 +130,7 @@ export function formatUnstructuredTextToHTML(text, typeText = "html") {
       htmlContent += `<p>${trimmedPara}</p>`;
     } else if (
       /\?$|how|what|why|do you|did you|rate|please respond/i.test(trimmedPara)
-    ) { 
+    ) {
       htmlContent += `<div class="question">${trimmedPara}</div>`;
     } else if (
       /yes|no/i.test(trimmedPara) &&

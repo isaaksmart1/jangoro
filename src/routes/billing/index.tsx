@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { DollarOutlined } from "@ant-design/icons";
-
 import { CardContent, CardHeader } from "@mui/material";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
@@ -19,6 +19,7 @@ import { motion } from "framer-motion";
 import { Badge, Bot } from "lucide-react";
 
 import { API_URL, authProvider } from "@/providers";
+import { BillingWidget } from "@/components/widgets";
 
 const { Title, Text } = Typography;
 
@@ -31,15 +32,48 @@ const BillingForm = () => {
   const [usageStats, setUsageStats] = useState({ usage: 0 });
   const [loading, setLoading] = useState(false);
   const [subscriptionPlan, setSubscriptionPlan] = useState<string | null>(null);
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<
+    | {
+        id: string;
+        subscription: "month" | "year" | "life" | "free";
+        [key: string]: any;
+      }
+    | null
+  >(null);
+
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const query = new URLSearchParams(location.search);
+    const paymentStatus = query.get('payment');
+    const sessionId = query.get('session_id'); // If Stripe sends session_id
+
+    if (paymentStatus === 'success' && user?.id) {
+      message.success("Payment successful! Updating your AI query credits...");
+      // Call backend to confirm payment and update credits
+      confirmPaymentAndAddCredits(sessionId, user.id);
+    } else if (paymentStatus === 'cancel') {
+      message.info("Payment was cancelled.");
+    }
+
+    // Clear query parameters to prevent re-processing on refresh
+    if (paymentStatus) {
+      navigate('/billing', { replace: true });
+    }
+  }, [location.search, user?.id]);
 
   useEffect(() => {
     const loadCustomer = async () => {
       let plan;
-      const user = await authProvider.getIdentity();
-      if (user) {
-        setUser(user);
-        switch (user.subscription) {
+      if (!authProvider) {
+        console.error("authProvider is undefined. Cannot load customer.");
+        return;
+      }
+      const fetchedUser = await authProvider.getIdentity();
+      if (fetchedUser && (fetchedUser as any).subscription) {
+        setUser(fetchedUser as any);
+        switch ((fetchedUser as any).subscription) {
           case "month":
             plan = "Monthly Access";
             break;
@@ -62,11 +96,42 @@ const BillingForm = () => {
   }, []);
 
   useEffect(() => {
-    fetchUsageStats();
+    if (user) {
+      fetchUsageStats();
+    }
   }, [user]);
+
+  const confirmPaymentAndAddCredits = async (sessionId: string | null, userId: string) => {
+    try {
+      const response = await fetch(`${API_URL}/confirm-payment-and-add-credits`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${(user as any).token}`,
+        },
+        body: JSON.stringify({ sessionId, userId }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to confirm payment and add credits.");
+      }
+
+      message.success("AI query credits updated successfully!");
+      // Refresh usage stats after successful credit update
+      fetchUsageStats();
+    } catch (error: any) {
+      console.error("Error confirming payment and adding credits:", error);
+      message.error(error.message || "An unexpected error occurred during top-up.");
+    }
+  };
 
   const fetchUsageStats = async () => {
     try {
+      if (!user?.id) {
+        console.error("User ID is not available for fetching usage stats.");
+        return;
+      }
       const response = await fetch(`${API_URL}/ai-queries/${user.id}`);
       if (!response.ok) {
         throw new Error("Failed to fetch usage stats");
@@ -192,10 +257,9 @@ const BillingForm = () => {
                       </span>
                     </div>
                     <Badge
-                      variant="secondary"
                       className="bg-indigo-100 text-indigo-800 rounded-full px-3 py-1 text-sm"
                     >
-                      {usageStats.usage} / 1000
+                      {usageStats.usage} / 500
                     </Badge>
                   </div>
 
@@ -203,12 +267,12 @@ const BillingForm = () => {
                   <div className="relative w-full h-3 bg-gray-200 rounded-full overflow-hidden">
                     <div
                       className={`h-full transition-all duration-500 ease-in-out ${
-                        usageStats.usage / 1000 < 0.8
+                        usageStats.usage / 500 < 0.8
                           ? "bg-red-500"
                           : "bg-indigo-500"
                       }`}
                       style={{
-                        width: `${Math.min((usageStats.usage / 1000) * 100, 100)}%`,
+                        width: `${Math.min((usageStats.usage / 500) * 100, 100)}%`,
                       }}
                     />
                   </div>
@@ -228,6 +292,10 @@ const BillingForm = () => {
             </CardContent>
           </Card>
         </motion.div>
+      </Col>
+
+      <Col span={24}>
+        <BillingWidget />
       </Col>
 
       <Col span={24}>
