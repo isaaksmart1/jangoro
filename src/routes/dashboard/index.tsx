@@ -23,6 +23,24 @@ export const DashboardPage = ({ isTourOpen, setIsTourOpen }: any) => {
   const [isAILoading, setIsAILoading] = useState(false);
   const [averageScore, setAverageScore] = useState(null);
   const [fileCounts, setFileCounts] = useState([]);
+  const [activeTab, setActiveTab] = useState("tab4");
+  
+    const onSelectTab = (tab: string) => {
+      const allTabs = document.querySelectorAll(".tab-content");
+      const activeTab = document.getElementById(tab);
+  
+      allTabs.forEach((el) => {
+        el.classList.remove("tab-active");
+        el.classList.add("hidden");
+      });
+  
+      if (activeTab) {
+        activeTab.classList.add("tab-active");
+        activeTab.classList.remove("hidden");
+      }
+  
+      setActiveTab(tab);
+    };
 
   return (
     <React.Fragment>
@@ -91,12 +109,12 @@ export const DashboardPage = ({ isTourOpen, setIsTourOpen }: any) => {
             >
               <AnalyzerActionButtons
                 setIsLoading={setIsAILoading}
-                setFiles={setFiles}
                 files={files}
                 selected={selected}
                 selectedFiles={selectedFiles}
                 setSelected={setSelected}
                 setAIResponse={setAIResponse}
+                onSelectTab={onSelectTab}
               />
             </motion.div>
           </Col>
@@ -122,6 +140,8 @@ export const DashboardPage = ({ isTourOpen, setIsTourOpen }: any) => {
                 setSelected={setSelected}
                 selectedFiles={selectedFiles}
                 files={files}
+                onSelectTab={onSelectTab}
+                activeTab={activeTab}
               />
             </motion.div>
           </Col>

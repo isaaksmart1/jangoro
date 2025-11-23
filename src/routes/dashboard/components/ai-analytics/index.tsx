@@ -18,6 +18,8 @@ type Props = {
   setSelected: any;
   selectedFiles: any;
   files: any;
+  activeTab: any;
+  onSelectTab: any;
 };
 
 export const AIAnalytics = ({
@@ -28,26 +30,9 @@ export const AIAnalytics = ({
   selectedFiles,
   selected,
   files,
+  activeTab,
+  onSelectTab,
 }: Props) => {
-  const [activeTab, setActiveTab] = useState("tab4");
-
-  const onSelectTab = (tab: string) => {
-    const allTabs = document.querySelectorAll(".tab-content");
-    const activeTab = document.getElementById(tab);
-
-    allTabs.forEach((el) => {
-      el.classList.remove("tab-active");
-      el.classList.add("hidden");
-    });
-
-    if (activeTab) {
-      activeTab.classList.add("tab-active");
-      activeTab.classList.remove("hidden");
-    }
-
-    setActiveTab(tab);
-  };
-
   return (
     <Card
       id="ai-analytics"

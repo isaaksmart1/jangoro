@@ -19,6 +19,7 @@ type Props = {
   selectedFiles: any;
   setSelected: Dispatch<SetStateAction<any>>;
   setAIResponse: Dispatch<SetStateAction<object>>;
+  onSelectTab: any;
 };
 
 export const UploadFilesButton = ({ setFiles }: FileInputProps) => {
@@ -68,6 +69,7 @@ export const AnalyzerActionButtons = ({
   selectedFiles,
   setSelected,
   setAIResponse,
+  onSelectTab,
 }: Props) => {
   const [hoveredButton, setHoveredButton] = useState<string | null>(null);
   const [user, setUser] = useState<any>(undefined);
@@ -178,7 +180,7 @@ export const AnalyzerActionButtons = ({
     }
   };
 
-  const handleRequest = async (url: any, setState: any) => {
+  const handleRequest = async (url: any, setState: any, tab: any) => {
     setIsLoading(true);
     setProcessingCount(-1);
 
@@ -236,17 +238,19 @@ export const AnalyzerActionButtons = ({
       });
     } catch (error) {
       console.error("Error:", error);
+    } finally {
+      onSelectTab(tab)
     }
   };
 
   const handleSentiment = () =>
-    handleRequest(`${AI_URL}/analyze-sentiment`, setSentiment);
+    handleRequest(`${AI_URL}/analyze-sentiment`, setSentiment, "tab1");
   const handleSummary = () =>
-    handleRequest(`${AI_URL}/analyze-summary`, setSummary);
+    handleRequest(`${AI_URL}/analyze-summary`, setSummary, "tab2");
   const handleRefinement = () =>
-    handleRequest(`${AI_URL}/analyze-refinement`, setRefinement);
+    handleRequest(`${AI_URL}/analyze-refinement`, setRefinement, "tab3");
   const handleActionPlan = () =>
-    handleRequest(`${AI_URL}/analyze-action-plan`, setActionPlan);
+    handleRequest(`${AI_URL}/analyze-action-plan`, setActionPlan, "tab4");
 
   const buttonActions = [
     {

@@ -118,20 +118,8 @@ export const authProvider: AuthProvider = {
       });
 
       const account = data?.login;
-      const response = await fetch(
-        `${API_URL}/retrieve-customer?email=${encodeURIComponent(email)}`,
-      );
-      const remoteStripeCustomer = await response.json();
-      const stripeCustomerId = localStorage.getItem("stripe_customer_id");
 
       if (!account) throw new Error("Login failed");
-
-      if (!remoteStripeCustomer.id) {
-        if (stripeCustomerId === "null" || !stripeCustomerId)
-          throw new Error("Account not found");
-      } else {
-        localStorage.setItem("stripe_customer_id", remoteStripeCustomer.id);
-      }
 
       localStorage.setItem("access_token", account.accessToken);
       localStorage.setItem("user", JSON.stringify(account.user));

@@ -53,6 +53,19 @@ export const LoginPage = () => {
 
     if (email && password) {
       try {
+        const response = await fetch(
+          `${API_URL}/retrieve-customer?email=${encodeURIComponent(email)}`,
+        );
+        const remoteStripeCustomer = await response.json();
+        const stripeCustomerId = localStorage.getItem("stripe_customer_id");
+
+        if (!remoteStripeCustomer.id) {
+          if (stripeCustomerId === "null" || !stripeCustomerId)
+            throw new Error("Account not found");
+        } else {
+          localStorage.setItem("stripe_customer_id", remoteStripeCustomer.id);
+        }
+
         await updateProvider.onCheckoutSuccess({ email, password });
       } catch (error) {
         console.error(error);
