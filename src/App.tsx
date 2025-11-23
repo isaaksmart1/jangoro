@@ -87,6 +87,8 @@ const App = () => {
     );
     const templates = {
       usage: "You have used up all of your AI credits! Top-Up.",
+      surveyResponses:
+        "You have new survey responses! Click the dropdown in the file upload widget and then 'Update'.",
     };
 
     let payload = {
@@ -98,21 +100,29 @@ const App = () => {
     if (usage.usage <= 0) {
       payload.text = templates.usage;
       payload.page = `${window.location.origin}/billing`;
-
-      // Find existing notification index
-      const existingIndex = notifications.findIndex(
-        (n: any) => n.text === payload.text,
-      );
-
-      // Store the index as payload.id (or random integer if not found)
-      payload.id =
-        existingIndex !== -1
-          ? existingIndex
-          : Math.floor(Math.random() * (10 ^ 6));
-
-      // Push the new notification
-      const response = await addRemoveNotification(payload, "push");
+      updateNotification(notifications, payload);
     }
+    if (user.surveyCount >= 0) {
+      payload.text = templates.surveyResponses;
+      payload.page = ``;
+      updateNotification(notifications, payload);
+    }
+  };
+
+  const updateNotification = async (notifications: any, payload: any) => {
+    // Find existing notification index
+    const existingIndex = notifications.findIndex(
+      (n: any) => n.text === payload.text,
+    );
+
+    // Store the index as payload.id (or random integer if not found)
+    payload.id =
+      existingIndex !== -1
+        ? existingIndex
+        : Math.floor(Math.random() * (10 ^ 6));
+
+    // Push the new notification
+    const response = await addRemoveNotification(payload, "push");
   };
 
   return (
