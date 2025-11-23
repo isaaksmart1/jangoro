@@ -1,15 +1,27 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { QuestionCircleFilled } from "@ant-design/icons";
-
 import { Layout, Space, Typography } from "antd";
 
 import { CurrentUser } from "../current-user";
+import { Notifications } from "../notification";
 
+interface HeaderProps {
+  title: string;
+  isTourOpen: boolean;
+  setIsTourOpen: (isOpen: boolean) => void;
+}
 
 const { Title } = Typography;
 
-export const Header = ({ title, isTourOpen, setIsTourOpen }) => {
+export const Header = ({ title, isTourOpen, setIsTourOpen }: HeaderProps) => {
+  const [messages, setMessages] = useState([]);
 
+  useEffect(() => {
+    const notifications = JSON.parse(
+      localStorage.getItem("notifications") || "[]",
+    );
+    setMessages(notifications);
+  }, []);
 
   const headerStyles: React.CSSProperties = {
     backgroundColor: "#FFFFFF",
@@ -42,6 +54,7 @@ export const Header = ({ title, isTourOpen, setIsTourOpen }) => {
           <QuestionCircleFilled style={{ color: "#FFFFFF" }} className="mr-2" />
           <span className="text-white">Take a Tour</span>
         </button>
+        <Notifications messages={messages} setMessages={setMessages} />
       </Space>
     </Layout.Header>
   );

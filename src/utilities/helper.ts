@@ -1,3 +1,19 @@
+export const addRemoveNotification = (payload: any, method: string) => {
+  let notifications = JSON.parse(localStorage.getItem("notifications") || "[]");
+  try {
+    const idx = notifications.findIndex((n: any) => n.id === payload.id);
+    if (method == "push" && idx <= 0) {
+      notifications.push(payload);
+    } else if (idx > -1) notifications.splice(idx, 1);
+    else if (method == "clear") notifications = [];
+    localStorage.setItem("notifications", JSON.stringify(notifications));
+  } catch {
+    console.error("Failed to update notifications");
+  } finally {
+    return notifications;
+  }
+};
+
 export const generateAIResponseText = (
   options: any,
   refinement: any,

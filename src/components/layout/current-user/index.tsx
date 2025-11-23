@@ -71,16 +71,6 @@ export const CurrentUser = () => {
             margin: 24,
           }}
         />
-        {/* <Button
-          style={{
-            fontWeight: "bold",
-            color: "blue",
-            textDecoration: "underline",
-            boxShadow: "none",
-          }}
-        >
-          {user?.email}
-        </Button> */}
       </Popover>
       {user && (
         <AccountSettings

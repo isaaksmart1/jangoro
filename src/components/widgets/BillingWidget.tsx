@@ -1,8 +1,9 @@
 import React, { useEffect } from "react";
-import { Card, Typography, Button, Row, Col, message } from "antd";
+
+import { loadStripe } from "@stripe/stripe-js";
+import { Button, Card, Col, message,Row, Typography } from "antd";
 import { motion } from "framer-motion";
 import { Bot } from "lucide-react";
-import { loadStripe } from "@stripe/stripe-js";
 
 import { API_URL, authProvider } from "@/providers";
 

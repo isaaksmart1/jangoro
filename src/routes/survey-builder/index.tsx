@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { CopyToClipboard } from "react-copy-to-clipboard";
-import CryptoJS from "crypto-js";
 import {
   CopyOutlined,
   DeleteOutlined,
@@ -21,11 +20,12 @@ import {
   Typography,
   Upload,
 } from "antd";
+import CryptoJS from "crypto-js";
 import LZString from "lz-string";
 
 import { ErrorAlert } from "@/components";
-import { API_URL, authProvider } from "@/providers";
 import { getEncryptionKey } from "@/config/config";
+import { API_URL, authProvider } from "@/providers";
 
 const { Content, Sider } = Layout;
 const { Title, Text, Paragraph } = Typography;

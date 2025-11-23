@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { DollarOutlined } from "@ant-design/icons";
+
 import { CardContent, CardHeader } from "@mui/material";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
@@ -18,8 +19,8 @@ import {
 import { motion } from "framer-motion";
 import { Badge, Bot } from "lucide-react";
 
-import { API_URL, authProvider } from "@/providers";
 import { BillingWidget } from "@/components/widgets";
+import { API_URL, authProvider } from "@/providers";
 
 const { Title, Text } = Typography;
 

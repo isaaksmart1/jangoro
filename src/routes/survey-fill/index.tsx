@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import CryptoJS from "crypto-js";
 
 import {
   Button,
@@ -14,9 +13,10 @@ import {
   Space,
   Typography,
 } from "antd";
+import CryptoJS from "crypto-js";
 
-import { AI_URL, API_URL, authProvider } from "@/providers";
 import { getEncryptionKey } from "@/config/config";
+import { AI_URL, API_URL, authProvider } from "@/providers";
 
 const { Content } = Layout;
 const { Title, Text } = Typography;

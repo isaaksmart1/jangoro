@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BrowserRouter, Outlet, Route, Routes } from "react-router";
 
 import { RefineThemes, useNotificationProvider } from "@refinedev/antd";
@@ -36,9 +36,31 @@ import {
 import BillingPage from "./routes/billing";
 
 import "@refinedev/antd/dist/reset.css";
+import { addRemoveNotification } from "./utilities/helper";
 
 const App = () => {
   const [isTourOpen, setIsTourOpen] = useState(false);
+
+  useEffect(() => {
+    platformUpdates();
+  }, []);
+
+  const fetchUsageStats = async (user: any) => {
+    try {
+      if (!user?.id) {
+        console.error("User ID is not available for fetching usage stats.");
+        return;
+      }
+      const response = await fetch(`${API_URL}/ai-queries/${user.id}`);
+      if (!response.ok) {
+        throw new Error("Failed to fetch usage stats");
+      }
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error("Error fetching usage stats:", error);
+    }
+  };
 
   const resetPassword = async (email: string) => {
     const response = await fetch(`${API_URL}/user/forgot-password`, {
@@ -49,6 +71,47 @@ const App = () => {
 
     if (!response.ok) {
       throw new Error("Failed to send reset email.");
+    }
+  };
+
+  const platformUpdates = async () => {
+    const user = await authProvider.getIdentity();
+    if (!user) return;
+
+    // Get metrics
+    const usage = await fetchUsageStats(user);
+
+    // Fetch notifications
+    const notifications = await JSON.parse(
+      localStorage.getItem("notifications") || "[]",
+    );
+    const templates = {
+      usage: "You have used up all of your AI credits! Top-Up.",
+    };
+
+    let payload = {
+      id: "",
+      text: "",
+      page: "",
+    };
+
+    if (usage.usage >= 0) {
+      payload.text = templates.usage;
+      payload.page = `${window.location.origin}/billing`;
+
+      // Find existing notification index
+      const existingIndex = notifications.findIndex(
+        (n: any) => n.text === payload.text,
+      );
+
+      // Store the index as payload.id (or random integer if not found)
+      payload.id =
+        existingIndex !== -1
+          ? existingIndex
+          : Math.floor(Math.random() * (10 ^ 6));
+
+      // Push the new notification
+      const response = await addRemoveNotification(payload, "push");
     }
   };
 
