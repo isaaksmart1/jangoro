@@ -95,7 +95,7 @@ const App = () => {
       page: "",
     };
 
-    if (usage.usage <= 0) {
+    if (usage.usage >= 0) {
       payload.text = templates.usage;
       payload.page = `${window.location.origin}/billing`;
 

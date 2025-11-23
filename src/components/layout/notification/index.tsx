@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Badge, Button, Popover } from "antd";
 
 import { BellIcon } from "@/components/icon";
@@ -9,12 +9,20 @@ import { addRemoveNotification } from "@/utilities/helper";
 
 export const Notifications = ({ messages, setMessages }: any) => {
   const [notificationsVisible, setNotificationsVisible] = useState(false);
-  const [notificationCount] = useState(messages.length);
+  const [notificationCount, setNotificationCount] = useState(0);
 
   const uniqueMessages = messages.filter(
     (item: any, index: any, self: any) =>
       index === self.findIndex((n: any) => n.text === item.text),
   );
+
+  useEffect(() => {
+    const count = messages.filter(
+      (item: any, index: any, self: any) =>
+        index === self.findIndex((n: any) => n.text === item.text),
+    );
+    setNotificationCount(count.length);
+  }, [messages]);
 
   const handleDelete = (messageId: string) => {
     const updated = uniqueMessages.filter((m: any) => m.id !== messageId);
@@ -116,7 +124,7 @@ export const Notifications = ({ messages, setMessages }: any) => {
         onClick={() => setNotificationsVisible(!notificationsVisible)}
         style={{ position: "relative" }}
       >
-        <Badge count={notificationCount} size="small">
+        <Badge count={notificationCount} size="small" color="#983737ff">
           <BellIcon fontSize="20px" color="#6610f2" />
         </Badge>
       </Button>
