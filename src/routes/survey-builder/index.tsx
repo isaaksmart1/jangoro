@@ -26,6 +26,7 @@ import LZString from "lz-string";
 import { ErrorAlert } from "@/components";
 import { getEncryptionKey } from "@/config/config";
 import { API_URL, authProvider } from "@/providers";
+import TakeTourOverlay from "@/components/layout/tour";
 
 const { Content, Sider } = Layout;
 const { Title, Text, Paragraph } = Typography;
@@ -57,6 +58,7 @@ const SurveyBuilder = () => {
   const [customerName, setCustomerName] = useState<string>("");
   const [customerEmail, setCustomerEmail] = useState<string>("");
   const [surveyTitle, setSurveyTitle] = useState<string>("");
+  const [isTourOpen, setIsTourOpen] = useState<boolean>(false);
 
   const { data: user } = useGetIdentity<{
     id: number;
@@ -521,6 +523,7 @@ const SurveyBuilder = () => {
           </div>
         </Content>
       </Layout>
+      <TakeTourOverlay isTourOpen={isTourOpen} setIsTourOpen={setIsTourOpen} />
     </Layout>
   );
 };
