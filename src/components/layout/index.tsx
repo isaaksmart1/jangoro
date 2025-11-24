@@ -22,6 +22,8 @@ export const Layout = ({ children, isTourOpen, setIsTourOpen }: any) => {
       setTitle("Survey Analyser");
     } else if (path.endsWith("/billing")) {
       setTitle("Billing & Subscriptions");
+    } else if (path.endsWith("/survey-builder")) {
+      setTitle("Survey Builder");
     }
   }, [location.pathname]);
 

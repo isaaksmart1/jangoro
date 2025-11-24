@@ -4,49 +4,97 @@ import { Button, Card } from "antd";
 import { motion } from "framer-motion";
 import { Text } from "@/components/text";
 
-const tourSteps = [
-  {
-    id: 1,
-    title: "Take a Tour - Dashboard Overview",
-    description:
-      "Here's where you can see all your survey insights at a glance. See the Side Menu to navigate the various features such as Billing.",
-    targetId: "dashboard-summary",
-  },
-  {
-    id: 2,
-    title: "Take a Tour - File Explorer",
-    description: `We have 3 available settings in this widget:\n
+let tourSteps = {
+  analyser: [
+    {
+      id: 1,
+      title: "Take a Tour - Dashboard Overview",
+      description:
+        "Here's where you can see all your survey insights at a glance. See the Side Menu to navigate the various features such as Billing.",
+      targetId: "dashboard-summary",
+    },
+    {
+      id: 2,
+      title: "Take a Tour - File Explorer",
+      description: `We have 3 available settings in this widget:\n
     1. Upload CSV Data - raw data from csv files can be uploaded from your device.\n
     2. Upload Email Data - connect your email account and analyse surveys sent to your inbox.\n
     3. Upload Survey Builder Data - analyse survey responses from surveys that have been submitted from the Survey Builder (just click update).`,
-    targetId: "file-explorer",
-  },
-  {
-    id: 3,
-    title: "Take a Tour - Survey Overview",
-    description: `Here you can view a couple of metrics, just:\n
+      targetId: "file-explorer",
+    },
+    {
+      id: 3,
+      title: "Take a Tour - Survey Overview",
+      description: `Here you can view a couple of metrics, just:\n
     1. Upload a File \n
     2. Select the File in two panels (File Explorer then inside AI-Analytics) \n
     3. Select a column in the 'Score' metric panel \n
     4. Click Generate Metrics in the panel you chose \n
     Following the above steps will populate the stats for the Survey Overview Panel.`,
-    targetId: "survey-overview",
-  },
-  {
-    id: 4,
-    title: "Take a Tour - AI Actions",
-    description:
-      "First click 'Upload' to open a file, then perform various actions on your uploaded data.",
-    targetId: "ai-actions",
-  },
-  {
-    id: 5,
-    title: "Take a Tour - AI Analysis",
-    description:
-      "View the output generated from performing different AI Actions (Summary, Sentiment Score, Action Plan etc.).",
-    targetId: "ai-analytics",
-  },
-];
+      targetId: "survey-overview",
+    },
+    {
+      id: 4,
+      title: "Take a Tour - AI Actions",
+      description:
+        "First click 'Upload' to open a file, then perform various actions on your uploaded data.",
+      targetId: "ai-actions",
+    },
+    {
+      id: 5,
+      title: "Take a Tour - AI Analysis",
+      description:
+        "View the output generated from performing different AI Actions (Summary, Sentiment Score, Action Plan etc.).",
+      targetId: "ai-analytics",
+    },
+  ],
+  surveyBuilder: [
+    {
+      id: 1,
+      title: "Take a Tour - Survey Builder",
+      description:
+        "Here's where you can build your survey and use it to share a link and distribute to your customers.",
+      targetId: "survey-builder",
+    },
+    {
+      id: 2,
+      title: "Take a Tour - Question Types",
+      description: `These are the various types of questions you can ask in this widget:\n
+    1. Additional Information - This is an open-ended text input where you can ask questions with variable answers.\n
+    2. Multiple Choice - This is a multiple choice question where you can add many choices and users can select only ONE answer from the list.\n
+    3. Checkbox - This is a multiple choice question where you can add many choices and users can select MORE THAN ONE answer from the list.\n
+    4. Rating - This is a scale question where users can slide from 1 to some defined value.`,
+      targetId: "question-types",
+    },
+    {
+      id: 3,
+      title: "Take a Tour - Metadata",
+      description: `This is other data for internal use only. Note* You typically set the Customer Email to the same email as your account.`,
+      targetId: "metadata",
+    },
+    {
+      id: 4,
+      title: "Take a Tour - Logo & Theme",
+      description:
+        "Upload a brand logo & theme to your survey and make it stand out!",
+      targetId: "logo-theme",
+    },
+    {
+      id: 5,
+      title: "Take a Tour - Build Area",
+      description:
+        "Consider that when you select a question type, the build area gets populated with a title box, edit buttons, delete buttons and option boxes.",
+      targetId: "build-area",
+    },
+    {
+      id: 6,
+      title: "Take a Tour - Finish",
+      description:
+        "To create your survey click 'Generate Shareable Link'. To distribute a survey click 'Copy' (this will appear once you create it).",
+      targetId: "create",
+    },
+  ],
+};
 
 export default function TakeTourOverlay({ isTourOpen, setIsTourOpen }: any) {
   const [stepIndex, setStepIndex] = useState(0);
@@ -64,16 +112,21 @@ export default function TakeTourOverlay({ isTourOpen, setIsTourOpen }: any) {
     setStepIndex(0);
   }, [isTourOpen]);
 
-  const step = tourSteps[stepIndex];
+  const url = window.location.href;
+  let steps;
+
+  if (url.includes("survey-builder")) steps = tourSteps.surveyBuilder;
+  else steps = tourSteps.analyser;
 
   const nextStep = () => {
-    if (stepIndex < tourSteps.length - 1) {
+    if (stepIndex < steps.length - 1) {
       setStepIndex(stepIndex + 1);
     } else {
       setIsTourOpen(false);
     }
   };
 
+  const step = steps[stepIndex];
   const targetElement = document.getElementById(step?.targetId);
   const targetRect = targetElement?.getBoundingClientRect();
 
@@ -110,7 +163,7 @@ export default function TakeTourOverlay({ isTourOpen, setIsTourOpen }: any) {
                 Skip
               </Button>,
               <Button type="primary" onClick={nextStep} key="next">
-                {stepIndex === tourSteps.length - 1 ? "Finish" : "Next"}
+                {stepIndex === steps.length - 1 ? "Finish" : "Next"}
               </Button>,
             ]}
           >

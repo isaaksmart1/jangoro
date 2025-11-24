@@ -83,7 +83,7 @@ const SurveyBuilder = () => {
   };
 
   const availableQuestionTypes: AvailableQuestionType[] = [
-    { id: "text-input", type: "text", label: "Text Input" },
+    { id: "text-input", type: "text", label: "Additional Info" },
     {
       id: "multiple-choice",
       type: "multiple-choice",
@@ -252,7 +252,9 @@ const SurveyBuilder = () => {
   return (
     <Layout style={{ minHeight: "100vh" }}>
       <Sider width={250} style={{ background: "#f0f2f5", padding: "20px" }}>
-        <Title level={4}>Question Types</Title>
+        <Title id="question-types" level={4}>
+          Question Types
+        </Title>
         <Space direction="vertical" style={{ width: "100%" }}>
           {availableQuestionTypes.map((qType) => (
             <Button
@@ -268,12 +270,15 @@ const SurveyBuilder = () => {
       </Sider>
       <Layout>
         <Content style={{ padding: "20px" }}>
-          <Title level={2}>Survey Builder</Title>
+          <Title id="survey-builder" level={2}>
+            Survey Builder
+          </Title>
           <Text>
             Click on question types to add them, and configure their properties.
           </Text>
 
           <Space
+            id="metadata"
             direction="vertical"
             style={{ width: "100%", marginTop: "20px" }}
           >
@@ -300,6 +305,7 @@ const SurveyBuilder = () => {
             message="Survey link generated!"
           >
             <Button
+              id="create"
               type="primary"
               icon={<CopyOutlined />}
               onClick={handleGenerateLink}
@@ -325,7 +331,7 @@ const SurveyBuilder = () => {
             </Space>
           )}
 
-          <div style={{ marginTop: "20px" }}>
+          <div id="logo-theme" style={{ marginTop: "20px" }}>
             <Text strong>Logo (Optional):</Text>
             <Upload
               listType="picture-card"
@@ -393,7 +399,7 @@ const SurveyBuilder = () => {
             }}
           >
             {questions.length === 0 && (
-              <Text type="secondary">
+              <Text id="build-area" type="secondary">
                 Add questions here to start building your survey.
               </Text>
             )}
