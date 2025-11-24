@@ -1,9 +1,8 @@
-import React, { useEffect,useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Button, Card } from "antd";
 import { motion } from "framer-motion";
-
-const { Meta } = Card;
+import { Text } from "@/components/text";
 
 const tourSteps = [
   {
@@ -16,7 +15,10 @@ const tourSteps = [
   {
     id: 2,
     title: "Take a Tour - File Explorer",
-    description: "List of the your uploaded CSV files.",
+    description: `We have 3 available settings in this widget:\n
+    1. Upload CSV Data - raw data from csv files can be uploaded from your device.\n
+    2. Upload Email Data - connect your email account and analyse surveys sent to your inbox.\n
+    3. Upload Survey Builder Data - analyse survey responses from surveys that have been submitted from the Survey Builder (just click update).`,
     targetId: "file-explorer",
   },
   {
@@ -112,7 +114,12 @@ export default function TakeTourOverlay({ isTourOpen, setIsTourOpen }: any) {
               </Button>,
             ]}
           >
-            <Meta description={step.description} />
+            {step.description.split("\n").map((d) => (
+              <>
+                <Text style={{ color: "#888888" }}>{d}</Text>
+                <br />
+              </>
+            ))}
           </Card>
         </motion.div>
       </div>

@@ -88,7 +88,7 @@ const App = () => {
     const templates = {
       usage: "You have used up all of your AI credits! Top-Up.",
       surveyResponses:
-        "You have new survey responses! Click the dropdown in the file upload widget and then 'Update'.",
+        "You have new survey responses! Select 'Survey Builder' from the 'File Explorer' (see Tour for help).",
     };
 
     let payload = {
