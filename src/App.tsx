@@ -187,7 +187,15 @@ const App = () => {
                   path="social/calendar"
                   element={<SocialCalendarPage />}
                 />
-                <Route path="survey-builder" element={<SurveyBuilder />} />
+                <Route
+                  path="survey-builder"
+                  element={
+                    <SurveyBuilder
+                      isTourOpen={isTourOpen}
+                      setIsTourOpen={setIsTourOpen}
+                    />
+                  }
+                />
                 <Route path="*" element={<ErrorComponent />} />
               </Route>
 
@@ -241,7 +249,15 @@ const App = () => {
                   path="social/calendar"
                   element={<SocialCalendarPage />}
                 />
-                <Route path="survey-builder" element={<SurveyBuilder />} />
+                <Route
+                  path="survey-builder"
+                  element={
+                    <SurveyBuilder
+                      isTourOpen={isTourOpen}
+                      setIsTourOpen={setIsTourOpen}
+                    />
+                  }
+                />
                 <Route path="*" element={<ErrorComponent />} />
               </Route>
 

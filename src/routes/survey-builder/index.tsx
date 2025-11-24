@@ -45,7 +45,7 @@ interface AvailableQuestionType {
   label: string;
 }
 
-const SurveyBuilder = () => {
+const SurveyBuilder = ({ isTourOpen, setIsTourOpen }: any) => {
   const [questions, setQuestions] = useState<Question[]>([]);
   const [editingQuestionId, setEditingQuestionId] = useState<string | null>(
     null,
@@ -58,7 +58,6 @@ const SurveyBuilder = () => {
   const [customerName, setCustomerName] = useState<string>("");
   const [customerEmail, setCustomerEmail] = useState<string>("");
   const [surveyTitle, setSurveyTitle] = useState<string>("");
-  const [isTourOpen, setIsTourOpen] = useState<boolean>(false);
 
   const { data: user } = useGetIdentity<{
     id: number;
